@@ -1,0 +1,50 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<RadzenComponents />
+<RadzenLayout>
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Style="padding: 0 1rem;">
+            <RadzenText TextStyle="TextStyle.H5" Style="margin: 0; font-weight: 600;">Electronic Case Tracking System</RadzenText>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem" Style="margin-left: auto;">
+                <RadzenButton Icon="account_circle" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" Click="@(() => NavigationManager.NavigateTo("/help/my-account"))" />
+                <RadzenButton Icon="logout" ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Small" Click="@(() => NavigationManager.NavigateTo("/common/logout"))" Text="Logout" />
+            </RadzenStack>
+        </RadzenStack>
+        
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="0" Style="background: #f5f5f5; border-top: 1px solid #ddd;">
+            <RadzenButton Text="Home" Icon="home" Click="@(() => NavigationManager.NavigateTo("/"))" ButtonStyle="@GetMenuStyle("/")" Variant="Variant.Flat" />
+            <RadzenButton Text="LOD" Icon="folder" Click="@(() => NavigationManager.NavigateTo("/lod/my-lods"))" ButtonStyle="@GetMenuStyle("/lod")" Variant="Variant.Flat" />
+            <RadzenButton Text="Special Cases" Icon="star" Click="@(() => NavigationManager.NavigateTo("/special-cases/my-special-cases"))" ButtonStyle="@GetMenuStyle("/special-cases")" Variant="Variant.Flat" />
+            <RadzenButton Text="Other Cases" Icon="folder_special" Click="@(() => NavigationManager.NavigateTo("/other-cases/wwd/init"))" ButtonStyle="@GetMenuStyle("/other-cases")" Variant="Variant.Flat" />
+            <RadzenButton Text="Reports" Icon="assessment" Click="@(() => NavigationManager.NavigateTo("/reports/ad-hoc-reporting"))" ButtonStyle="@GetMenuStyle("/reports")" Variant="Variant.Flat" />
+            <RadzenButton Text="Administration" Icon="admin_panel_settings" Click="@(() => NavigationManager.NavigateTo("/administration/create/add-member"))" ButtonStyle="@GetMenuStyle("/administration")" Variant="Variant.Flat" />
+            <RadzenButton Text="Help" Icon="help" Click="@(() => NavigationManager.NavigateTo("/help/select-account"))" ButtonStyle="@GetMenuStyle("/help")" Variant="Variant.Flat" />
+        </RadzenStack>
+    </RadzenHeader>
+    
+    <RadzenBody>
+        @Body
+    </RadzenBody>
+    
+    <RadzenFooter>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Style="padding: 0.5rem 1rem;">
+            <RadzenText TextStyle="TextStyle.Caption">© @DateTime.Now.Year Electronic Case Tracking System</RadzenText>
+            <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem">
+                <RadzenLink Path="/help/my-account" Text="Help" />
+                <RadzenLink Path="/common/about" Text="About" />
+                <RadzenText TextStyle="TextStyle.Caption">Version 2.0.0</RadzenText>
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenFooter>
+</RadzenLayout>
+
+@code {
+    private ButtonStyle GetMenuStyle(string path)
+    {
+        var currentPath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        return currentPath.StartsWith(path.TrimStart('/'), StringComparison.OrdinalIgnoreCase) 
+            ? ButtonStyle.Primary 
+            : ButtonStyle.Light;
+    }
+}

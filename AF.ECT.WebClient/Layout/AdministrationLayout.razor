@@ -1,0 +1,119 @@
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<RadzenLayout Style="grid-template-columns: 250px 1fr;">
+    <RadzenSidebar Style="width: 250px;">
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Create" Icon="add_circle">
+                <RadzenPanelMenuItem Text="Add Member" Path="/administration/create/add-member" />
+                <RadzenPanelMenuItem Text="Create Unit" Path="/administration/create/create-unit" />
+                <RadzenPanelMenuItem Text="Create User" Path="/administration/create/create-user" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="Emails" Icon="email">
+                <RadzenPanelMenuItem Text="Email Templates" Path="/administration/emails/email-templates" />
+                <RadzenPanelMenuItem Text="Email Test" Path="/administration/emails/email-test" />
+                <RadzenPanelMenuItem Text="Inactive Email Settings" Path="/administration/emails/inactive-email-settings" />
+                <RadzenPanelMenuItem Text="Send System Emails" Path="/administration/emails/send-system-emails" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="Lookup" Icon="search">
+                <RadzenPanelMenuItem Text="ARCNet User Lookup" Path="/administration/lookup/arcnet-user-lookup" />
+                <RadzenPanelMenuItem Text="Approval Authorities" Path="/administration/lookup/approval-authorities" />
+                <RadzenPanelMenuItem Text="Case Locks" Path="/administration/lookup/case-locks" />
+                <RadzenPanelMenuItem Text="Child Unit View" Path="/administration/lookup/child-unit-view" />
+                <RadzenPanelMenuItem Text="Pending Role Requests" Path="/administration/lookup/pending-role-requests" />
+                <RadzenPanelMenuItem Text="Permission Report" Path="/administration/lookup/permission-report" />
+                <RadzenPanelMenuItem Text="Search Members" Path="/administration/lookup/search-members" />
+                <RadzenPanelMenuItem Text="Users Online" Path="/administration/lookup/users-online" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="Manage" Icon="settings">
+                <RadzenPanelMenuItem Text="Groups" Icon="group">
+                    <RadzenPanelMenuItem Text="Edit Groups" Path="/administration/manage/groups/edit-groups" />
+                    <RadzenPanelMenuItem Text="Group Approval" Path="/administration/manage/groups/group-approval" />
+                    <RadzenPanelMenuItem Text="Group Permissions" Path="/administration/manage/groups/group-permissions" />
+                </RadzenPanelMenuItem>
+                
+                <RadzenPanelMenuItem Text="Lookups" Icon="list">
+                    <RadzenPanelMenuItem Text="Manage Cancel Reasons" Path="/administration/manage/lookups/manage-cancel-reasons" />
+                    <RadzenPanelMenuItem Text="Manage Lookups" Path="/administration/manage/lookups/manage-lookups" />
+                    <RadzenPanelMenuItem Text="Edit Case Types" Path="/administration/manage/lookups/edit-case-types" />
+                    <RadzenPanelMenuItem Text="Edit Cert Stamps" Path="/administration/manage/lookups/edit-certification-stamps" />
+                    <RadzenPanelMenuItem Text="Edit Completed By Groups" Path="/administration/manage/lookups/edit-completed-by-groups" />
+                    <RadzenPanelMenuItem Text="Edit Dispositions" Path="/administration/manage/lookups/edit-dispositions" />
+                    <RadzenPanelMenuItem Text="Edit Misc Lookups" Path="/administration/manage/lookups/edit-miscellaneous-lookups" />
+                    <RadzenPanelMenuItem Text="Edit LOD Medical" Path="/administration/manage/lookups/edit-lod-medical" />
+                    <RadzenPanelMenuItem Text="Edit LOD Unit" Path="/administration/manage/lookups/edit-lod-unit" />
+                </RadzenPanelMenuItem>
+                
+                <RadzenPanelMenuItem Text="Content" Icon="article">
+                    <RadzenPanelMenuItem Text="Manage HyperLinks" Path="/administration/manage/content/manage-hyperlinks" />
+                    <RadzenPanelMenuItem Text="Manage Messages" Path="/administration/manage/content/manage-messages" />
+                    <RadzenPanelMenuItem Text="Manage Units" Path="/administration/manage/content/manage-units" />
+                    <RadzenPanelMenuItem Text="Manage Users" Path="/administration/manage/content/manage-users" />
+                    <RadzenPanelMenuItem Text="Mapped Values" Path="/administration/manage/content/mapped-values" />
+                </RadzenPanelMenuItem>
+                
+                <RadzenPanelMenuItem Text="PH Workflow" Icon="medical_services">
+                    <RadzenPanelMenuItem Text="Edit PH Fields" Path="/administration/manage/ph-workflow-form/edit-ph-fields" />
+                    <RadzenPanelMenuItem Text="Edit PH Field Types" Path="/administration/manage/ph-workflow-form/edit-ph-field-types" />
+                    <RadzenPanelMenuItem Text="Edit PH Form Fields" Path="/administration/manage/ph-workflow-form/edit-ph-form-fields" />
+                    <RadzenPanelMenuItem Text="Edit PH Sections" Path="/administration/manage/ph-workflow-form/edit-ph-sections" />
+                    <RadzenPanelMenuItem Text="Edit PH Workflow Form" Path="/administration/manage/ph-workflow-form/edit-ph-workflow-form" />
+                    <RadzenPanelMenuItem Text="Test PH Form" Path="/administration/manage/ph-workflow-form/test-ph-form" />
+                </RadzenPanelMenuItem>
+                
+                <RadzenPanelMenuItem Text="Pages" Icon="web">
+                    <RadzenPanelMenuItem Text="Manage Pages" Path="/administration/manage/pages/manage-pages" />
+                    <RadzenPanelMenuItem Text="Page Access" Path="/administration/manage/pages/page-access" />
+                    <RadzenPanelMenuItem Text="Welcome Page Banner" Path="/administration/manage/pages/welcome-page-banner" />
+                </RadzenPanelMenuItem>
+                
+                <RadzenPanelMenuItem Text="Workflows" Icon="workflow">
+                    <RadzenPanelMenuItem Text="Workflow View" Path="/administration/manage/workflows/workflow-view" />
+                </RadzenPanelMenuItem>
+                
+                <RadzenPanelMenuItem Text="Memo" Icon="description">
+                    <RadzenPanelMenuItem Text="Memo Mapped Values" Path="/administration/manage/memo/memo-mapped-values" />
+                    <RadzenPanelMenuItem Text="Memo Templates" Path="/administration/manage/memo/memo-templates" />
+                </RadzenPanelMenuItem>
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="System Admin" Icon="admin_panel_settings">
+                <RadzenPanelMenuItem Text="Error Log" Path="/administration/system-admin/error/error-log" />
+                <RadzenPanelMenuItem Text="Error Test" Path="/administration/system-admin/error/error-test" />
+                <RadzenPanelMenuItem Text="Historical Copy" Path="/administration/system-admin/historical-copy-snapshot" />
+                <RadzenPanelMenuItem Text="Rules" Path="/administration/system-admin/rules" />
+                <RadzenPanelMenuItem Text="Status Codes" Path="/administration/system-admin/status-codes" />
+                <RadzenPanelMenuItem Text="Test Automatic Processes" Path="/administration/system-admin/test-automatic-processes" />
+                <RadzenPanelMenuItem Text="Test Component" Path="/administration/system-admin/test-component" />
+                <RadzenPanelMenuItem Text="Test Page" Path="/administration/system-admin/test-page" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="User Management" Icon="person">
+                <RadzenPanelMenuItem Text="Edit Member" Path="/administration/user/edit-member" />
+                <RadzenPanelMenuItem Text="User Permissions" Path="/administration/user/user-permissions" />
+                <RadzenPanelMenuItem Text="User Activity Log" Path="/administration/user/user-activity-log" />
+                <RadzenPanelMenuItem Text="Edit Template" Path="/administration/user/edit-template" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="Workflow Management" Icon="account_tree">
+                <RadzenPanelMenuItem Text="Workflow Permissions" Path="/administration/workflow/workflow-permissions" />
+                <RadzenPanelMenuItem Text="Workflow Steps" Path="/administration/workflow/workflow-steps" />
+                <RadzenPanelMenuItem Text="Option Rules" Path="/administration/workflow/option-rules" />
+                <RadzenPanelMenuItem Text="Option Actions" Path="/administration/workflow/option-actions" />
+                <RadzenPanelMenuItem Text="Reminder Emails" Path="/administration/workflow/reminder-emails" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="My Account" Icon="account_circle">
+                <RadzenPanelMenuItem Text="Edit User Account" Path="/administration/account/edit-user-account" />
+                <RadzenPanelMenuItem Text="Print Account History" Path="/administration/account/print-account-history" />
+            </RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </RadzenSidebar>
+    
+    <RadzenBody Style="padding: 1rem;">
+        @Body
+    </RadzenBody>
+</RadzenLayout>

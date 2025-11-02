@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build">
+  <Sdk Name="Microsoft.Build.Sql" Version="1.0.0" />
+  <PropertyGroup>
+    <Name>AF.ECT.Database</Name>
+    <ProjectGuid>{4B1DF80C-1EF3-4257-90E0-56CDA405D48B}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <ModelCollation>1033, CI</ModelCollation>
+    <SuppressWarnings>71562;71502;71501;71558</SuppressWarnings>
+    <NoWarn>*</NoWarn>
+    <SqlCodeAnalysisRules>-Microsoft.Rules.Data.*</SqlCodeAnalysisRules>
+    <SuppressTSqlWarnings>True</SuppressTSqlWarnings>
+    <WarningLevel>0</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <TreatTSqlWarningsAsErrors>false</TreatTSqlWarningsAsErrors>
+    <RunSqlCodeAnalysis>false</RunSqlCodeAnalysis>
+    <SuppressSqlErrors>71501</SuppressSqlErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <DatabaseReference Include="ALOD">
+      <DatabaseVariableLiteralValue>ALOD</DatabaseVariableLiteralValue>
+    </DatabaseReference>
+    <DatabaseReference Include="msdb">
+      <DatabaseVariableLiteralValue>msdb</DatabaseVariableLiteralValue>
+    </DatabaseReference>
+    <DatabaseReference Include="master">
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+    </DatabaseReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".vscode\tasks.json" />
+    <None Include="ALOD.Database.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Remove="usp\StoredProcedures\GetCompletedECTCases_daily.sql" />
+    <Build Remove="usp\StoredProcedures\GetMovingECTCases.sql" />
+    <None Include="usp\StoredProcedures\GetCompletedECTCases_daily.sql" />
+    <None Include="usp\StoredProcedures\GetMovingECTCases.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DBSign\Functions" />
+    <Folder Include="DBSign\StoredProcedures" />
+    <Folder Include="DBSign\UserDefinedTypes" />
+    <Folder Include="DBSign\Views" />
+    <Folder Include="usp\Functions" />
+    <Folder Include="usp\Tables" />
+    <Folder Include="usp\UserDefinedTypes" />
+    <Folder Include="usp\Views" />
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\150\SqlSchemas\master.dacpac" Condition="'$(NetCoreBuild)' != 'true'">
+      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+    </ArtifactReference>
+    <ArtifactReference Include="$(SystemDacpacsLocation)\SystemDacpacs\150\master.dacpac" Condition="'$(NetCoreBuild)' == 'true'">
+      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+    </ArtifactReference>
+  </ItemGroup>
+  <Target Name="BeforeBuild">
+    <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
+  </Target>
+</Project>

@@ -1,0 +1,63 @@
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<RadzenLayout Style="grid-template-columns: 250px 1fr;">
+    <RadzenSidebar Style="width: 250px;">
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="My LODs" Icon="folder" Path="/lod/my-lods" />
+            <RadzenPanelMenuItem Text="My LOD Consults" Icon="assignment" Path="/lod/my-lod-consults" />
+            <RadzenPanelMenuItem Text="SC Pending Consults" Icon="pending" Path="/lod/sc-pending-consults" />
+            <RadzenPanelMenuItem Text="SC Awaiting Consults" Icon="hourglass_empty" Path="/lod/sc-awaiting-consults" />
+            <RadzenPanelMenuItem Text="My LOD Audit" Icon="fact_check" Path="/lod/my-lod-audit" />
+            <RadzenPanelMenuItem Text="Start New LOD" Icon="add_circle" Path="/lod/start-new-lod" />
+            <RadzenPanelMenuItem Text="LOD Search" Icon="search" Path="/lod/lod-search" />
+            
+            <RadzenPanelMenuItem Text="Reinvestigations" Icon="refresh">
+                <RadzenPanelMenuItem Text="Reinvestigations" Icon="list" Path="/lod/reinvestigations" />
+                <RadzenPanelMenuItem Text="RR Search" Icon="search" Path="/lod/rr-search" />
+                <RadzenPanelMenuItem Text="Process Completed" Icon="done_all" Path="/lod/process-completed-cases" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="Appeals" Icon="gavel">
+                <RadzenPanelMenuItem Text="Appeals" Icon="list" Path="/lod/appeals" />
+                <RadzenPanelMenuItem Text="AP Search" Icon="search" Path="/lod/ap-search" />
+                <RadzenPanelMenuItem Text="Process Completed Appeals" Icon="done_all" Path="/lod/process-completed-appeals" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="Restricted SARC" Icon="lock">
+                <RadzenPanelMenuItem Text="My SARCs" Icon="folder" Path="/lod/my-sarcs" />
+                <RadzenPanelMenuItem Text="SARC Search" Icon="search" Path="/lod/sarc-search" />
+                <RadzenPanelMenuItem Text="Process Completed" Icon="done_all" Path="/lod/process-completed-restricted-sarcs" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="SARC Appeals" Icon="gavel">
+                <RadzenPanelMenuItem Text="My SARC Appeals" Icon="folder" Path="/lod/my-sarc-appeals" />
+                <RadzenPanelMenuItem Text="SARC Appeal Search" Icon="search" Path="/lod/sarc-appeal-search" />
+                <RadzenPanelMenuItem Text="Process Completed" Icon="done_all" Path="/lod/process-completed-restricted-sarc-appeals" />
+            </RadzenPanelMenuItem>
+            
+            <RadzenPanelMenuItem Text="Utilities" Icon="build">
+                <RadzenPanelMenuItem Text="Inbox View" Icon="inbox" Path="/lod/inbox-view" />
+                <RadzenPanelMenuItem Text="Override" Icon="vpn_key" Path="/lod/override" />
+                <RadzenPanelMenuItem Text="Generate LOD Forms" Icon="description" Path="/lod/generate-lod-forms" />
+                <RadzenPanelMenuItem Text="Generate SARC Forms" Icon="description" Path="/lod/generate-sarc-forms" />
+            </RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+    </RadzenSidebar>
+    
+    <RadzenBody Style="padding: 1rem;">
+        @Body
+    </RadzenBody>
+</RadzenLayout>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // Check if user is on LOD pages, otherwise redirect
+        var uri = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        if (!uri.StartsWith("lod", StringComparison.OrdinalIgnoreCase))
+        {
+            NavigationManager.NavigateTo("/lod/my-lods");
+        }
+    }
+}
