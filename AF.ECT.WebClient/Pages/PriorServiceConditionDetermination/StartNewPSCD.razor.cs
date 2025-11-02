@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.PSCD;
+namespace AF.ECT.WebClient.Pages.PriorServiceConditionDetermination;
 
 /// <summary>
 /// Code-behind for the StartNewPSCD page.

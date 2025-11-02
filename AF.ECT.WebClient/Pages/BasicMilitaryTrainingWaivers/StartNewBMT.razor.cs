@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.BMT;
+namespace AF.ECT.WebClient.Pages.BasicMilitaryTrainingWaivers;
 
 /// <summary>
 /// Code-behind for the StartNewBMT page.

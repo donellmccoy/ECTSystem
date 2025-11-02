@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.RestrictedSARC;
+namespace AF.ECT.WebClient.Pages.SexualAssaultResponseCoordinator;
 
 /// <summary>
 /// Code-behind for the SARCTracking page.

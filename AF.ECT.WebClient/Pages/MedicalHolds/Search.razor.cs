@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.MH;
+namespace AF.ECT.WebClient.Pages.MedicalHolds;
 
 /// <summary>
 /// Code-behind for the Search page.

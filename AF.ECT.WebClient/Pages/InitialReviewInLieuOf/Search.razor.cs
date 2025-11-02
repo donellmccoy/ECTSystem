@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.IRILO;
+namespace AF.ECT.WebClient.Pages.InitialReviewInLieuOf;
 
 /// <summary>
 /// Code-behind for the Search page.

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.RS;
+namespace AF.ECT.WebClient.Pages.RecruitingServices;
 
 /// <summary>
 /// Code-behind for the StartNewRS page.

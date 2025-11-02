@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.PEPP;
+namespace AF.ECT.WebClient.Pages.PhysicalExaminationProcessingProgramAIMWITS;
 
 /// <summary>
 /// Code-behind for the Search page.

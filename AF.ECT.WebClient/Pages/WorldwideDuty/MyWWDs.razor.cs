@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.WWD;
+namespace AF.ECT.WebClient.Pages.WorldwideDuty;
 
 /// <summary>
 /// Code-behind for the MyWWDs page.

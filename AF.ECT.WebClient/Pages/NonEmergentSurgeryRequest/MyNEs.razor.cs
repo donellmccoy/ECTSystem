@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.NE;
+namespace AF.ECT.WebClient.Pages.NonEmergentSurgeryRequest;
 
 /// <summary>
 /// Code-behind for the MyNEs page.

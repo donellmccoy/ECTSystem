@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.MMSO;
+namespace AF.ECT.WebClient.Pages.MilitaryMedicalSupportOffice;
 
 /// <summary>
 /// Code-behind for the Search page.

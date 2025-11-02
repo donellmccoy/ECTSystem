@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.PH;
+namespace AF.ECT.WebClient.Pages.PHNonClinicalTracking;
 
 /// <summary>
 /// Code-behind for the MyPHs page.

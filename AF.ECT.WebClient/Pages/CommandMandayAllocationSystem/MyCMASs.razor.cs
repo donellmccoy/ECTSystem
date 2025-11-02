@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.CMAS;
+namespace AF.ECT.WebClient.Pages.CommandMandayAllocationSystem;
 
 /// <summary>
 /// Code-behind for the MyCMASs page.

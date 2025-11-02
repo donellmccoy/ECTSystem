@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.INCAP;
+namespace AF.ECT.WebClient.Pages.Incapacitation;
 
 /// <summary>
 /// Code-behind for the MyINCAPs page.

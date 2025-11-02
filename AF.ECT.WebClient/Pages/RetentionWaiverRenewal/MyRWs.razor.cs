@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.RW;
+namespace AF.ECT.WebClient.Pages.RetentionWaiverRenewal;
 
 /// <summary>
 /// Code-behind for the MyRWs page.

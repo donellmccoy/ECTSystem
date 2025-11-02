@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.AGR;
+namespace AF.ECT.WebClient.Pages.ActiveGuardReserveMedicalCertification;
 
 /// <summary>
 /// Code-behind for the StartNewAGR page.

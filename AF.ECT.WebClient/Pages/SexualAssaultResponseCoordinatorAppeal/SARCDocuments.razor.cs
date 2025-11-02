@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.SARCAppeal;
+namespace AF.ECT.WebClient.Pages.SexualAssaultResponseCoordinatorAppeal;
 
 /// <summary>
 /// Code-behind for the SARCDocuments page.
