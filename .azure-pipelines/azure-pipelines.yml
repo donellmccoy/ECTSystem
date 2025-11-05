@@ -7,23 +7,52 @@ stages:
       - job: BuildAndTest
         pool:
           vmImage: 'windows-latest'
+        variables:
+          NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
         steps:
+          # Install .NET 9.0 SDK on the build agent
           - task: UseDotNet@2
             displayName: 'Use .NET 9.0'
             inputs:
               packageType: 'sdk'
               version: '9.0.x'
+          # Cache NuGet packages to speed up subsequent builds
+          - task: Cache@2
+            displayName: 'Cache NuGet packages'
+            inputs:
+              key: 'nuget | "$(Agent.OS)" | **/packages.lock.json,!**/bin/**,!**/obj/**'
+              restoreKeys: |
+                 nuget | "$(Agent.OS)"
+                 nuget
+              path: '$(NUGET_PACKAGES)'
+              cacheHitVar: 'CACHE_RESTORED'
+          # Restore NuGet packages only if cache was not hit
           - task: DotNetCoreCLI@2
             displayName: 'Restore NuGet packages'
             inputs:
               command: 'restore'
-              projects: 'ElectronicCaseTracking.sln'
+              projects: 'ECTSystem.sln'
+            condition: ne(variables.CACHE_RESTORED, true)
+          # Build the entire solution in Release configuration
           - task: DotNetCoreCLI@2
             displayName: 'Build solution'
             inputs:
               command: 'build'
-              projects: 'ElectronicCaseTracking.sln'
+              projects: 'ECTSystem.sln'
               arguments: '--configuration Release'
+          # Execute unit and integration tests with code coverage collection
+          - task: DotNetCoreCLI@2
+            displayName: 'Run tests'
+            inputs:
+              command: 'test'
+              projects: 'AF.ECT.Tests/AF.ECT.Tests.csproj'
+              arguments: '--configuration Release --collect "XPlat Code Coverage"'
+          # Publish test results to Azure DevOps for reporting and analysis
+          - task: PublishTestResults@2
+            displayName: 'Publish test results'
+            inputs:
+              testResultsFiles: '**/*.trx'
+          # Publish the AppHost project for deployment
           - task: DotNetCoreCLI@2
             displayName: 'Publish AppHost'
             inputs:
@@ -31,21 +60,21 @@ stages:
               publishWebProjects: false
               projects: 'AF.ECT.AppHost/AF.ECT.AppHost.csproj'
               arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/apphost'
+          # Compress the published AppHost into a zip file for efficient artifact storage
+          - task: ArchiveFiles@2
+            displayName: 'Archive AppHost'
+            inputs:
+              rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/apphost'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(Build.ArtifactStagingDirectory)/apphost.zip'
+              replaceExistingArchive: true
+          # Upload the zipped AppHost as build artifacts for the deployment stage
           - task: PublishBuildArtifacts@1
             displayName: 'Publish artifacts'
             inputs:
-              pathToPublish: '$(Build.ArtifactStagingDirectory)'
+              pathToPublish: '$(Build.ArtifactStagingDirectory)/apphost.zip'
               artifactName: 'drop'
-          - task: DotNetCoreCLI@2
-            displayName: 'Run tests'
-            inputs:
-              command: 'test'
-              projects: 'AF.ECT.Tests/AF.ECT.Tests.csproj'
-              arguments: '--configuration Release --collect "XPlat Code Coverage"'
-          - task: PublishTestResults@2
-            displayName: 'Publish test results'
-            inputs:
-              testResultsFiles: '**/*.trx'
 
   - stage: Deploy
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
@@ -56,18 +85,10 @@ stages:
           runOnce:
             deploy:
               steps:
+                # Download the zipped AppHost artifact from the build stage
                 - task: DownloadBuildArtifacts@0
                   displayName: 'Download artifacts'
                   inputs:
                     downloadType: 'single'
                     artifactName: 'drop'
                     downloadPath: '$(System.ArtifactsDirectory)'
-                - task: AzureCLI@2
-                  displayName: 'Deploy with azd'
-                  inputs:
-                    azureSubscription: 'your-service-connection'
-                    scriptType: 'ps'
-                    scriptLocation: 'inlineScript'
-                    inlineScript: |
-                      azd login --use-device-code
-                      azd deploy --environment staging
