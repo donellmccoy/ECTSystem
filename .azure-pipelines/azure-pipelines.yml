@@ -60,20 +60,11 @@ stages:
               publishWebProjects: false
               projects: 'AF.ECT.AppHost/AF.ECT.AppHost.csproj'
               arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/apphost'
-          # Compress the published AppHost into a zip file for efficient artifact storage
-          - task: ArchiveFiles@2
-            displayName: 'Archive AppHost'
-            inputs:
-              rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/apphost'
-              includeRootFolder: false
-              archiveType: 'zip'
-              archiveFile: '$(Build.ArtifactStagingDirectory)/apphost.zip'
-              replaceExistingArchive: true
-          # Upload the zipped AppHost as build artifacts for the deployment stage
+          # Upload the AppHost folder as build artifacts for the deployment stage
           - task: PublishBuildArtifacts@1
             displayName: 'Publish artifacts'
             inputs:
-              pathToPublish: '$(Build.ArtifactStagingDirectory)/apphost.zip'
+              pathToPublish: '$(Build.ArtifactStagingDirectory)/apphost'
               artifactName: 'drop'
 
   - stage: Deploy
