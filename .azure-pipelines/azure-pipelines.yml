@@ -1,5 +1,11 @@
-trigger: none
-pr: none
+trigger:
+  branches:
+    include:
+      - main
+pr:
+  branches:
+    include:
+      - main
 
 stages:
   - stage: Build
@@ -38,7 +44,6 @@ stages:
             inputs:
               command: 'restore'
               projects: 'ECTSystem.sln'
-              arguments: '--verbosity minimal'
             condition: ne(variables.CACHE_RESTORED, true)
           # Build the entire solution in Release configuration
           - task: DotNetCoreCLI@2
@@ -46,14 +51,14 @@ stages:
             inputs:
               command: 'build'
               projects: 'ECTSystem.sln'
-              arguments: '--configuration Release --verbosity minimal'
+              arguments: '--configuration Release'
           # Execute unit and integration tests with code coverage collection
           - task: DotNetCoreCLI@2
             displayName: 'Run tests'
             inputs:
               command: 'test'
               projects: 'AF.ECT.Tests/AF.ECT.Tests.csproj'
-              arguments: '--configuration Release --collect "XPlat Code Coverage" --verbosity minimal'
+              arguments: '--configuration Release --collect "XPlat Code Coverage"'
           # Publish test results to Azure DevOps for reporting and analysis
           - task: PublishTestResults@2
             displayName: 'Publish test results'
@@ -66,7 +71,7 @@ stages:
               command: 'publish'
               publishWebProjects: false
               projects: 'AF.ECT.AppHost/AF.ECT.AppHost.csproj'
-              arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/apphost --verbosity minimal'
+              arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/apphost'
           # Upload the AppHost folder as build artifacts for the deployment stage
           - task: PublishBuildArtifacts@1
             displayName: 'Publish artifacts'
