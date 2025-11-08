@@ -16,6 +16,12 @@ stages:
             inputs:
               packageType: 'sdk'
               version: '9.0.x'
+          # Install .NET workloads required for mobile and desktop development (only if not already installed)
+          - script: |
+              if (!(dotnet workload list | Select-String -Pattern "maui")) {
+                dotnet workload install maui --skip-manifest-update
+              }
+            displayName: 'Install .NET workloads'
           # Cache NuGet packages to speed up subsequent builds
           - task: Cache@2
             displayName: 'Cache NuGet packages'
