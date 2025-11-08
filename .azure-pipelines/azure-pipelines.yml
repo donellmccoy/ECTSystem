@@ -25,7 +25,7 @@ stages:
           # Install .NET workloads required for mobile and desktop development (only if not already installed)
           - script: |
               if (!(dotnet workload list 2>$null | Select-String -Pattern "maui")) {
-                dotnet workload install maui --skip-manifest-update 2>$null
+                dotnet workload install maui --skip-manifest-update > $null 2>$null
               }
             displayName: 'Install .NET workloads'
           # Cache NuGet packages to speed up subsequent builds
