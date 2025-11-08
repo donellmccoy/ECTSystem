@@ -18,8 +18,8 @@ stages:
               version: '9.0.x'
           # Install .NET workloads required for mobile and desktop development (only if not already installed)
           - script: |
-              if (!(dotnet workload list | Select-String -Pattern "maui")) {
-                dotnet workload install maui --skip-manifest-update
+              if (!(dotnet workload list 2>$null | Select-String -Pattern "maui")) {
+                dotnet workload install maui --skip-manifest-update 2>$null
               }
             displayName: 'Install .NET workloads'
           # Cache NuGet packages to speed up subsequent builds
@@ -38,6 +38,7 @@ stages:
             inputs:
               command: 'restore'
               projects: 'ECTSystem.sln'
+              arguments: '--verbosity minimal'
             condition: ne(variables.CACHE_RESTORED, true)
           # Build the entire solution in Release configuration
           - task: DotNetCoreCLI@2
@@ -45,14 +46,14 @@ stages:
             inputs:
               command: 'build'
               projects: 'ECTSystem.sln'
-              arguments: '--configuration Release'
+              arguments: '--configuration Release --verbosity minimal'
           # Execute unit and integration tests with code coverage collection
           - task: DotNetCoreCLI@2
             displayName: 'Run tests'
             inputs:
               command: 'test'
               projects: 'AF.ECT.Tests/AF.ECT.Tests.csproj'
-              arguments: '--configuration Release --collect "XPlat Code Coverage"'
+              arguments: '--configuration Release --collect "XPlat Code Coverage" --verbosity minimal'
           # Publish test results to Azure DevOps for reporting and analysis
           - task: PublishTestResults@2
             displayName: 'Publish test results'
@@ -65,7 +66,7 @@ stages:
               command: 'publish'
               publishWebProjects: false
               projects: 'AF.ECT.AppHost/AF.ECT.AppHost.csproj'
-              arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/apphost'
+              arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/apphost --verbosity minimal'
           # Upload the AppHost folder as build artifacts for the deployment stage
           - task: PublishBuildArtifacts@1
             displayName: 'Publish artifacts'
