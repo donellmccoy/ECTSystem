@@ -14,10 +14,10 @@ Analyzed 533 Razor pages across 30+ module folders in `AF.ECT.WebClient/Pages`. 
 ### 1. **Code-Behind Structure (.razor.cs files)**
 ✅ **Excellent Consistency**
 - All files use file-scoped namespaces
-- Consistent use of `public partial class` pattern
+- Consistent use of `public partial class` pattern.
 - Uniform dependency injection with `[Inject]` attribute
 - Standard property declaration: `private IWorkflowClient WorkflowClient { get; init; } = default!`
-- XML documentation present and consistent across files
+- XML documentation present and consistent across files.
 - Lifecycle methods follow pattern: `OnInitializedAsync()` with `await base.OnInitializedAsync()`
 
 ### 2. **Route Naming Conventions**
