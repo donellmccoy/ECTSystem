@@ -1,0 +1,1580 @@
+{
+  "test_plans": [
+    {
+      "name": "RBAC (Role Based Access Control) UI Testing for ECTSystem",
+      "description": "Complete Role-Based Access Control (RBAC) testing suite covering LOD, Special Cases, Administration, Reports, Workflows, Integration, Security, Exploratory, and Performance testing per site_access.json and DAFI 36-2910 requirements.",
+      "suites": [
+        {
+          "name": "RBAC UI Testing for LOD Case Creation Pages",
+          "description": "Verifies RBAC in UI for LOD case creation pages per site_access.json and DAFI 36-2910_DAFGM2023-02 (e.g., 90 workday timeline, Table 3.2 authorities).",
+          "type": "Manual functional test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Authorized Access to LOD Creation Pages",
+              "name": "Authorized Access to LOD Creation Pages",
+              "description": "Tests authorized and unauthorized access to LOD creation UI elements like menus and forms.",
+              "type": "Requirement-based suite (linked to \"LOD\" section in json and DAFI Table 3.2).",
+              "parameters": {
+                "role": "lodCreate",
+                "browser": "Chrome"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Click on the \"LOD\" menu item in the navigation bar.",
+                  "step_expected": "LOD menu expands showing submenu items."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Select \"Start New LOD\" from the submenu.",
+                  "step_expected": "Start New LOD page loads successfully."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Verify the page loads and displays form fields (e.g., member info, incident details for AF Form 348).",
+                  "step_expected": "All required form fields are visible and accessible."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Attempt to fill and submit a dummy form (e.g., enter test data without saving).",
+                  "step_expected": "Form accepts test data entry and submission button is active."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Unauthorized Access to LOD Creation Pages",
+              "name": "Unauthorized Access to LOD Creation Pages",
+              "description": "Tests unauthorized access prevention to LOD creation UI elements like menus and forms.",
+              "type": "Requirement-based test case (linked to \"LOD\" section in json and DAFI Table 3.2).",
+              "parameters": {
+                "role": "*",
+                "browser": "Chrome"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Check if \"Start New LOD\" is visible in \"LOD\" submenu (should not be).",
+                  "step_expected": "\"Start New LOD\" menu item is hidden from view."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Enter direct URL for \"Start New LOD\" page (e.g., /LOD/StartNewLOD.aspx).",
+                  "step_expected": "Direct URL access is blocked."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Observe the resulting page or modal.",
+                  "step_expected": "\"Access Denied\" page or modal is displayed with appropriate error message."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RBAC UI Testing for LOD Case Viewing Pages",
+          "description": "Verifies RBAC in UI for LOD case viewing and detail pages per site_access.json and DAFI 36-2910_DAFGM2023-02.",
+          "type": "Manual functional test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Authorized Viewing of LOD Case Detail Pages",
+              "name": "Authorized Viewing of LOD Case Detail Pages",
+              "description": "Tests authorized viewing access to LOD case detail tabs and fields in hidden pages.",
+              "type": "Static test case for regression (covers hidden \"Line Of Duty\" pages).",
+              "parameters": {
+                "role": "lodView",
+                "caseType": "Existing LOD case ID"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to \"My LODs\" from dashboard.",
+                  "step_expected": "My LODs page loads with list of cases."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Select a test case from the list UI.",
+                  "step_expected": "Selected case details begin loading."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Click on \"Member\" tab or link in case details.",
+                  "step_expected": "Member tab becomes active and content loads."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Verify display of member info fields (e.g., name, service details).",
+                  "step_expected": "All member information fields are populated and visible."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Check for edit buttons or read-only mode per role.",
+                  "step_expected": "Edit controls display correctly based on role permissions."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Restricted Access to LOD Case Detail Pages",
+              "name": "Restricted Access to LOD Case Detail Pages",
+              "description": "Tests restricted access prevention to LOD case detail tabs and fields in hidden pages.",
+              "type": "Static test case for regression (covers hidden \"Line Of Duty\" pages).",
+              "parameters": {
+                "role": "myLod",
+                "caseType": "Existing LOD case ID"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to a viewable \"My LODs\" list.",
+                  "step_expected": "My LODs list page loads successfully."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Select a test case.",
+                  "step_expected": "Test case details begin loading."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Attempt to click \"Medical\" tab.",
+                  "step_expected": "Medical tab is either hidden or click is blocked."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Observe if tab is hidden or access blocked.",
+                  "step_expected": "Access denied message displayed or tab not visible."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RBAC UI Testing for User Management Pages",
+          "description": "Tests RBAC for user and role management UI pages per json roles (e.g., \"usersEdit\", \"usersApprove\") and DAFI authorities.",
+          "type": "Manual functional test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Access to User and Role Management Pages",
+              "name": "Access to User and Role Management Pages",
+              "description": "Tests management of users and roles in admin UI, including editing and denial.",
+              "type": "Query-based suite (pages under \"Administration/Manage\" with \"usersEdit\" roles).",
+              "parameters": {
+                "role": "sysAdmin",
+                "testUser": "Dummy user ID"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to \"Administration\" menu.",
+                  "step_expected": "Administration menu expands showing available options."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Select \"Manage\" > \"Manage Users\".",
+                  "step_expected": "Manage Users page loads with user list."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Search for test user in UI list.",
+                  "step_expected": "Search results display matching users."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Click edit icon and modify a role (e.g., add \"lodView\").",
+                  "step_expected": "Edit mode activates and role changes are applied."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Save changes and refresh page.",
+                  "step_expected": "Changes saved successfully and reflected in UI."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Unauthorized Access to User and Role Management Pages",
+              "name": "Unauthorized Access to User and Role Management Pages",
+              "description": "Tests unauthorized access denial to user and role management in admin UI.",
+              "type": "Query-based test case (pages under \"Administration/Manage\" with \"usersEdit\" roles).",
+              "parameters": {
+                "role": "lodSearch",
+                "browser": "Edge"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to \"Administration\" > \"Lookup\".",
+                  "step_expected": "Lookup submenu expands or Lookup page loads."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Attempt to select \"Pending Role Requests\".",
+                  "step_expected": "Item is either hidden or selection is attempted."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "If visible, click; else use direct URL.",
+                  "step_expected": "Access attempt is made via click or direct URL."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Verify resulting UI.",
+                  "step_expected": "Access denied page or error message is displayed."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RBAC UI Testing for Administration Pages",
+          "description": "Tests RBAC for administration UI pages including audit logs and workflow permissions per json roles (e.g., \"sysAdmin\", \"viewUserLog\") and DAFI audit requirements (3.2.2.9.3).",
+          "type": "Manual functional test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Authorized Access to Audit and Workflow Permissions UI",
+              "name": "Authorized Access to Audit and Workflow Permissions UI",
+              "description": "Tests authorized access to audit logs and workflow permissions in hidden admin pages.",
+              "type": "Static test case (hidden pages like \"User Activity Log\").",
+              "parameters": {
+                "role": "viewUserLog",
+                "filter": "Date range"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Use direct URL to \"User Activity Log\" (visible: false).",
+                  "step_expected": "User Activity Log page loads successfully."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Apply filter for test date range.",
+                  "step_expected": "Date filter is applied and results are filtered."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Scroll through log entries UI.",
+                  "step_expected": "Log entries are displayed with timestamps and details."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Check for export button.",
+                  "step_expected": "Export button is visible and accessible."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Unauthorized Access to Audit and Workflow Permissions UI",
+              "name": "Unauthorized Access to Audit and Workflow Permissions UI",
+              "description": "Tests unauthorized access denial to audit logs and workflow permissions in hidden admin pages.",
+              "type": "Static test case (hidden pages like \"User Activity Log\").",
+              "parameters": {
+                "role": "*",
+                "browser": "Edge"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Attempt direct URL to \"Workflow Permissions\".",
+                  "step_expected": "Direct URL access is attempted."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Observe page response.",
+                  "step_expected": "Access denied page or error message is displayed."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RBAC UI Testing for Reports Pages",
+          "description": "Validates RBAC for reports UI per json roles and DAFI reporting requirements (e.g., Table 3.1 timelines, audit reports per 3.2.2.9.3).",
+          "type": "Manual functional test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Report Generation Pages Access",
+              "name": "Report Generation Pages Access",
+              "description": "Tests generation and denial of reports in the UI, including filters and exports.",
+              "type": "Requirement-based suite (linked to \"Reports\" section and DAFI 3.2.2.9.3 audits).",
+              "parameters": {
+                "role": "LODMetricsReport_Cases",
+                "filter": "Quarterly"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to \"Reports\" menu.",
+                  "step_expected": "Reports menu expands showing available reports."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Select \"LOD Metrics Report (LOD Cases)\".",
+                  "step_expected": "LOD Metrics Report page loads."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Apply quarterly filter in UI dropdown.",
+                  "step_expected": "Quarterly filter is selected and applied."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Click generate and view results table.",
+                  "step_expected": "Report generates and displays metrics in table format."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Export to PDF and view.",
+                  "step_expected": "PDF export completes and file is downloaded/viewable."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Unauthorized Report Generation Pages Access",
+              "name": "Unauthorized Report Generation Pages Access",
+              "description": "Tests unauthorized access denial to report generation in the UI.",
+              "type": "Requirement-based test case (linked to \"Reports\" section and DAFI 3.2.2.9.3 audits).",
+              "parameters": {
+                "role": "mySCs",
+                "browser": "Safari"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to \"Reports\".",
+                  "step_expected": "Reports menu expands or Reports page loads."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Attempt \"Ad-Hoc Reporting\".",
+                  "step_expected": "Access to Ad-Hoc Reporting is attempted."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "If accessible, try query; observe.",
+                  "step_expected": "Either access is denied or query attempt is blocked."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RBAC UI Testing for Special Cases Pages",
+          "description": "Validates RBAC for special cases UI per json roles and DAFI requirements (e.g., Table 3.3 appellate authorities, EPTS-NSA findings per 1.8.3.2).",
+          "type": "Manual functional test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Authorized Special Cases Search and View Pages",
+              "name": "Authorized Special Cases Search and View Pages",
+              "description": "Tests authorized search and view functionality in special cases UI, including hidden sections.",
+              "type": "Static test case (hidden \"Special Cases\" section).",
+              "parameters": {
+                "role": "scSearch",
+                "query": "Test case type"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Use direct URL to \"Special Cases\" > \"Search\" (visible: false).",
+                  "step_expected": "Special Cases Search page loads successfully."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Enter query in search bar.",
+                  "step_expected": "Query is entered and ready for submission."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Submit and view results list.",
+                  "step_expected": "Search results are displayed in list format."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Click a result to open detail view.",
+                  "step_expected": "Detail view opens showing case information."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Unauthorized Special Cases Search and View Pages",
+              "name": "Unauthorized Special Cases Search and View Pages",
+              "description": "Tests unauthorized access denial to special cases search and view functionality.",
+              "type": "Static test case (hidden \"Special Cases\" section).",
+              "parameters": {
+                "role": "*",
+                "browser": "Safari"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to \"Special Cases\" if visible.",
+                  "step_expected": "Special Cases menu is either visible or hidden based on role."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Select \"My Special Cases\".",
+                  "step_expected": "Access attempt to My Special Cases is made."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Observe page.",
+                  "step_expected": "Either access denied message or page loads (based on role)."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RBAC UI Testing for Workflow State Transitions",
+          "description": "Validates RBAC enforcement during workflow state transitions per DAFI 36-2910 timelines (e.g., 90-day LOD completion, 30-day appeal window, 5-day routing).",
+          "type": "Manual workflow test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "LOD Case Workflow Progression Tests",
+              "name": "LOD Case Workflow Progression Tests",
+              "description": "Tests role-based access to workflow actions and state transitions during LOD case progression.",
+              "type": "Requirement-based test case (linked to workflow states in DAFI 3.2.2.6 and CoreWorkflow entities).",
+              "parameters": {
+                "role": "lodCreate",
+                "caseState": "Initiated"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Create new LOD case via \"Start New LOD\" form.",
+                  "step_expected": "New LOD form loads and is ready for data entry."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Fill in required member information and incident details.",
+                  "step_expected": "All required fields are populated with test data."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Submit case to transition from Initiated to MedicalAssessment state.",
+                  "step_expected": "Case is submitted and workflow state transitions to MedicalAssessment."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Verify case status updates and notification sent to medical provider.",
+                  "step_expected": "Case status shows MedicalAssessment and medical provider is notified."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Check that submission timestamp is recorded within 5 days per DAFI timeline.",
+                  "step_expected": "Timestamp is recorded and within 5-day compliance window."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Medical Officer Review Approval Tests",
+              "name": "Medical Officer Review Approval Tests",
+              "description": "Tests medical officer's ability to review and approve/reject cases with proper signature authority.",
+              "type": "Static test case (medical officer workflow per Form348_Medical table and DAFI Table 3.2).",
+              "parameters": {
+                "role": "medOfficer",
+                "caseState": "MedicalAssessment",
+                "browser": "Edge"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to assigned LOD cases pending medical assessment.",
+                  "step_expected": "List of cases pending medical assessment is displayed."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Select case and open Medical tab.",
+                  "step_expected": "Medical tab opens showing medical assessment form."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Review medical documentation and diagnosis fields.",
+                  "step_expected": "Medical documentation is accessible and reviewable."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Enter medical findings and EPTS-NSA determination per DAFI 1.8.3.2.",
+                  "step_expected": "Medical findings and EPTS-NSA determination are recorded."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Apply digital signature using DBSign component.",
+                  "step_expected": "Digital signature is captured and stored."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Submit assessment to transition to Routing state.",
+                  "step_expected": "Assessment is submitted and case transitions to Routing state."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Verify completion timestamp within 30-day or next UTA timeline.",
+                  "step_expected": "Completion timestamp is within required timeline compliance."
+                },
+                {
+                  "test_step": 9,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Commander Legal Review and Approval Chain",
+              "name": "Commander Legal Review and Approval Chain",
+              "description": "Tests commander and legal officer roles in approval chain with proper authority verification.",
+              "type": "Query-based test case (cases in CommanderReview and LegalReview states).",
+              "parameters": {
+                "role": "unitCommander",
+                "caseState": "CommanderReview"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Access cases routed to commander for review.",
+                  "step_expected": "List of cases pending commander review is displayed."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Open case details and review Member, Medical, and Investigation tabs.",
+                  "step_expected": "All relevant tabs are accessible and display complete information."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Verify proximate cause determination fields are accessible.",
+                  "step_expected": "Proximate cause fields are visible and editable."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Enter commander's findings and duty determination.",
+                  "step_expected": "Commander's findings and determination are recorded."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Submit review to transition to LegalReview state.",
+                  "step_expected": "Review is submitted and case transitions to LegalReview state."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Verify legal officer receives notification within 10-day routing timeline.",
+                  "step_expected": "Legal officer notification is sent within timeline requirements."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Unauthorized Workflow State Access Prevention",
+              "name": "Unauthorized Workflow State Access Prevention",
+              "description": "Tests prevention of unauthorized role access to workflow states and approval actions.",
+              "type": "Static test case (negative testing for workflow security).",
+              "parameters": {
+                "role": "lodSearch",
+                "caseState": "AuthorityAdjudication",
+                "browser": "Chrome"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Attempt to access case in AuthorityAdjudication state via direct URL.",
+                  "step_expected": "Direct URL access is attempted."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Try to access Approval Authority Review tab or approval buttons.",
+                  "step_expected": "Access to approval controls is blocked."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Attempt to submit approval decision via API call or form manipulation.",
+                  "step_expected": "API calls or form submissions are rejected."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Verify all attempts are blocked with access denied response.",
+                  "step_expected": "All unauthorized access attempts show access denied errors."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Check that no audit trail is created for unauthorized actions.",
+                  "step_expected": "Only security audit events are logged, no action audit trails created."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Appeal Workflow State Transition Tests",
+              "name": "Appeal Workflow State Transition Tests",
+              "description": "Tests appeal submission and processing workflow with 30-day timeline enforcement.",
+              "type": "Requirement-based test case (Appeal workflow per DAFI 3.2.2.6 and Form348_AP table).",
+              "parameters": {
+                "role": "myAP",
+                "caseState": "Finalized"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Access finalized LOD case eligible for appeal.",
+                  "step_expected": "Finalized case is displayed with appeal option available."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Click \"Submit Appeal\" button within 30 calendar days of final determination.",
+                  "step_expected": "Appeal submission form loads."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Fill in appeal grounds and supporting documentation.",
+                  "step_expected": "Appeal grounds and documentation are entered."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Submit appeal to transition case to Appealed state.",
+                  "step_expected": "Appeal is submitted and case transitions to Appealed state."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Verify appeal is routed to Appellate Authority (HQ AFRC/CD).",
+                  "step_expected": "Appeal is routed correctly to Appellate Authority."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Check that 30-day submission window is validated by system.",
+                  "step_expected": "System validates appeal is within 30-day window."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RBAC UI Testing for Workflow Approvals",
+          "description": "Validates RBAC enforcement for approval workflows and signature authorities per DAFI 36-2910 Table 3.2/3.3 authorities.",
+          "type": "Manual workflow test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Board Review Multi-Signature Workflow",
+              "name": "Board Review Multi-Signature Workflow",
+              "description": "Tests formal investigation board review requiring multiple signatures (Legal, Medical, Admin) per DAFI Table 3.3.",
+              "type": "Static test case (formal workflow board signatures).",
+              "parameters": {
+                "role": "boardLegal",
+                "caseState": "BoardReview",
+                "browser": "Edge"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Access formal LOD case assigned to board review.",
+                  "step_expected": "Formal LOD case in BoardReview state is displayed."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Navigate to Board Legal tab and review case findings.",
+                  "step_expected": "Board Legal tab opens showing case findings."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Enter legal sufficiency determination per DAFI 3.2.2.6 legal authority.",
+                  "step_expected": "Legal sufficiency determination is recorded."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Apply digital signature as Board Legal member.",
+                  "step_expected": "Board Legal digital signature is captured."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Verify case waits for Medical and Admin board signatures before progression.",
+                  "step_expected": "Case remains in BoardReview state pending other signatures."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Check that all three signatures are required for state transition.",
+                  "step_expected": "System enforces multi-signature requirement."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RBAC Integration Testing for Cross-Module Access",
+          "description": "Tests RBAC enforcement across multiple modules (LOD, Special Cases, MMSO) and integration points per site_access.json hierarchies.",
+          "type": "Manual integration test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Cross-Module Case Access Tests",
+              "name": "Cross-Module Case Access Tests",
+              "description": "Tests user access to cases across different modules based on role permissions.",
+              "type": "Query-based test case (cross-module role assignments).",
+              "parameters": {
+                "role": "scSearchMT",
+                "modules": [
+                  "MEB",
+                  "IRILO",
+                  "PWaiver",
+                  "WWD"
+                ]
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to Special Cases Search page.",
+                  "step_expected": "Special Cases Search page loads successfully."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Apply filter to search across MEB, IRILO, PWaiver, and WWD modules.",
+                  "step_expected": "Module filters are applied to search criteria."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Verify search results include cases from authorized modules only.",
+                  "step_expected": "Search results display only authorized module cases."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Attempt to access cases from unauthorized modules (e.g., BMT, BCMR).",
+                  "step_expected": "Unauthorized module cases are not accessible."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Verify cross-module navigation respects role boundaries.",
+                  "step_expected": "Navigation is restricted based on role permissions."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Check that case detail views maintain proper access control.",
+                  "step_expected": "Case details display only authorized information."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "MMSO Pre-Authorization Integration with LOD Cases",
+              "name": "MMSO Pre-Authorization Integration with LOD Cases",
+              "description": "Tests MMSO pre-authorization request integration with LOD case data and role access.",
+              "type": "Requirement-based test case (MMSO module with LOD document access).",
+              "parameters": {
+                "role": "MMSOCreate",
+                "linkedCase": "LOD case ID"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to \"Start New Pre-Authorization Request\" in MMSO section.",
+                  "step_expected": "MMSO Pre-Authorization form loads successfully."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Link request to existing LOD case.",
+                  "step_expected": "LOD case is linked to pre-authorization request."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Verify access to linked LOD documents (read-only).",
+                  "step_expected": "Linked LOD documents are viewable but not editable."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Fill in pre-authorization details and medical justification.",
+                  "step_expected": "Pre-authorization details are entered successfully."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Submit request and verify routing to MMSO workflow.",
+                  "step_expected": "Request is submitted and routed to MMSO workflow."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Check that LOD case data is accessible but not modifiable from MMSO context.",
+                  "step_expected": "LOD data remains read-only from MMSO context."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Report Generation Across Multiple Modules",
+              "name": "Report Generation Across Multiple Modules",
+              "description": "Tests report access that spans multiple case types with proper role-based data filtering.",
+              "type": "Static test case (ad-hoc reporting and metrics reports).",
+              "parameters": {
+                "role": "AdHocReport",
+                "modules": [
+                  "LOD",
+                  "Special Cases",
+                  "Reports"
+                ]
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to \"Ad-Hoc Reporting\" page.",
+                  "step_expected": "Ad-Hoc Reporting page loads successfully."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Build query to include LOD and Special Cases data.",
+                  "step_expected": "Query is built with cross-module data sources."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Apply filters for date range, unit, and case status.",
+                  "step_expected": "Filters are applied to query criteria."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Execute report and verify results include only authorized data.",
+                  "step_expected": "Report executes and displays only authorized data."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Export report to PDF and verify data masking for restricted cases.",
+                  "step_expected": "PDF export completes with proper data masking applied."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Check that SARC restricted cases are excluded from standard reports.",
+                  "step_expected": "SARC restricted data is not included in report."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Shared Document Access Across Case Types",
+              "name": "Shared Document Access Across Case Types",
+              "description": "Tests document viewer access for documents shared across different case types.",
+              "type": "Query-based test case (document access via DocumentViewer.aspx).",
+              "parameters": {
+                "role": "lodView",
+                "documentTypes": [
+                  "Medical Records",
+                  "Investigation Reports",
+                  "Appeal Documents"
+                ]
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Access LOD case with associated documents.",
+                  "step_expected": "LOD case loads with document links visible."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Click document links to open DocumentViewer.",
+                  "step_expected": "DocumentViewer opens displaying selected document."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Verify medical records are accessible based on role permissions.",
+                  "step_expected": "Medical records display according to role authorization."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Attempt to access appeal documents from main LOD case.",
+                  "step_expected": "Appeal document access is controlled by role permissions."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Check that document access respects case type boundaries.",
+                  "step_expected": "Document access is restricted to appropriate case types."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Verify document upload restrictions based on workflow state.",
+                  "step_expected": "Document upload controls enforce workflow state rules."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Security Testing for RBAC Implementation",
+          "description": "Tests security vulnerabilities including session management, privilege escalation prevention, and data protection for RBAC enforcement.",
+          "type": "Manual security test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Session Management and Authentication Tests",
+              "name": "Session Management and Authentication Tests",
+              "description": "Tests session timeout, concurrent login prevention, and authentication bypass attempts.",
+              "type": "Static test case (security testing for authentication).",
+              "parameters": {
+                "role": "sysAdmin",
+                "browser": "Chrome"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Note session start time and open Users Online page.",
+                  "step_expected": "Users Online page displays current active sessions."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Remain idle for configured session timeout period (e.g., 30 minutes).",
+                  "step_expected": "Session remains idle for configured timeout duration."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Attempt to access protected page after timeout.",
+                  "step_expected": "Access attempt is made after timeout period."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Verify automatic redirect to login page with session expired message.",
+                  "step_expected": "User is redirected to login with session timeout notification."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Open second browser window and attempt concurrent login with same credentials.",
+                  "step_expected": "Concurrent login attempt is made with same user account."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Verify system behavior for concurrent sessions (allow/deny based on configuration).",
+                  "step_expected": "System enforces concurrent session policy correctly."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button in first session and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Role Escalation Prevention Tests",
+              "name": "Role Escalation Prevention Tests",
+              "description": "Tests prevention of privilege escalation through UI manipulation or API calls.",
+              "type": "Static test case (negative security testing).",
+              "parameters": {
+                "role": "lodSearch",
+                "targetRole": "sysAdmin",
+                "browser": "Edge"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Open browser developer tools and inspect current user role claims.",
+                  "step_expected": "Developer tools reveal current role assignments."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Attempt to modify role claim in browser storage (localStorage/sessionStorage).",
+                  "step_expected": "Browser storage modification is attempted."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Try to access sysAdmin-only pages (e.g., Manage Users, Edit Groups).",
+                  "step_expected": "Access attempts to admin pages are blocked."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Attempt direct API calls to user management endpoints with modified role.",
+                  "step_expected": "API calls with invalid roles are rejected."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Try to escalate privileges through Edit User Account page for own account.",
+                  "step_expected": "Self-privilege escalation is prevented."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Verify all escalation attempts are blocked at server-side validation.",
+                  "step_expected": "Server-side validation rejects all escalation attempts."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Audit Trail Completeness and Tamper Protection",
+              "name": "Audit Trail Completeness and Tamper Protection",
+              "description": "Tests comprehensive audit logging for all RBAC-related actions and protection against log tampering.",
+              "type": "Requirement-based test case (audit requirements per DAFI 3.2.2.9.3).",
+              "parameters": {
+                "role": "viewUserLog",
+                "auditActions": [
+                  "Login",
+                  "Access Denied",
+                  "Role Change",
+                  "Signature",
+                  "Approval"
+                ]
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Navigate to User Activity Log via direct URL.",
+                  "step_expected": "User Activity Log page loads successfully."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Filter logs for recent RBAC-related actions.",
+                  "step_expected": "Filtered logs display RBAC-related activities."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Verify audit entries include: timestamp, user ID, action, result, IP address.",
+                  "step_expected": "All required audit fields are present in log entries."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Check that failed access attempts are logged with denial reasons.",
+                  "step_expected": "Failed attempts show detailed denial information."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Verify workflow signatures are logged in core_SignatureMetaData table.",
+                  "step_expected": "Signature metadata is properly recorded in database."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Attempt to modify audit log entries (should be prevented).",
+                  "step_expected": "Audit log modification attempts are blocked."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Export audit log and verify data integrity and completeness.",
+                  "step_expected": "Exported audit log maintains data integrity."
+                },
+                {
+                  "test_step": 9,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "DAFI 36-2910 Timeline Compliance Validation",
+              "name": "DAFI 36-2910 Timeline Compliance Validation",
+              "description": "Tests system enforcement of DAFI timelines (90-day LOD completion, 30-day appeals, etc.).",
+              "type": "Requirement-based test case (DAFI Table 3.1 timelines).",
+              "parameters": {
+                "role": "lodView",
+                "timelines": [
+                  "90-day LOD",
+                  "30-day Appeal",
+                  "5-day Routing"
+                ]
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Access LOD PM Compliance Report showing timeline adherence.",
+                  "step_expected": "LOD PM Compliance Report loads with timeline data."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Filter for cases approaching 90-day completion deadline.",
+                  "step_expected": "Filtered results show cases near 90-day deadline."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Verify system displays warning indicators for overdue cases.",
+                  "step_expected": "Warning indicators appear for cases exceeding deadlines."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Check that automated reminder emails are sent per DAFI 3.2.2.6.3.3.",
+                  "step_expected": "Automated reminders are sent according to DAFI requirements."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Access finalized case and verify 30-day appeal window calculation.",
+                  "step_expected": "30-day appeal window is calculated correctly."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Attempt to submit appeal after 30-day deadline expires.",
+                  "step_expected": "Late appeal submission is attempted."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Verify system prevents late appeal submission with clear error message.",
+                  "step_expected": "System blocks late appeal with appropriate error message."
+                },
+                {
+                  "test_step": 9,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            },
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Data Masking and PII Protection Tests",
+              "name": "Data Masking and PII Protection Tests",
+              "description": "Tests proper masking of sensitive data (SSN, medical info) based on role permissions.",
+              "type": "Query-based test case (PII protection across modules).",
+              "parameters": {
+                "role": "lodSearch",
+                "dataTypes": [
+                  "SSN",
+                  "Medical Diagnosis",
+                  "Investigation Details"
+                ]
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Search for LOD cases and open case list view.",
+                  "step_expected": "LOD case list loads with search results."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Verify SSN is masked in list view (e.g., XXX-XX-1234 format).",
+                  "step_expected": "SSN displays in masked format protecting PII."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Open case details and check medical diagnosis field masking.",
+                  "step_expected": "Medical diagnosis is properly masked based on role."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Attempt to view investigation report details without proper role.",
+                  "step_expected": "Investigation details are hidden for unauthorized roles."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Verify restricted SARC cases show minimal information.",
+                  "step_expected": "SARC restricted cases display limited data only."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Export search results and verify PII masking in exported data.",
+                  "step_expected": "Exported data maintains PII masking consistently."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Compliance Testing for RBAC Implementation",
+          "description": "Tests compliance with DAFI 36-2910 requirements including timeline enforcement, audit trail completeness, and regulatory compliance.",
+          "type": "Manual compliance test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "DAFI 36-2910 Timeline Compliance Validation",
+              "name": "DAFI 36-2910 Timeline Compliance Validation",
+              "description": "Tests system enforcement of DAFI timelines (90-day LOD completion, 30-day appeals, etc.).",
+              "type": "Requirement-based test case (DAFI Table 3.1 timelines).",
+              "parameters": {
+                "role": "lodView",
+                "timelines": [
+                  "90-day LOD",
+                  "30-day Appeal",
+                  "5-day Routing"
+                ]
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "step_expected": "Login successful and dashboard loads completely."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Access LOD PM Compliance Report showing timeline adherence.",
+                  "step_expected": "LOD PM Compliance Report loads with timeline data."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Filter for cases approaching 90-day completion deadline.",
+                  "step_expected": "Filtered results show cases near 90-day deadline."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Verify system displays warning indicators for overdue cases.",
+                  "step_expected": "Warning indicators appear for cases exceeding deadlines."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Check that automated reminder emails are sent per DAFI 3.2.2.6.3.3.",
+                  "step_expected": "Automated reminders are sent according to DAFI requirements."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Access finalized case and verify 30-day appeal window calculation.",
+                  "step_expected": "30-day appeal window is calculated correctly."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Attempt to submit appeal after 30-day deadline expires.",
+                  "step_expected": "Late appeal submission is attempted."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Verify system prevents late appeal submission with clear error message.",
+                  "step_expected": "System blocks late appeal with appropriate error message."
+                },
+                {
+                  "test_step": 9,
+                  "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                  "step_expected": "Logout successful and redirected to login page."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Accessibility Testing for RBAC UI",
+          "description": "Exploratory testing for RBAC UI with accessibility tools to ensure compliance with WCAG 2.1 AA standards and assistive technology support.",
+          "type": "Manual accessibility test suite",
+          "test_cases": [
+            {
+              "id": "",
+              "work_item_type": "Test case",
+              "title": "Internationalization and Accessibility RBAC Testing",
+              "name": "Internationalization and Accessibility RBAC Testing",
+              "description": "Testing for RBAC UI with accessibility tools and internationalization considerations.",
+              "type": "Manual test case (accessibility compliance).",
+              "parameters": {
+                "role": "lodView",
+                "tools": [
+                  "Screen reader",
+                  "Keyboard navigation",
+                  "Color contrast checker"
+                ],
+                "duration": "60 minutes"
+              },
+              "steps": [
+                {
+                  "test_step": 1,
+                  "step_action": "Test keyboard-only navigation through role-based menus and pages.",
+                  "step_expected": "All menus and pages are accessible using only keyboard navigation."
+                },
+                {
+                  "test_step": 2,
+                  "step_action": "Use screen reader to verify access denied messages are clearly announced.",
+                  "step_expected": "Screen reader correctly announces all access denied messages."
+                },
+                {
+                  "test_step": 3,
+                  "step_action": "Check color contrast for permission indicators and error messages (WCAG compliance).",
+                  "step_expected": "All color contrasts meet WCAG 2.1 AA standards."
+                },
+                {
+                  "test_step": 4,
+                  "step_action": "Test tab order for forms with role-based field visibility.",
+                  "step_expected": "Tab order is logical and skips hidden fields appropriately."
+                },
+                {
+                  "test_step": 5,
+                  "step_action": "Verify ARIA labels for role-specific UI elements.",
+                  "step_expected": "All role-specific elements have proper ARIA labels."
+                },
+                {
+                  "test_step": 6,
+                  "step_action": "Test with browser zoom levels (200%, 400%) for readability.",
+                  "step_expected": "UI remains functional and readable at all zoom levels."
+                },
+                {
+                  "test_step": 7,
+                  "step_action": "Check focus indicators for interactive elements.",
+                  "step_expected": "All interactive elements have visible focus indicators."
+                },
+                {
+                  "test_step": 8,
+                  "step_action": "Verify that all RBAC error messages are accessible to assistive technologies.",
+                  "step_expected": "Error messages are properly announced by assistive technologies."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

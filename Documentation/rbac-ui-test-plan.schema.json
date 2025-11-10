@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ectsystem.example.com/schemas/rbac-ui-test-plan.schema.json",
+  "title": "RBAC UI Test Plan Schema",
+  "description": "Schema for Role-Based Access Control (RBAC) UI test plans in Azure DevOps Test Plans format",
+  "type": "object",
+  "required": ["test_plans"],
+  "properties": {
+    "test_plans": {
+      "type": "array",
+      "description": "Collection of test plans for organizing test suites",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/TestPlan"
+      }
+    }
+  },
+  "definitions": {
+    "TestPlan": {
+      "type": "object",
+      "description": "A test plan containing multiple test suites",
+      "required": ["name", "description", "suites"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the test plan",
+          "minLength": 1,
+          "examples": ["Comprehensive RBAC UI Testing for ECTSystem"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the test plan scope and objectives",
+          "minLength": 1
+        },
+        "suites": {
+          "type": "array",
+          "description": "Collection of test suites within this test plan",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/TestSuite"
+          }
+        }
+      }
+    },
+    "TestSuite": {
+      "type": "object",
+      "description": "A test suite containing related test cases",
+      "required": ["name", "description", "type", "test_cases"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the test suite",
+          "minLength": 1,
+          "examples": [
+            "RBAC UI Testing for LOD Case Creation Pages",
+            "RBAC UI Testing for User Management Pages"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the test suite objectives and scope",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of test suite indicating testing category and execution method",
+          "enum": [
+            "Manual functional test suite",
+            "Manual workflow test suite",
+            "Manual integration test suite",
+            "Manual security test suite",
+            "Manual compliance test suite",
+            "Manual accessibility test suite",
+            "Automated functional test suite",
+            "Automated workflow test suite",
+            "Automated integration test suite",
+            "Automated security test suite",
+            "Automated compliance test suite",
+            "Automated accessibility test suite"
+          ],
+          "examples": [
+            "Manual functional test suite",
+            "Manual workflow test suite",
+            "Manual security test suite"
+          ]
+        },
+        "test_cases": {
+          "type": "array",
+          "description": "Collection of test cases within this test suite",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/TestCase"
+          }
+        }
+      }
+    },
+    "TestCase": {
+      "type": "object",
+      "description": "A test case defining specific test scenario with steps - compatible with Azure DevOps Test Plans CSV import format",
+      "required": ["id", "work_item_type", "title", "name", "description", "type", "parameters", "steps"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Work item ID for Azure DevOps Test Plans (blank for new test cases, populated with ID after import)",
+          "examples": ["", "12345", "67890"]
+        },
+        "work_item_type": {
+          "type": "string",
+          "description": "Azure DevOps work item type - must be 'Test case' or 'Shared Steps'",
+          "enum": ["Test case", "Shared Steps"],
+          "examples": ["Test case"]
+        },
+        "title": {
+          "type": "string",
+          "description": "Test case title for Azure DevOps (max 128 characters)",
+          "minLength": 1,
+          "maxLength": 128,
+          "examples": [
+            "Authorized Access to LOD Creation Pages",
+            "Session Management and Authentication Tests"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of the test case (may exceed 128 characters)",
+          "minLength": 1,
+          "examples": [
+            "Authorized Access to LOD Creation Pages",
+            "Session Management and Authentication Tests"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the test case validates",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of test case indicating testing approach and methodology",
+          "pattern": "^(Requirement-based|Query-based|Static|Manual|Automated|Exploratory).*test case.*",
+          "examples": [
+            "Requirement-based test case (linked to \"LOD\" section in json and DAFI Table 3.2).",
+            "Static test case for regression (covers hidden \"Line Of Duty\" pages).",
+            "Query-based test case (pages under \"Administration/Manage\" with \"usersEdit\" roles).",
+            "Manual test case (accessibility compliance)."
+          ]
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Test parameters including role, browser, and other test-specific settings",
+          "minProperties": 1,
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "array", "items": { "type": "string" } }
+            ]
+          },
+          "examples": [
+            {
+              "role": "lodCreate",
+              "browser": "Chrome"
+            },
+            {
+              "role": "sysAdmin",
+              "testUser": "Dummy user ID"
+            }
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "description": "Ordered list of test execution steps in Azure DevOps Test Plans format",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "description": "A single test step with Azure DevOps required fields (Test Step, Step Action, Step Expected)",
+            "required": ["test_step", "step_action", "step_expected"],
+            "properties": {
+              "test_step": {
+                "type": "integer",
+                "description": "Step order number (1-based sequential numbering) - maps to Azure DevOps 'Test Step' field",
+                "minimum": 1,
+                "examples": [1, 2, 3]
+              },
+              "step_action": {
+                "type": "string",
+                "description": "Action to perform in this test step - maps to Azure DevOps 'Step Action' field",
+                "minLength": 1,
+                "examples": [
+                  "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                  "Click on the \"LOD\" menu item in the navigation bar.",
+                  "Navigate to logout button and successfully log out (verify session ends)."
+                ]
+              },
+              "step_expected": {
+                "type": "string",
+                "description": "Expected outcome after performing the step action - maps to Azure DevOps 'Step Expected' field",
+                "minLength": 1,
+                "examples": [
+                  "Login successful and dashboard loads completely.",
+                  "LOD menu expands showing submenu items.",
+                  "Logout successful and redirected to login page."
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "examples": [
+            [
+              {
+                "test_step": 1,
+                "step_action": "Open browser, navigate to login page, enter valid credentials for @role, and successfully log in (verify dashboard loads).",
+                "step_expected": "Login successful and dashboard loads completely."
+              },
+              {
+                "test_step": 2,
+                "step_action": "Click on the \"LOD\" menu item in the navigation bar.",
+                "step_expected": "LOD menu expands showing submenu items."
+              },
+              {
+                "test_step": 3,
+                "step_action": "Navigate to logout button and successfully log out (verify session ends).",
+                "step_expected": "Logout successful and redirected to login page."
+              }
+            ]
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
