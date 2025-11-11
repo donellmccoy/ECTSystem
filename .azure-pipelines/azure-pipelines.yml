@@ -12,7 +12,7 @@ stages:
     jobs:
       - job: BuildAndTest
         pool:
-          vmImage: 'windows-latest'
+          name: 'Default'
         variables:
           NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/packages
         steps:
