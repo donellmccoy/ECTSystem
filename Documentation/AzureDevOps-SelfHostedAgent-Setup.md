@@ -346,6 +346,65 @@ steps:
     arguments: '--configuration $(buildConfiguration) --no-build'
 ```
 
+## Monitoring Your Agent
+
+The ECTSystem project includes VS Code tasks and PowerShell scripts for monitoring your local agent:
+
+### VS Code Tasks
+
+Press `Ctrl+Shift+P` → "Tasks: Run Task" and select:
+
+1. **`monitor-agent`** - Live monitoring dashboard
+   - Auto-refreshes every 3 seconds
+   - Shows service status, processes, CPU, and memory usage
+   - Displays "✓ BUILD RUNNING!" when processing jobs
+   - Press Ctrl+C to stop
+
+2. **`view-agent-logs`** - Real-time log streaming
+   - Watches the latest diagnostic log file
+   - Shows last 50 lines and streams new entries
+   - Useful for troubleshooting build issues
+
+3. **`check-agent-status`** - Quick status snapshot
+   - One-time status check
+   - Shows service, processes, and work directory
+   - Includes link to Azure DevOps portal
+
+### PowerShell Scripts
+
+You can also run the monitoring scripts directly:
+
+```powershell
+# Quick status check
+.\Scripts\Check-AgentStatus.ps1
+
+# View logs in real-time
+.\Scripts\View-AgentLogs.ps1
+
+# Monitor continuously (auto-refresh)
+.\Scripts\Monitor-Agent.ps1
+```
+
+### Monitoring Locations
+
+- **Service Management**: `services.msc` → Look for `vstsagent.donellmccoy.Default.*`
+- **Diagnostic Logs**: `C:\agents\agent1\_diag\`
+- **Work Directory**: `C:\agents\agent1\_work\`
+- **Azure DevOps Portal**: `https://dev.azure.com/{org}/_settings/agentpools`
+
+### Understanding Agent Activity
+
+**Agent is idle:**
+- Agent.Listener process is running
+- No Agent.Worker process
+- Work directory is empty or unchanged
+
+**Agent is processing a build:**
+- Both Agent.Listener and Agent.Worker processes are running
+- Files appearing in `C:\agents\agent1\_work\`
+- Logs actively being written to `_diag` folder
+- CPU and memory usage increase
+
 ## Additional Resources
 
 - [Azure Pipelines Agent GitHub](https://github.com/microsoft/azure-pipelines-agent)

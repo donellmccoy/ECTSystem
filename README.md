@@ -205,6 +205,92 @@ The tSQLt test suite includes 10 comprehensive tests covering:
 
 For detailed tSQLt installation and troubleshooting, see: `tsqlt/INSTALLATION_GUIDE.md`
 
+## CI/CD Pipeline
+
+### Azure DevOps Self-Hosted Agent
+
+This project uses a self-hosted Windows agent for Azure DevOps pipeline execution. The agent provides better control over build environment, access to local resources, and improved build performance.
+
+#### Agent Configuration
+
+- **Agent Pool**: Default
+- **Agent Name**: DESKTOP-MHOEL5K-Agent-01
+- **Installation Location**: `C:\agents\agent1`
+- **Service Name**: `vstsagent.donellmccoy.Default.DESKTOP-MHOEL5K-Agent-01`
+- **Service Account**: NT AUTHORITY\NETWORK SERVICE
+
+#### Quick Start
+
+**Automated Installation:**
+```powershell
+.\Scripts\Setup-AzureDevOpsAgent.ps1
+```
+
+The setup script will:
+1. Check prerequisites (.NET 9.0, Git, PowerShell 7+)
+2. Download the latest agent version
+3. Install required dependencies
+4. Configure the agent with your credentials
+5. Register as a Windows service
+6. Verify successful installation
+
+**Manual Installation:**
+
+See detailed step-by-step instructions in [Documentation/AzureDevOps-SelfHostedAgent-Setup.md](Documentation/AzureDevOps-SelfHostedAgent-Setup.md)
+
+#### Monitoring the Agent
+
+**VS Code Tasks:**
+
+Run these tasks from VS Code's Command Palette (`Ctrl+Shift+P` → "Tasks: Run Task"):
+
+- **monitor-agent**: Live monitoring with auto-refresh every 3 seconds
+- **view-agent-logs**: Real-time log streaming from diagnostics
+- **check-agent-status**: Quick snapshot of agent status
+
+**PowerShell Scripts:**
+
+Direct script execution:
+```powershell
+# Live monitoring
+.\Scripts\Monitor-Agent.ps1
+
+# View logs in real-time
+.\Scripts\View-AgentLogs.ps1
+
+# Quick status check
+.\Scripts\Check-AgentStatus.ps1
+```
+
+**Azure DevOps Portal:**
+
+Monitor agent status and view build history at:
+https://dev.azure.com/donellmccoy/ECTSystem/_settings/agentpools?poolId=1&view=jobs
+
+#### Pipeline Configuration
+
+The pipeline is configured in `.azure-pipelines/azure-pipelines.yml` to use the self-hosted agent:
+
+```yaml
+pool:
+  name: 'Default'
+```
+
+To trigger a build:
+1. Navigate to https://dev.azure.com/donellmccoy/ECTSystem/_build
+2. Select the pipeline
+3. Click "Run pipeline"
+
+The build will execute on your local self-hosted agent, and you can monitor progress using the VS Code tasks listed above.
+
+#### Documentation
+
+For comprehensive documentation on the self-hosted agent:
+
+- **[Documentation/AzureDevOps-SelfHostedAgent-Setup.md](Documentation/AzureDevOps-SelfHostedAgent-Setup.md)** - Complete setup guide with prerequisites, installation steps, and monitoring
+- **[Documentation/AzureDevOps-Agent-Configuration-Templates.md](Documentation/AzureDevOps-Agent-Configuration-Templates.md)** - Configuration examples for different scenarios
+- **[Documentation/AzureDevOps-Agent-Troubleshooting.md](Documentation/AzureDevOps-Agent-Troubleshooting.md)** - Common issues and solutions
+
 ## Contributing
 
 1. Fork the repository

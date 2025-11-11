@@ -57,8 +57,9 @@
             "command": "powershell",
             "args": [
                 "-NoExit",
-                "-Command",
-                "Write-Host 'Monitoring Azure DevOps Agent...' -ForegroundColor Cyan; Write-Host ''; while ($true) { Clear-Host; Write-Host '=== Azure DevOps Agent Monitor ===' -ForegroundColor Cyan; Write-Host ''; Write-Host 'Service Status:' -ForegroundColor Yellow; Get-Service 'vstsagent.*' | Format-Table Name, Status, StartType -AutoSize; Write-Host 'Agent Processes:' -ForegroundColor Yellow; Get-Process Agent.* -ErrorAction SilentlyContinue | Format-Table ProcessName, Id, @{N='CPU(s)';E={[math]::Round($_.CPU,2)}}, @{N='Memory(MB)';E={[math]::Round($_.WorkingSet/1MB,2)}} -AutoSize; $worker = Get-Process Agent.Worker -ErrorAction SilentlyContinue; if ($worker) { Write-Host '✓ BUILD RUNNING!' -ForegroundColor Green } else { Write-Host '○ Waiting for jobs...' -ForegroundColor Gray }; Write-Host ''; Write-Host 'Press Ctrl+C to stop monitoring' -ForegroundColor DarkGray; Start-Sleep -Seconds 3 }"
+                "-NoProfile",
+                "-File",
+                "${workspaceFolder}/Scripts/Monitor-Agent.ps1"
             ],
             "isBackground": true,
             "problemMatcher": []
@@ -69,8 +70,9 @@
             "command": "powershell",
             "args": [
                 "-NoExit",
-                "-Command",
-                "$latestLog = Get-ChildItem 'C:\\agents\\agent1\\_diag' -Filter '*.log' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if ($latestLog) { Write-Host \"Watching: $($latestLog.Name)\" -ForegroundColor Cyan; Write-Host ''; Get-Content $latestLog.FullName -Wait -Tail 50 } else { Write-Host 'No logs found' -ForegroundColor Red }"
+                "-NoProfile",
+                "-File",
+                "${workspaceFolder}/Scripts/View-AgentLogs.ps1"
             ],
             "isBackground": true,
             "problemMatcher": []
@@ -80,8 +82,9 @@
             "type": "shell",
             "command": "powershell",
             "args": [
-                "-Command",
-                "Write-Host '=== Azure DevOps Agent Status ===' -ForegroundColor Cyan; Write-Host ''; Write-Host 'Service:' -ForegroundColor Yellow; Get-Service 'vstsagent.*' | Format-Table Name, Status, StartType -AutoSize; Write-Host 'Listener Process:' -ForegroundColor Yellow; Get-Process Agent.Listener -ErrorAction SilentlyContinue | Format-Table ProcessName, Id, StartTime -AutoSize; Write-Host 'Worker Process:' -ForegroundColor Yellow; $worker = Get-Process Agent.Worker -ErrorAction SilentlyContinue; if ($worker) { $worker | Format-Table ProcessName, Id, StartTime -AutoSize; Write-Host '✓ Agent is currently processing a build job' -ForegroundColor Green } else { Write-Host 'No active build jobs' -ForegroundColor Gray }; Write-Host ''; Write-Host 'Work Directory:' -ForegroundColor Yellow; if (Test-Path 'C:\\agents\\agent1\\_work') { Get-ChildItem 'C:\\agents\\agent1\\_work' -ErrorAction SilentlyContinue | Format-Table Name, LastWriteTime -AutoSize } else { Write-Host 'No work directory (no jobs processed yet)' -ForegroundColor Gray }; Write-Host ''; Write-Host 'View in Azure DevOps:' -ForegroundColor Yellow; Write-Host 'https://dev.azure.com/donellmccoy/_settings/agentpools?poolId=1&view=agents' -ForegroundColor Cyan"
+                "-NoProfile",
+                "-File",
+                "${workspaceFolder}/Scripts/Check-AgentStatus.ps1"
             ],
             "problemMatcher": []
         }
