@@ -1,13 +1,17 @@
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<RadzenLayout Style="grid-template-columns: 250px 1fr;">
-    <RadzenSidebar Style="width: 250px;">
+<RadzenComponents />
+<RadzenLayout Style="min-height: 100vh;">
+    <AppHeader OnSidebarToggle="@(() => _sidebarExpanded = !_sidebarExpanded)" />
+    
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" Style="width: 260px; padding: 1rem 0.5rem;">
         <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="/" Style="margin-bottom: 0.5rem; border-radius: 8px;" />
             <RadzenPanelMenuItem Text="Ad Hoc Reporting" Icon="analytics" Path="/reports/ad-hoc-reporting" />
             <RadzenPanelMenuItem Text="Ad Hoc Results" Icon="table_view" Path="/reports/ad-hoc-reporting-results" />
             
-            <RadzenPanelMenuItem Text="LOD Reports" Icon="folder">
+            <RadzenPanelMenuItem Text="LOD Reports" Icon="folder" Expanded="false">
                 <RadzenPanelMenuItem Text="Case History" Path="/reports/case-history-report" />
                 <RadzenPanelMenuItem Text="Category Count" Path="/reports/lod-category-count-report" />
                 <RadzenPanelMenuItem Text="Disapproved" Path="/reports/lod-disapproved-report" />
@@ -26,7 +30,7 @@
                 <RadzenPanelMenuItem Text="Total Count by Process" Path="/reports/lod-total-count-by-process-report" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Other Reports" Icon="description">
+            <RadzenPanelMenuItem Text="Other Reports" Icon="description" Expanded="false">
                 <RadzenPanelMenuItem Text="PAL Documents" Path="/reports/pal-documents" />
                 <RadzenPanelMenuItem Text="PH Totals" Path="/reports/ph-totals-report" />
                 <RadzenPanelMenuItem Text="P-Waivers" Path="/reports/p-waivers-report" />
@@ -37,7 +41,13 @@
         </RadzenPanelMenu>
     </RadzenSidebar>
     
-    <RadzenBody Style="padding: 1rem;">
-        @Body
+    <RadzenBody Style="background: var(--rz-base-100, #f8f9fa);">
+        <div style="padding: 1.5rem 2rem; max-width: 1600px; margin: 0 auto;">
+            @Body
+        </div>
     </RadzenBody>
 </RadzenLayout>
+
+@code {
+    private bool _sidebarExpanded = true;
+}

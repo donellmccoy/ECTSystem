@@ -1,96 +1,106 @@
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<RadzenLayout Style="grid-template-columns: 250px 1fr;">
-    <RadzenSidebar Style="width: 250px;">
+<RadzenComponents />
+<RadzenLayout Style="min-height: 100vh;">
+    <AppHeader OnSidebarToggle="@(() => _sidebarExpanded = !_sidebarExpanded)" />
+    
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" Style="width: 260px; padding: 1rem 0.5rem;">
         <RadzenPanelMenu>
-            <RadzenPanelMenuItem Text="My Account" Icon="account_circle">
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="/" Style="margin-bottom: 0.5rem; border-radius: 8px;" />
+            <RadzenPanelMenuItem Text="My Account" Icon="account_circle" Expanded="false">
                 <RadzenPanelMenuItem Text="Select Account" Path="/help/select-account" />
                 <RadzenPanelMenuItem Text="My Account" Path="/help/my-account" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Documentation" Icon="menu_book">
+            <RadzenPanelMenuItem Text="Documentation" Icon="menu_book" Expanded="false">
                 <RadzenPanelMenuItem Text="ALOD Manual" Path="/help/documentation/alod-manual" />
                 <RadzenPanelMenuItem Text="Master LOD Checklist" Path="/help/documentation/master-lod-checklist" />
-                <RadzenPanelMenuItem Text="Eight Year Rule" Path="/help/documentation/eight-year-rule" />
-                <RadzenPanelMenuItem Text="AFI 36-2910 AFRCSUP1I" Path="/help/documentation/afi36-2910afrcsup1i" />
-                <RadzenPanelMenuItem Text="AFRCI 36-3004" Path="/help/documentation/afrci36-3004" />
-                <RadzenPanelMenuItem Text="DODI 1241.2" Path="/help/documentation/dodi1241-2" />
-                <RadzenPanelMenuItem Text="DODI 1332.38" Path="/help/documentation/dodi1332-38" />
+                <RadzenPanelMenuItem Text="Eight Year Rule" Path="/help/documentation/8-year-rule" />
+                <RadzenPanelMenuItem Text="AFI 36-2910 AFRCSUP1I" Path="/help/documentation/afi-36-2910-afrcsup1-i" />
+                <RadzenPanelMenuItem Text="AFRCI 36-3004" Path="/help/documentation/afrci-36-3004" />
+                <RadzenPanelMenuItem Text="DODI 1241.2" Path="/help/documentation/dodi-1241-2" />
+                <RadzenPanelMenuItem Text="DODI 1332.38" Path="/help/documentation/dodi-1332-38" />
                 <RadzenPanelMenuItem Text="SARC Modifications" Path="/help/documentation/sarc-modifications" />
                 
-                <RadzenPanelMenuItem Text="Briefings" Icon="present_to_all">
+                <RadzenPanelMenuItem Text="Briefings" Icon="present_to_all" Expanded="false">
                     <RadzenPanelMenuItem Text="Medical Briefing" Path="/help/documentation/medical-briefing" />
                     <RadzenPanelMenuItem Text="Personnel Briefing" Path="/help/documentation/personnel-briefing" />
                     <RadzenPanelMenuItem Text="Financial Entitlements" Path="/help/documentation/financial-entitlements-briefing" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Guides" Icon="library_books">
+                <RadzenPanelMenuItem Text="Guides" Icon="library_books" Expanded="false">
                     <RadzenPanelMenuItem Text="LOD Policy for ARC Members" Path="/help/documentation/lod-policy-for-arc-members" />
-                    <RadzenPanelMenuItem Text="AFRC PHA Guide" Path="/help/documentation/afrc-pha-guide-mar2015" />
-                    <RadzenPanelMenuItem Text="AFRC SGP CPM" Path="/help/documentation/afrc-sgp-cpm-jun15" />
+                    <RadzenPanelMenuItem Text="AFRC PHA Guide" Path="/help/documentation/afrc-pha-guide-mar-2015" />
+                    <RadzenPanelMenuItem Text="AFRC SGP CPM" Path="/help/documentation/afrc-sgp-cpm-1-jun-15" />
                     <RadzenPanelMenuItem Text="ALOD RTM" Path="/help/documentation/alod-rtm" />
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="User Guides" Icon="help_outline">
-                <RadzenPanelMenuItem Text="User Account" Path="/help/user-guides/user-account" />
-                <RadzenPanelMenuItem Text="Ad Hoc Reporting" Path="/help/user-guides/ad-hoc-reporting" />
+            <RadzenPanelMenuItem Text="User Guides" Icon="help_outline" Expanded="false">
+                <RadzenPanelMenuItem Text="User Account" Path="/help/documentation/user-account" />
+                <RadzenPanelMenuItem Text="Ad Hoc Reporting" Path="/help/documentation/ad-hoc-reporting" />
                 
-                <RadzenPanelMenuItem Text="Reports" Icon="assessment">
-                    <RadzenPanelMenuItem Text="LOD Category Count" Path="/help/user-guides/lod-category-count-report" />
-                    <RadzenPanelMenuItem Text="LOD Disapproved" Path="/help/user-guides/lod-disapproved-report" />
-                    <RadzenPanelMenuItem Text="LOD Disposition" Path="/help/user-guides/lod-disposition-report" />
-                    <RadzenPanelMenuItem Text="LOD Metrics" Path="/help/user-guides/lod-metrics-report" />
-                    <RadzenPanelMenuItem Text="LOD Physician Cancelled" Path="/help/user-guides/lod-physician-cancelled-report" />
-                    <RadzenPanelMenuItem Text="LOD RWOA" Path="/help/user-guides/lod-rwoa-report" />
-                    <RadzenPanelMenuItem Text="LOD Statistics" Path="/help/user-guides/lod-statistics-report" />
-                    <RadzenPanelMenuItem Text="LOD Total Count" Path="/help/user-guides/lod-total-count-report" />
+                <RadzenPanelMenuItem Text="Reports" Icon="assessment" Expanded="false">
+                    <RadzenPanelMenuItem Text="LOD Category Count" Path="/help/documentation/lod-category-count-report" />
+                    <RadzenPanelMenuItem Text="LOD Disapproved" Path="/help/documentation/lod-dispapproved-report" />
+                    <RadzenPanelMenuItem Text="LOD Disposition" Path="/help/documentation/lod-disposition-report" />
+                    <RadzenPanelMenuItem Text="LOD Metrics" Path="/help/documentation/lod-metrics-report" />
+                    <RadzenPanelMenuItem Text="LOD Physician Cancelled" Path="/help/documentation/lod-physician-cancelled-report" />
+                    <RadzenPanelMenuItem Text="LOD RWOA" Path="/help/documentation/lod-rwoa-report" />
+                    <RadzenPanelMenuItem Text="LOD Statistics" Path="/help/documentation/lod-statistics-report" />
+                    <RadzenPanelMenuItem Text="LOD Total Count" Path="/help/documentation/lod-total-count-report" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Roles" Icon="badge">
-                    <RadzenPanelMenuItem Text="Investigation Officer" Path="/help/user-guides/investigation-officer" />
-                    <RadzenPanelMenuItem Text="Medical Officer" Path="/help/user-guides/medical-officer" />
-                    <RadzenPanelMenuItem Text="Medical Technician" Path="/help/user-guides/medical-technician" />
-                    <RadzenPanelMenuItem Text="MPF" Path="/help/user-guides/mpf" />
-                    <RadzenPanelMenuItem Text="Unit Commander" Path="/help/user-guides/unit-commander" />
-                    <RadzenPanelMenuItem Text="Wing Commander" Path="/help/user-guides/wing-commander" />
-                    <RadzenPanelMenuItem Text="Wing JA" Path="/help/user-guides/wing-ja" />
-                    <RadzenPanelMenuItem Text="Wing SARC" Path="/help/user-guides/wing-sarc" />
+                <RadzenPanelMenuItem Text="Roles" Icon="badge" Expanded="false">
+                    <RadzenPanelMenuItem Text="Investigation Officer" Path="/help/documentation/investigation-officer" />
+                    <RadzenPanelMenuItem Text="Medical Officer" Path="/help/documentation/medical-officer" />
+                    <RadzenPanelMenuItem Text="Medical Technician" Path="/help/documentation/medical-technician" />
+                    <RadzenPanelMenuItem Text="MPF" Path="/help/documentation/mpf" />
+                    <RadzenPanelMenuItem Text="Unit Commander" Path="/help/documentation/unit-commander" />
+                    <RadzenPanelMenuItem Text="Wing Commander" Path="/help/documentation/wing-commander" />
+                    <RadzenPanelMenuItem Text="Wing JA" Path="/help/documentation/wing-ja" />
+                    <RadzenPanelMenuItem Text="Wing SARC" Path="/help/documentation/wing-sarc" />
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Release Notes" Icon="new_releases">
-                <RadzenPanelMenuItem Text="Version 1.2.4" Path="/help/documentation/release-notes/release-notes-v1-2-4" />
-                <RadzenPanelMenuItem Text="Version 1.2.3" Path="/help/documentation/release-notes/release-notes-v1-2-3" />
-                <RadzenPanelMenuItem Text="Version 1.2.2" Path="/help/documentation/release-notes/release-notes-v1-2-2" />
-                <RadzenPanelMenuItem Text="Version 1.2.1" Path="/help/documentation/release-notes/release-notes-v1-2-1" />
-                <RadzenPanelMenuItem Text="Version 1.2.0" Path="/help/documentation/release-notes/release-notes-v1-2-0" />
-                <RadzenPanelMenuItem Text="Version 1.1.11" Path="/help/documentation/release-notes/release-notes-v1-1-11" />
-                <RadzenPanelMenuItem Text="Version 1.1.10.2" Path="/help/documentation/release-notes/release-notes-v1-1-10-2" />
-                <RadzenPanelMenuItem Text="Version 1.1.9" Path="/help/documentation/release-notes/release-notes-v1-1-9" />
-                <RadzenPanelMenuItem Text="Earlier Versions..." Icon="more_horiz">
-                    <RadzenPanelMenuItem Text="Version 1.1.7" Path="/help/documentation/release-notes/release-notes-v1-1-7" />
-                    <RadzenPanelMenuItem Text="Version 1.1.6" Path="/help/documentation/release-notes/release-notes-v1-1-6" />
-                    <RadzenPanelMenuItem Text="Version 1.1.5" Path="/help/documentation/release-notes/release-notes-v1-1-5" />
-                    <RadzenPanelMenuItem Text="Version 1.1.4.1" Path="/help/documentation/release-notes/release-notes-v1-1-4-1" />
-                    <RadzenPanelMenuItem Text="Version 1.1.4" Path="/help/documentation/release-notes/release-notes-v1-1-4" />
-                    <RadzenPanelMenuItem Text="Version 1.1.3" Path="/help/documentation/release-notes/release-notes-v1-1-3" />
-                    <RadzenPanelMenuItem Text="Version 1.1.1" Path="/help/documentation/release-notes/release-notes-v1-1-1" />
-                    <RadzenPanelMenuItem Text="Version 1.1.0" Path="/help/documentation/release-notes/release-notes-v1-1-0" />
-                    <RadzenPanelMenuItem Text="Version 1.0.10" Path="/help/documentation/release-notes/release-notes-v1-0-10" />
-                    <RadzenPanelMenuItem Text="Version 1.0.9" Path="/help/documentation/release-notes/release-notes-v1-0-9" />
+            <RadzenPanelMenuItem Text="Release Notes" Icon="new_releases" Expanded="false">
+                <RadzenPanelMenuItem Text="Version 1.2.4" Path="/help/documentation/release-notes-v1-2-4" />
+                <RadzenPanelMenuItem Text="Version 1.2.3" Path="/help/documentation/release-notes-v1-2-3" />
+                <RadzenPanelMenuItem Text="Version 1.2.2" Path="/help/documentation/release-notes-v1-2-2" />
+                <RadzenPanelMenuItem Text="Version 1.2.1" Path="/help/documentation/release-notes-v1-2-1" />
+                <RadzenPanelMenuItem Text="Version 1.2.0" Path="/help/documentation/release-notes-v1-2-0" />
+                <RadzenPanelMenuItem Text="Version 1.1.11" Path="/help/documentation/release-notes-v1-1-11" />
+                <RadzenPanelMenuItem Text="Version 1.1.10.2" Path="/help/documentation/release-notes-v1-1-10-2" />
+                <RadzenPanelMenuItem Text="Version 1.1.9" Path="/help/documentation/release-notes-v1-1-9" />
+                <RadzenPanelMenuItem Text="Earlier Versions..." Icon="more_horiz" Expanded="false">
+                    <RadzenPanelMenuItem Text="Version 1.1.7" Path="/help/documentation/release-notes-v1-1-7" />
+                    <RadzenPanelMenuItem Text="Version 1.1.6" Path="/help/documentation/release-notes-v1-1-6" />
+                    <RadzenPanelMenuItem Text="Version 1.1.5" Path="/help/documentation/release-notes-v1-1-5" />
+                    <RadzenPanelMenuItem Text="Version 1.1.4.1" Path="/help/documentation/release-notes-v1-1-4-1" />
+                    <RadzenPanelMenuItem Text="Version 1.1.4" Path="/help/documentation/release-notes-v1-1-4" />
+                    <RadzenPanelMenuItem Text="Version 1.1.3" Path="/help/documentation/release-notes-v1-1-3" />
+                    <RadzenPanelMenuItem Text="Version 1.1.1" Path="/help/documentation/release-notes-v1-1-1" />
+                    <RadzenPanelMenuItem Text="Version 1.1.0" Path="/help/documentation/release-notes-v1-1-0" />
+                    <RadzenPanelMenuItem Text="Version 1.0.10" Path="/help/documentation/release-notes-v1-0-10" />
+                    <RadzenPanelMenuItem Text="Version 1.0.9" Path="/help/documentation/release-notes-v1-0-9" />
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Training Materials" Icon="school">
+            <RadzenPanelMenuItem Text="Training Materials" Icon="school" Expanded="false">
                 <RadzenPanelMenuItem Text="AFRC ALOD Instructions 1.1.11" Path="/help/documentation/afrc-alod-instr-for-1-1-11" />
                 <RadzenPanelMenuItem Text="AFRC ALOD Instructions 1.1.10.2" Path="/help/documentation/afrc-alod-instr-for-1-1-10-2" />
             </RadzenPanelMenuItem>
         </RadzenPanelMenu>
     </RadzenSidebar>
     
-    <RadzenBody Style="padding: 1rem;">
-        @Body
+    <RadzenBody Style="background: var(--rz-base-100, #f8f9fa);">
+        <div style="padding: 1.5rem 2rem; max-width: 1600px; margin: 0 auto;">
+            @Body
+        </div>
     </RadzenBody>
 </RadzenLayout>
+
+@code {
+    private bool _sidebarExpanded = true;
+}

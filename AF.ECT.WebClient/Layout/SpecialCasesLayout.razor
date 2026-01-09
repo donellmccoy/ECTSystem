@@ -1,85 +1,95 @@
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<RadzenLayout Style="grid-template-columns: 250px 1fr;">
-    <RadzenSidebar Style="width: 250px;">
+<RadzenComponents />
+<RadzenLayout Style="min-height: 100vh;">
+    <AppHeader OnSidebarToggle="@(() => _sidebarExpanded = !_sidebarExpanded)" />
+    
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" Style="width: 260px; padding: 1rem 0.5rem;">
         <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="/" Style="margin-bottom: 0.5rem; border-radius: 8px;" />
             <RadzenPanelMenuItem Text="My Special Cases" Icon="star" Path="/special-cases/my-special-cases" />
             <RadzenPanelMenuItem Text="Search" Icon="search" Path="/special-cases/search" />
             <RadzenPanelMenuItem Text="Other Cases" Icon="folder_special" Path="/special-cases/other-cases" />
             
-            <RadzenPanelMenuItem Text="Case Types" Icon="category">
-                <RadzenPanelMenuItem Text="BMT" Icon="article">
-                    <RadzenPanelMenuItem Text="My BMTs" Path="/special-cases/bmt/my-bmts" />
-                    <RadzenPanelMenuItem Text="Start New BMT" Path="/special-cases/bmt/start-new-bmt" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/bmt/search" />
+            <RadzenPanelMenuItem Text="Case Types" Icon="category" Expanded="false">
+                <RadzenPanelMenuItem Text="BMT" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My BMTs" Path="/bmt/my-bmts" />
+                    <RadzenPanelMenuItem Text="Start New BMT" Path="/bmt/start-new-bmt" />
+                    <RadzenPanelMenuItem Text="Search" Path="/bmt/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="BCMR" Icon="article">
-                    <RadzenPanelMenuItem Text="My BCMRs" Path="/special-cases/bcmr/my-bcmrs" />
-                    <RadzenPanelMenuItem Text="Start New BCMR" Path="/special-cases/bcmr/start-new-bcmr" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/bcmr/search" />
+                <RadzenPanelMenuItem Text="BCMR" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My BCMRs" Path="/bcmr/my-bcmrs" />
+                    <RadzenPanelMenuItem Text="Start New BCMR" Path="/bcmr/start-new-bcmr" />
+                    <RadzenPanelMenuItem Text="Search" Path="/bcmr/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="CMAS" Icon="article">
-                    <RadzenPanelMenuItem Text="My CMASs" Path="/special-cases/cmas/my-cmass" />
-                    <RadzenPanelMenuItem Text="Start New CMAS" Path="/special-cases/cmas/start-new-cmas" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/cmas/search" />
+                <RadzenPanelMenuItem Text="CMAS" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My CMASs" Path="/cmas/my-cmass" />
+                    <RadzenPanelMenuItem Text="Start New CMAS" Path="/cmas/start-new-cmas" />
+                    <RadzenPanelMenuItem Text="Search" Path="/cmas/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="CI" Icon="article">
-                    <RadzenPanelMenuItem Text="My CIs" Path="/special-cases/ci/my-cis" />
-                    <RadzenPanelMenuItem Text="Start New CI" Path="/special-cases/ci/start-new-ci" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/ci/search" />
+                <RadzenPanelMenuItem Text="CI" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My CIs" Path="/ci/my-cis" />
+                    <RadzenPanelMenuItem Text="Start New CI" Path="/ci/start-new-ci" />
+                    <RadzenPanelMenuItem Text="Search" Path="/ci/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="DW" Icon="article">
-                    <RadzenPanelMenuItem Text="My DWs" Path="/special-cases/dw/my-dws" />
-                    <RadzenPanelMenuItem Text="Start New DW" Path="/special-cases/dw/start-new-dw" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/dw/search" />
+                <RadzenPanelMenuItem Text="DW" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My DWs" Path="/dw/my-dws" />
+                    <RadzenPanelMenuItem Text="Start New DW" Path="/dw/start-new-dw" />
+                    <RadzenPanelMenuItem Text="Search" Path="/dw/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="INCAP" Icon="article">
-                    <RadzenPanelMenuItem Text="My INCAPs" Path="/special-cases/incap/my-incaps" />
-                    <RadzenPanelMenuItem Text="Start New INCAP" Path="/special-cases/incap/start-new-incap" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/incap/search" />
+                <RadzenPanelMenuItem Text="INCAP" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My INCAPs" Path="/incap/my-incaps" />
+                    <RadzenPanelMenuItem Text="Start New INCAP" Path="/incap/start-new-incap" />
+                    <RadzenPanelMenuItem Text="Search" Path="/incap/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="IRILO" Icon="article">
-                    <RadzenPanelMenuItem Text="My IRILOs" Path="/special-cases/irilo/my-irilos" />
-                    <RadzenPanelMenuItem Text="Start New IRILO" Path="/special-cases/irilo/start-new-irilo" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/irilo/search" />
+                <RadzenPanelMenuItem Text="IRILO" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My IRILOs" Path="/irilo/my-irilos" />
+                    <RadzenPanelMenuItem Text="Start New IRILO" Path="/irilo/start-new-irilo" />
+                    <RadzenPanelMenuItem Text="Search" Path="/irilo/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="MEB" Icon="article">
-                    <RadzenPanelMenuItem Text="My MEBs" Path="/special-cases/meb/my-mebs" />
-                    <RadzenPanelMenuItem Text="Start New MEB" Path="/special-cases/meb/start-new-meb" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/meb/search" />
+                <RadzenPanelMenuItem Text="MEB" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My MEBs" Path="/meb/my-mebs" />
+                    <RadzenPanelMenuItem Text="Start New MEB" Path="/meb/start-new-meb" />
+                    <RadzenPanelMenuItem Text="Search" Path="/meb/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="MH" Icon="article">
-                    <RadzenPanelMenuItem Text="My MHs" Path="/special-cases/mh/my-mhs" />
-                    <RadzenPanelMenuItem Text="Start New MH" Path="/special-cases/mh/start-new-mh" />
-                    <RadzenPanelMenuItem Text="Search" Path="/special-cases/mh/search" />
+                <RadzenPanelMenuItem Text="MH" Icon="article" Expanded="false">
+                    <RadzenPanelMenuItem Text="My MHs" Path="/mh/my-mhs" />
+                    <RadzenPanelMenuItem Text="Start New MH" Path="/mh/start-new-mh" />
+                    <RadzenPanelMenuItem Text="Search" Path="/mh/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="More..." Icon="more_horiz">
-                    <RadzenPanelMenuItem Text="MO" Path="/special-cases/mo/my-mos" />
-                    <RadzenPanelMenuItem Text="NE" Path="/special-cases/ne/my-nes" />
-                    <RadzenPanelMenuItem Text="PWaiver" Path="/special-cases/pwaiver/my-pwaivers" />
-                    <RadzenPanelMenuItem Text="AGR" Path="/special-cases/agr/my-agrs" />
-                    <RadzenPanelMenuItem Text="PEPP" Path="/special-cases/pepp/my-pepps" />
-                    <RadzenPanelMenuItem Text="RS" Path="/special-cases/rs/my-rss" />
-                    <RadzenPanelMenuItem Text="RW" Path="/special-cases/rw/my-rws" />
-                    <RadzenPanelMenuItem Text="WWD" Path="/special-cases/wwd/my-wwds" />
-                    <RadzenPanelMenuItem Text="PSCD" Path="/special-cases/pscd/my-pscds" />
-                    <RadzenPanelMenuItem Text="PH" Path="/special-cases/ph/my-phs" />
+                <RadzenPanelMenuItem Text="More..." Icon="more_horiz" Expanded="false">
+                    <RadzenPanelMenuItem Text="MO" Path="/mo/my-mos" />
+                    <RadzenPanelMenuItem Text="NE" Path="/ne/my-nes" />
+                    <RadzenPanelMenuItem Text="PWaiver" Path="/pwaiver/my-pwaivers" />
+                    <RadzenPanelMenuItem Text="AGR" Path="/agr/my-agrs" />
+                    <RadzenPanelMenuItem Text="PEPP" Path="/pepp/my-pepps" />
+                    <RadzenPanelMenuItem Text="RS" Path="/rs/my-rss" />
+                    <RadzenPanelMenuItem Text="RW" Path="/rw/my-rws" />
+                    <RadzenPanelMenuItem Text="WWD" Path="/wwd/my-wwds" />
+                    <RadzenPanelMenuItem Text="PSCD" Path="/pscd/my-pscds" />
+                    <RadzenPanelMenuItem Text="PH" Path="/ph/my-phs" />
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
         </RadzenPanelMenu>
     </RadzenSidebar>
     
-    <RadzenBody Style="padding: 1rem;">
-        @Body
+    <RadzenBody Style="background: var(--rz-base-100, #f8f9fa);">
+        <div style="padding: 1.5rem 2rem; max-width: 1600px; margin: 0 auto;">
+            @Body
+        </div>
     </RadzenBody>
 </RadzenLayout>
+
+@code {
+    private bool _sidebarExpanded = true;
+}
