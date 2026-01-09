@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.CI;
+namespace AF.ECT.WebClient.Pages.Cases.Administrative.CI;
 
 /// <summary>
 /// Code-behind for the Search page.

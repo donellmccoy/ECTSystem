@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.BCMR;
+namespace AF.ECT.WebClient.Pages.Cases.Administrative.BCMR;
 
 /// <summary>
 /// Code-behind for the MyBCMRs page.

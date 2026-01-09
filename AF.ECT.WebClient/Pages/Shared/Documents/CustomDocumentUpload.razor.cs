@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.Common;
+namespace AF.ECT.WebClient.Pages.Shared.Documents;
 
 /// <summary>
 /// Code-behind for the CustomDocumentUpload page.

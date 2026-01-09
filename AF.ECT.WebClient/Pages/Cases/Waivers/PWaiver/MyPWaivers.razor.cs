@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.PWaiver;
+namespace AF.ECT.WebClient.Pages.Cases.Waivers.PWaiver;
 
 /// <summary>
 /// Code-behind for the MyPWaivers page.

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.MEB;
+namespace AF.ECT.WebClient.Pages.Cases.Medical.MEB;
 
 /// <summary>
 /// Code-behind for the StartNewMEB page.

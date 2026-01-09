@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.DW;
+namespace AF.ECT.WebClient.Pages.Cases.Waivers.DW;
 
 /// <summary>
 /// Code-behind for the Search page.

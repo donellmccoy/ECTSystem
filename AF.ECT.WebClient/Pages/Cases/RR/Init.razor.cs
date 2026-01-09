@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.RR;
+namespace AF.ECT.WebClient.Pages.Cases.RR;
 
 /// <summary>
 /// Code-behind for the Init page.

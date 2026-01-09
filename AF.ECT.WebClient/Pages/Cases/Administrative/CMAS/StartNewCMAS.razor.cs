@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.CMAS;
+namespace AF.ECT.WebClient.Pages.Cases.Administrative.CMAS;
 
 /// <summary>
 /// Code-behind for the StartNewCMAS page.

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.SARC;
+namespace AF.ECT.WebClient.Pages.Cases.SARC;
 
 /// <summary>
 /// Code-behind for the SARCPrint page.

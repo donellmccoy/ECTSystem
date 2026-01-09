@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Radzen;
 
-namespace AF.ECT.WebClient.Pages;
+namespace AF.ECT.WebClient.Pages.Dashboard;
 
 /// <summary>
 /// Code-behind for the Index page.

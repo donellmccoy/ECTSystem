@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.SARCAppeal;
+namespace AF.ECT.WebClient.Pages.Cases.SARCAppeal;
 
 /// <summary>
 /// Code-behind for the SARCAppealTracking page.

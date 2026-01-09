@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.AGRCertification;
+namespace AF.ECT.WebClient.Pages.Cases.Medical.AGRCertification;
 
 /// <summary>
 /// Code-behind for the MyAGRs page.

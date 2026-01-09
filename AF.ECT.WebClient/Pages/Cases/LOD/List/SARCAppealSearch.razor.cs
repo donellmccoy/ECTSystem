@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.LOD;
+namespace AF.ECT.WebClient.Pages.Cases.LOD.List;
 
 /// <summary>
 /// Code-behind for the SARCAppealSearch page.

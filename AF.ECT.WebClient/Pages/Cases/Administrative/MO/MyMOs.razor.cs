@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.MO;
+namespace AF.ECT.WebClient.Pages.Cases.Administrative.MO;
 
 /// <summary>
 /// Code-behind for the MyMOs page.

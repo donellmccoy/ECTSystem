@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.BMTWaivers;
+namespace AF.ECT.WebClient.Pages.Cases.Waivers.BMTWaivers;
 
 /// <summary>
 /// Code-behind for the Search page.

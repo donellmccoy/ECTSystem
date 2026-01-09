@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.MH;
+namespace AF.ECT.WebClient.Pages.Cases.Medical.MH;
 
 /// <summary>
 /// Code-behind for the MyMHs page.

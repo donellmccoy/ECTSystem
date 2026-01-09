@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.RS;
+namespace AF.ECT.WebClient.Pages.Cases.Administrative.RS;
 
 /// <summary>
 /// Code-behind for the MyRSs page.

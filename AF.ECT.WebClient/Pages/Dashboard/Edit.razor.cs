@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages;
+namespace AF.ECT.WebClient.Pages.Dashboard;
 
 /// <summary>
 /// Code-behind for the Edit page.

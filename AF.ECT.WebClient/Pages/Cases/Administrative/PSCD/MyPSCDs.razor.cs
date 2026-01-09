@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.PSCD;
+namespace AF.ECT.WebClient.Pages.Cases.Administrative.PSCD;
 
 /// <summary>
 /// Code-behind for the MyPSCDs page.

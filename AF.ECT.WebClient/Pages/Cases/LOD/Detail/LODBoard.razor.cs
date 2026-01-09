@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.LineOfDuty;
+namespace AF.ECT.WebClient.Pages.Cases.LOD.Detail;
 
 /// <summary>
 /// Code-behind for the LODBoard page.

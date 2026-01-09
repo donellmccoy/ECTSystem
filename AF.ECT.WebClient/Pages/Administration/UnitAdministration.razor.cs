@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages;
+namespace AF.ECT.WebClient.Pages.Administration;
 
 /// <summary>
 /// Code-behind for the UnitAdministration page.

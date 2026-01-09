@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.NE;
+namespace AF.ECT.WebClient.Pages.Cases.Administrative.NE;
 
 /// <summary>
 /// Code-behind for the StartNewNE page.

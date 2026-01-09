@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.PHTracking;
+namespace AF.ECT.WebClient.Pages.Cases.Administrative.PHTracking;
 
 /// <summary>
 /// Code-behind for the GeneratePHForm page.

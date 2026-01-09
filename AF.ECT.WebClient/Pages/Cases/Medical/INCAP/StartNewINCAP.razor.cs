@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.INCAP;
+namespace AF.ECT.WebClient.Pages.Cases.Medical.INCAP;
 
 /// <summary>
 /// Code-behind for the StartNewINCAP page.

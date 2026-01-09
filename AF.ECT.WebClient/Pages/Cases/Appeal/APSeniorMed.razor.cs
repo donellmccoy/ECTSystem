@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace AF.ECT.WebClient.Pages.Appeal;
+namespace AF.ECT.WebClient.Pages.Cases.Appeal;
 
 /// <summary>
 /// Code-behind for the APSeniorMed page.
