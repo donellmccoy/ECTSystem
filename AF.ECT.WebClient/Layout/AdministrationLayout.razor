@@ -1,3 +1,4 @@
+@using Radzen.Blazor
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
@@ -8,20 +9,20 @@
     <RadzenSidebar @bind-Expanded="@_sidebarExpanded" Style="width: 260px; padding: 1rem 0.5rem;">
         <RadzenPanelMenu>
             <RadzenPanelMenuItem Text="Home" Icon="home" Path="/" Style="margin-bottom: 0.5rem; border-radius: 8px;" />
-            <RadzenPanelMenuItem Text="Create" Icon="add_circle" Expanded="false">
+            <RadzenPanelMenuItem Text="Create" Icon="add_circle" Expanded="@false">
                 <RadzenPanelMenuItem Text="Add Member" Path="/administration/create/add-member" />
                 <RadzenPanelMenuItem Text="Create Unit" Path="/administration/create/create-unit" />
                 <RadzenPanelMenuItem Text="Create User" Path="/administration/create/create-user" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Emails" Icon="email" Expanded="false">
+            <RadzenPanelMenuItem Text="Emails" Icon="email" Expanded="@false">
                 <RadzenPanelMenuItem Text="Email Templates" Path="/administration/emails/email-templates" />
                 <RadzenPanelMenuItem Text="Email Test" Path="/administration/emails/email-test" />
                 <RadzenPanelMenuItem Text="Inactive Email Settings" Path="/administration/emails/inactive-email-settings" />
                 <RadzenPanelMenuItem Text="Send System Emails" Path="/administration/emails/send-system-emails" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Lookup" Icon="search" Expanded="false">
+            <RadzenPanelMenuItem Text="Lookup" Icon="search" Expanded="@false">
                 <RadzenPanelMenuItem Text="ARCNet User Lookup" Path="/administration/lookup/arcnet-user-lookup" />
                 <RadzenPanelMenuItem Text="Approval Authorities" Path="/administration/lookup/approval-authorities" />
                 <RadzenPanelMenuItem Text="Case Locks" Path="/administration/lookup/case-locks" />
@@ -32,14 +33,14 @@
                 <RadzenPanelMenuItem Text="Users Online" Path="/administration/lookup/users-online" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Manage" Icon="settings" Expanded="false">
-                <RadzenPanelMenuItem Text="Groups" Icon="group" Expanded="false">
+            <RadzenPanelMenuItem Text="Manage" Icon="settings" Expanded="@false">
+                <RadzenPanelMenuItem Text="Groups" Icon="group" Expanded="@false">
                     <RadzenPanelMenuItem Text="Edit Groups" Path="/administration/manage/groups/edit-groups" />
                     <RadzenPanelMenuItem Text="Group Approval" Path="/administration/manage/groups/group-approval" />
                     <RadzenPanelMenuItem Text="Group Permissions" Path="/administration/manage/groups/group-permissions" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Lookups" Icon="list" Expanded="false">
+                <RadzenPanelMenuItem Text="Lookups" Icon="list" Expanded="@false">
                     <RadzenPanelMenuItem Text="Manage Cancel Reasons" Path="/administration/manage/manage-cancel-reasons" />
                     <RadzenPanelMenuItem Text="Manage Lookups" Path="/administration/manage/manage-lookups" />
                     <RadzenPanelMenuItem Text="Edit Case Types" Path="/administration/manage/edit-case-types" />
@@ -51,7 +52,7 @@
                     <RadzenPanelMenuItem Text="Edit LOD Unit" Path="/administration/manage/edit-lod-unit" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Content" Icon="article" Expanded="false">
+                <RadzenPanelMenuItem Text="Content" Icon="article" Expanded="@false">
                     <RadzenPanelMenuItem Text="Manage HyperLinks" Path="/administration/manage/manage-hyper-links" />
                     <RadzenPanelMenuItem Text="Manage Messages" Path="/administration/manage/manage-messages" />
                     <RadzenPanelMenuItem Text="Manage Units" Path="/administration/manage/manage-units" />
@@ -59,7 +60,7 @@
                     <RadzenPanelMenuItem Text="Mapped Values" Path="/administration/manage/mapped-values" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="PH Workflow" Icon="medical_services" Expanded="false">
+                <RadzenPanelMenuItem Text="PH Workflow" Icon="medical_services" Expanded="@false">
                     <RadzenPanelMenuItem Text="Edit PH Fields" Path="/administration/manage/manage-ph-workflow-form/edit-ph-fields" />
                     <RadzenPanelMenuItem Text="Edit PH Field Types" Path="/administration/manage/manage-ph-workflow-form/edit-ph-field-types" />
                     <RadzenPanelMenuItem Text="Edit PH Form Fields" Path="/administration/manage/manage-ph-workflow-form/edit-ph-form-fields" />
@@ -68,23 +69,23 @@
                     <RadzenPanelMenuItem Text="Test PH Form" Path="/administration/manage/manage-ph-workflow-form/test-ph-form" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Pages" Icon="web" Expanded="false">
+                <RadzenPanelMenuItem Text="Pages" Icon="web" Expanded="@false">
                     <RadzenPanelMenuItem Text="Manage Pages" Path="/administration/manage/pages/manage-pages" />
                     <RadzenPanelMenuItem Text="Page Access" Path="/administration/manage/pages/page-access" />
                     <RadzenPanelMenuItem Text="Welcome Page Banner" Path="/administration/manage/pages/welcome-page-banner" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Workflows" Icon="workflow" Expanded="false">
+                <RadzenPanelMenuItem Text="Workflows" Icon="workflow" Expanded="@false">
                     <RadzenPanelMenuItem Text="Workflow View" Path="/administration/manage/workflows/workflow-view" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Memo" Icon="description" Expanded="false">
+                <RadzenPanelMenuItem Text="Memo" Icon="description" Expanded="@false">
                     <RadzenPanelMenuItem Text="Memo Mapped Values" Path="/administration/manage/memo/memo-mapped-values" />
                     <RadzenPanelMenuItem Text="Memo Templates" Path="/administration/manage/memo/memo-templates" />
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="System Admin" Icon="admin_panel_settings" Expanded="false">
+            <RadzenPanelMenuItem Text="System Admin" Icon="admin_panel_settings" Expanded="@false">
                 <RadzenPanelMenuItem Text="Error Log" Path="/administration/system-admin/error/error-log" />
                 <RadzenPanelMenuItem Text="Error Test" Path="/administration/system-admin/error/error-test" />
                 <RadzenPanelMenuItem Text="Historical Copy" Path="/administration/system-admin/historical-copy-snapshot" />
@@ -95,14 +96,14 @@
                 <RadzenPanelMenuItem Text="Test Page" Path="/administration/system-admin/test-page" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="User Management" Icon="person" Expanded="false">
+            <RadzenPanelMenuItem Text="User Management" Icon="person" Expanded="@false">
                 <RadzenPanelMenuItem Text="Edit Member" Path="/administration/edit-member" />
                 <RadzenPanelMenuItem Text="User Permissions" Path="/administration/user-permissions" />
                 <RadzenPanelMenuItem Text="User Activity Log" Path="/administration/user-activity-log" />
                 <RadzenPanelMenuItem Text="Edit Template" Path="/administration/edit-template" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Workflow Management" Icon="account_tree" Expanded="false">
+            <RadzenPanelMenuItem Text="Workflow Management" Icon="account_tree" Expanded="@false">
                 <RadzenPanelMenuItem Text="Workflow Permissions" Path="/administration/workflow-permissions" />
                 <RadzenPanelMenuItem Text="Workflow Steps" Path="/administration/workflow-steps" />
                 <RadzenPanelMenuItem Text="Option Rules" Path="/administration/option-rules" />
@@ -110,7 +111,7 @@
                 <RadzenPanelMenuItem Text="Reminder Emails" Path="/administration/reminder-emails" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="My Account" Icon="account_circle" Expanded="false">
+            <RadzenPanelMenuItem Text="My Account" Icon="account_circle" Expanded="@false">
                 <RadzenPanelMenuItem Text="Edit User Account" Path="/administration/edit-user-account" />
                 <RadzenPanelMenuItem Text="Print Account History" Path="/administration/print-account-history" />
             </RadzenPanelMenuItem>

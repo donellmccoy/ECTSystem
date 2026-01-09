@@ -8,12 +8,12 @@
     <RadzenSidebar @bind-Expanded="@_sidebarExpanded" Style="width: 260px; padding: 1rem 0.5rem;">
         <RadzenPanelMenu>
             <RadzenPanelMenuItem Text="Home" Icon="home" Path="/" Style="margin-bottom: 0.5rem; border-radius: 8px;" />
-            <RadzenPanelMenuItem Text="My Account" Icon="account_circle" Expanded="false">
+            <RadzenPanelMenuItem Text="My Account" Icon="account_circle" Expanded="@false">
                 <RadzenPanelMenuItem Text="Select Account" Path="/help/select-account" />
                 <RadzenPanelMenuItem Text="My Account" Path="/help/my-account" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Documentation" Icon="menu_book" Expanded="false">
+            <RadzenPanelMenuItem Text="Documentation" Icon="menu_book" Expanded="@false">
                 <RadzenPanelMenuItem Text="ALOD Manual" Path="/help/documentation/alod-manual" />
                 <RadzenPanelMenuItem Text="Master LOD Checklist" Path="/help/documentation/master-lod-checklist" />
                 <RadzenPanelMenuItem Text="Eight Year Rule" Path="/help/documentation/8-year-rule" />
@@ -23,13 +23,13 @@
                 <RadzenPanelMenuItem Text="DODI 1332.38" Path="/help/documentation/dodi-1332-38" />
                 <RadzenPanelMenuItem Text="SARC Modifications" Path="/help/documentation/sarc-modifications" />
                 
-                <RadzenPanelMenuItem Text="Briefings" Icon="present_to_all" Expanded="false">
+                <RadzenPanelMenuItem Text="Briefings" Icon="present_to_all" Expanded="@false">
                     <RadzenPanelMenuItem Text="Medical Briefing" Path="/help/documentation/medical-briefing" />
                     <RadzenPanelMenuItem Text="Personnel Briefing" Path="/help/documentation/personnel-briefing" />
                     <RadzenPanelMenuItem Text="Financial Entitlements" Path="/help/documentation/financial-entitlements-briefing" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Guides" Icon="library_books" Expanded="false">
+                <RadzenPanelMenuItem Text="Guides" Icon="library_books" Expanded="@false">
                     <RadzenPanelMenuItem Text="LOD Policy for ARC Members" Path="/help/documentation/lod-policy-for-arc-members" />
                     <RadzenPanelMenuItem Text="AFRC PHA Guide" Path="/help/documentation/afrc-pha-guide-mar-2015" />
                     <RadzenPanelMenuItem Text="AFRC SGP CPM" Path="/help/documentation/afrc-sgp-cpm-1-jun-15" />
@@ -37,11 +37,11 @@
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="User Guides" Icon="help_outline" Expanded="false">
+            <RadzenPanelMenuItem Text="User Guides" Icon="help_outline" Expanded="@false">
                 <RadzenPanelMenuItem Text="User Account" Path="/help/documentation/user-account" />
                 <RadzenPanelMenuItem Text="Ad Hoc Reporting" Path="/help/documentation/ad-hoc-reporting" />
                 
-                <RadzenPanelMenuItem Text="Reports" Icon="assessment" Expanded="false">
+                <RadzenPanelMenuItem Text="Reports" Icon="assessment" Expanded="@false">
                     <RadzenPanelMenuItem Text="LOD Category Count" Path="/help/documentation/lod-category-count-report" />
                     <RadzenPanelMenuItem Text="LOD Disapproved" Path="/help/documentation/lod-dispapproved-report" />
                     <RadzenPanelMenuItem Text="LOD Disposition" Path="/help/documentation/lod-disposition-report" />
@@ -52,7 +52,7 @@
                     <RadzenPanelMenuItem Text="LOD Total Count" Path="/help/documentation/lod-total-count-report" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Roles" Icon="badge" Expanded="false">
+                <RadzenPanelMenuItem Text="Roles" Icon="badge" Expanded="@false">
                     <RadzenPanelMenuItem Text="Investigation Officer" Path="/help/documentation/investigation-officer" />
                     <RadzenPanelMenuItem Text="Medical Officer" Path="/help/documentation/medical-officer" />
                     <RadzenPanelMenuItem Text="Medical Technician" Path="/help/documentation/medical-technician" />
@@ -64,7 +64,7 @@
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Release Notes" Icon="new_releases" Expanded="false">
+            <RadzenPanelMenuItem Text="Release Notes" Icon="new_releases" Expanded="@false">
                 <RadzenPanelMenuItem Text="Version 1.2.4" Path="/help/documentation/release-notes-v1-2-4" />
                 <RadzenPanelMenuItem Text="Version 1.2.3" Path="/help/documentation/release-notes-v1-2-3" />
                 <RadzenPanelMenuItem Text="Version 1.2.2" Path="/help/documentation/release-notes-v1-2-2" />
@@ -73,7 +73,7 @@
                 <RadzenPanelMenuItem Text="Version 1.1.11" Path="/help/documentation/release-notes-v1-1-11" />
                 <RadzenPanelMenuItem Text="Version 1.1.10.2" Path="/help/documentation/release-notes-v1-1-10-2" />
                 <RadzenPanelMenuItem Text="Version 1.1.9" Path="/help/documentation/release-notes-v1-1-9" />
-                <RadzenPanelMenuItem Text="Earlier Versions..." Icon="more_horiz" Expanded="false">
+                <RadzenPanelMenuItem Text="Earlier Versions..." Icon="more_horiz" Expanded="@false">
                     <RadzenPanelMenuItem Text="Version 1.1.7" Path="/help/documentation/release-notes-v1-1-7" />
                     <RadzenPanelMenuItem Text="Version 1.1.6" Path="/help/documentation/release-notes-v1-1-6" />
                     <RadzenPanelMenuItem Text="Version 1.1.5" Path="/help/documentation/release-notes-v1-1-5" />
@@ -87,7 +87,7 @@
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Training Materials" Icon="school" Expanded="false">
+            <RadzenPanelMenuItem Text="Training Materials" Icon="school" Expanded="@false">
                 <RadzenPanelMenuItem Text="AFRC ALOD Instructions 1.1.11" Path="/help/documentation/afrc-alod-instr-for-1-1-11" />
                 <RadzenPanelMenuItem Text="AFRC ALOD Instructions 1.1.10.2" Path="/help/documentation/afrc-alod-instr-for-1-1-10-2" />
             </RadzenPanelMenuItem>
