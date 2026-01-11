@@ -6,18 +6,32 @@ using Xunit;
 // ========== WorkflowServiceTestData Stubs ==========
 
 /// <summary>
-/// Stub test data for WorkflowService tests.
-/// These are placeholders - implement with actual test scenarios when needed.
+/// Test data for WorkflowService constructor null parameter validation.
 /// </summary>
 public class WorkflowServiceConstructorNullParameterData : IEnumerable<object[]>
 {
-    public IEnumerator<object[]> GetEnumerator() => new List<object[]>().GetEnumerator();
+    public IEnumerator<object[]> GetEnumerator()
+    {
+        yield return new object[] { true, false };   // null logger, valid data service
+        yield return new object[] { false, true };   // valid logger, null data service
+        yield return new object[] { true, true };    // both null
+    }
+
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
+/// <summary>
+/// Test data for GetReinvestigationRequests with different request counts.
+/// </summary>
 public class WorkflowServiceRequestScenariosData : IEnumerable<object[]>
 {
-    public IEnumerator<object[]> GetEnumerator() => new List<object[]>().GetEnumerator();
+    public IEnumerator<object[]> GetEnumerator()
+    {
+        yield return new object[] { 1 };      // Single item
+        yield return new object[] { 5 };      // Small batch
+        yield return new object[] { 100 };    // Medium batch
+    }
+
     System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
