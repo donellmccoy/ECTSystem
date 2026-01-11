@@ -4,7 +4,7 @@
     "net9.0": {
       "BenchmarkDotNet": {
         "type": "Direct",
-        "requested": "[0.14.1, )",
+        "requested": "[0.15.0, )",
         "resolved": "0.15.0",
         "contentHash": "me9ZQQlbePedpcbe78Ht/d+7Jx+6l+Drfu/ujdsAs/L9SxYF+jv4zUe3Rfhwo/dfSqdsECsYQuTenx6KPrNrtQ==",
         "dependencies": {
