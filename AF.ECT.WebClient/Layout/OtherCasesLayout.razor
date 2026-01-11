@@ -1,77 +1,87 @@
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<RadzenLayout Style="grid-template-columns: 250px 1fr;">
-    <RadzenSidebar Style="width: 250px;">
+<RadzenComponents />
+<RadzenLayout Style="min-height: 100vh;">
+    <AppHeader OnSidebarToggle="@(() => _sidebarExpanded = !_sidebarExpanded)" />
+    
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" Style="width: 260px; padding: 1rem 0.5rem;">
         <RadzenPanelMenu>
-            <RadzenPanelMenuItem Text="WWD" Icon="work">
-                <RadzenPanelMenuItem Text="My WWDs" Path="/other-cases/wwd/my-wwds" />
-                <RadzenPanelMenuItem Text="Start New WWD" Path="/other-cases/wwd/start-new-wwd" />
-                <RadzenPanelMenuItem Text="Search" Path="/other-cases/wwd/search" />
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="/" Style="margin-bottom: 0.5rem; border-radius: 8px;" />
+            <RadzenPanelMenuItem Text="WWD" Icon="work" Expanded="@false">
+                <RadzenPanelMenuItem Text="My WWDs" Path="/wwd/my-wwds" />
+                <RadzenPanelMenuItem Text="Start New WWD" Path="/wwd/start-new-wwd" />
+                <RadzenPanelMenuItem Text="Search" Path="/wwd/search" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="P-Waiver" Icon="description">
-                <RadzenPanelMenuItem Text="My P-Waivers" Path="/other-cases/pwaiver/my-pwaivers" />
-                <RadzenPanelMenuItem Text="Start New P-Waiver" Path="/other-cases/pwaiver/start-new-pwaiver" />
-                <RadzenPanelMenuItem Text="Search" Path="/other-cases/pwaiver/search" />
+            <RadzenPanelMenuItem Text="P-Waiver" Icon="description" Expanded="@false">
+                <RadzenPanelMenuItem Text="My P-Waivers" Path="/pwaiver/my-pwaivers" />
+                <RadzenPanelMenuItem Text="Start New P-Waiver" Path="/pwaiver/start-new-pwaiver" />
+                <RadzenPanelMenuItem Text="Search" Path="/pwaiver/search" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="AGR Certification" Icon="verified">
-                <RadzenPanelMenuItem Text="My AGRs" Path="/other-cases/agrcert/my-agrs" />
-                <RadzenPanelMenuItem Text="Start New AGR" Path="/other-cases/agrcert/start-new-agr" />
-                <RadzenPanelMenuItem Text="Search" Path="/other-cases/agrcert/search" />
+            <RadzenPanelMenuItem Text="AGR Certification" Icon="verified" Expanded="@false">
+                <RadzenPanelMenuItem Text="My AGRs" Path="/agr/my-agrs" />
+                <RadzenPanelMenuItem Text="Start New AGR" Path="/agr/start-new-agr" />
+                <RadzenPanelMenuItem Text="Search" Path="/agr/search" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="MEB" Icon="medical_services">
-                <RadzenPanelMenuItem Text="My MEBs" Path="/other-cases/meb/my-mebs" />
-                <RadzenPanelMenuItem Text="Start New MEB" Path="/other-cases/meb/start-new-meb" />
-                <RadzenPanelMenuItem Text="Search" Path="/other-cases/meb/search" />
+            <RadzenPanelMenuItem Text="MEB" Icon="medical_services" Expanded="@false">
+                <RadzenPanelMenuItem Text="My MEBs" Path="/meb/my-mebs" />
+                <RadzenPanelMenuItem Text="Start New MEB" Path="/meb/start-new-meb" />
+                <RadzenPanelMenuItem Text="Search" Path="/meb/search" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Specialty Cases" Icon="star_rate">
-                <RadzenPanelMenuItem Text="INCAP" Icon="person_off">
-                    <RadzenPanelMenuItem Text="My INCAPs" Path="/other-cases/specialty-cases/incap/my-incaps" />
-                    <RadzenPanelMenuItem Text="Start New INCAP" Path="/other-cases/specialty-cases/incap/start-new-incap" />
-                    <RadzenPanelMenuItem Text="Search" Path="/other-cases/specialty-cases/incap/search" />
+            <RadzenPanelMenuItem Text="Specialty Cases" Icon="star_rate" Expanded="@false">
+                <RadzenPanelMenuItem Text="INCAP" Icon="person_off" Expanded="@false">
+                    <RadzenPanelMenuItem Text="My INCAPs" Path="/incap/my-incaps" />
+                    <RadzenPanelMenuItem Text="Start New INCAP" Path="/incap/start-new-incap" />
+                    <RadzenPanelMenuItem Text="Search" Path="/incap/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="BMT Waivers MEPS" Icon="health_and_safety">
-                    <RadzenPanelMenuItem Text="My BMT Waivers" Path="/other-cases/specialty-cases/bmt-waivers-meps/my-bmts" />
-                    <RadzenPanelMenuItem Text="Start New" Path="/other-cases/specialty-cases/bmt-waivers-meps/start-new-bmt" />
-                    <RadzenPanelMenuItem Text="Search" Path="/other-cases/specialty-cases/bmt-waivers-meps/search" />
+                <RadzenPanelMenuItem Text="BMT Waivers MEPS" Icon="health_and_safety" Expanded="@false">
+                    <RadzenPanelMenuItem Text="My BMT Waivers" Path="/bmt/my-bmts" />
+                    <RadzenPanelMenuItem Text="Start New" Path="/bmt/start-new-bmt" />
+                    <RadzenPanelMenuItem Text="Search" Path="/bmt/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="Congressionals" Icon="account_balance">
-                    <RadzenPanelMenuItem Text="My Congressionals" Path="/other-cases/specialty-cases/congressionals/my-cis" />
-                    <RadzenPanelMenuItem Text="Start New" Path="/other-cases/specialty-cases/congressionals/start-new-ci" />
-                    <RadzenPanelMenuItem Text="Search" Path="/other-cases/specialty-cases/congressionals/search" />
+                <RadzenPanelMenuItem Text="Congressionals" Icon="account_balance" Expanded="@false">
+                    <RadzenPanelMenuItem Text="My Congressionals" Path="/ci/my-cis" />
+                    <RadzenPanelMenuItem Text="Start New" Path="/ci/start-new-ci" />
+                    <RadzenPanelMenuItem Text="Search" Path="/ci/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="BCMR" Icon="gavel">
-                    <RadzenPanelMenuItem Text="My BCMRs" Path="/other-cases/specialty-cases/bcmr/my-bcmrs" />
-                    <RadzenPanelMenuItem Text="Start New BCMR" Path="/other-cases/specialty-cases/bcmr/start-new-bcmr" />
-                    <RadzenPanelMenuItem Text="Search" Path="/other-cases/specialty-cases/bcmr/search" />
+                <RadzenPanelMenuItem Text="BCMR" Icon="gavel" Expanded="@false">
+                    <RadzenPanelMenuItem Text="My BCMRs" Path="/bcmr/my-bcmrs" />
+                    <RadzenPanelMenuItem Text="Start New BCMR" Path="/bcmr/start-new-bcmr" />
+                    <RadzenPanelMenuItem Text="Search" Path="/bcmr/search" />
                 </RadzenPanelMenuItem>
                 
-                <RadzenPanelMenuItem Text="More Cases..." Icon="more_horiz">
-                    <RadzenPanelMenuItem Text="CMAS" Path="/other-cases/specialty-cases/cmas/my-cmass" />
-                    <RadzenPanelMenuItem Text="IRILO" Path="/other-cases/specialty-cases/irilo/my-irilos" />
-                    <RadzenPanelMenuItem Text="MMSO" Path="/other-cases/specialty-cases/mmso/my-mmsos" />
-                    <RadzenPanelMenuItem Text="MH" Path="/other-cases/specialty-cases/mh/my-mhs" />
-                    <RadzenPanelMenuItem Text="DW" Path="/other-cases/specialty-cases/dw/my-dws" />
-                    <RadzenPanelMenuItem Text="NE" Path="/other-cases/specialty-cases/ne/my-nes" />
-                    <RadzenPanelMenuItem Text="MO" Path="/other-cases/specialty-cases/mo/my-mos" />
-                    <RadzenPanelMenuItem Text="PEPP/AIMWITS" Path="/other-cases/specialty-cases/pepp-aimwits/my-pepps" />
-                    <RadzenPanelMenuItem Text="RS" Path="/other-cases/specialty-cases/rs/my-rss" />
-                    <RadzenPanelMenuItem Text="RW" Path="/other-cases/specialty-cases/rw/my-rws" />
-                    <RadzenPanelMenuItem Text="PH" Path="/other-cases/specialty-cases/ph/my-phs" />
-                    <RadzenPanelMenuItem Text="PSCD" Path="/other-cases/specialty-cases/pscd/my-pscds" />
+                <RadzenPanelMenuItem Text="More Cases..." Icon="more_horiz" Expanded="@false">
+                    <RadzenPanelMenuItem Text="CMAS" Path="/cmas/my-cmass" />
+                    <RadzenPanelMenuItem Text="IRILO" Path="/irilo/my-irilos" />
+                    <RadzenPanelMenuItem Text="MMSO" Path="/mmso/my-requests" />
+                    <RadzenPanelMenuItem Text="MH" Path="/mh/my-mhs" />
+                    <RadzenPanelMenuItem Text="DW" Path="/dw/my-dws" />
+                    <RadzenPanelMenuItem Text="NE" Path="/ne/my-nes" />
+                    <RadzenPanelMenuItem Text="MO" Path="/mo/my-mos" />
+                    <RadzenPanelMenuItem Text="PEPP/AIMWITS" Path="/pepp/my-pepps" />
+                    <RadzenPanelMenuItem Text="RS" Path="/rs/my-rss" />
+                    <RadzenPanelMenuItem Text="RW" Path="/rw/my-rws" />
+                    <RadzenPanelMenuItem Text="PH" Path="/ph/my-phs" />
+                    <RadzenPanelMenuItem Text="PSCD" Path="/pscd/my-pscds" />
                 </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
         </RadzenPanelMenu>
     </RadzenSidebar>
     
-    <RadzenBody Style="padding: 1rem;">
-        @Body
+    <RadzenBody Style="background: var(--rz-base-100, #f8f9fa);">
+        <div style="padding: 1.5rem 2rem; max-width: 1600px; margin: 0 auto;">
+            @Body
+        </div>
     </RadzenBody>
 </RadzenLayout>
+
+@code {
+    private bool _sidebarExpanded = true;
+}

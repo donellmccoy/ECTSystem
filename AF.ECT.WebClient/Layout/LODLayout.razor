@@ -1,9 +1,13 @@
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
-<RadzenLayout Style="grid-template-columns: 250px 1fr;">
-    <RadzenSidebar Style="width: 250px;">
+<RadzenComponents />
+<RadzenLayout Style="min-height: 100vh;">
+    <AppHeader OnSidebarToggle="@(() => _sidebarExpanded = !_sidebarExpanded)" />
+    
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" Style="width: 260px; padding: 1rem 0.5rem;">
         <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="Home" Icon="home" Path="/" Style="margin-bottom: 0.5rem; border-radius: 8px;" />
             <RadzenPanelMenuItem Text="My LODs" Icon="folder" Path="/lod/my-lods" />
             <RadzenPanelMenuItem Text="My LOD Consults" Icon="assignment" Path="/lod/my-lod-consults" />
             <RadzenPanelMenuItem Text="SC Pending Consults" Icon="pending" Path="/lod/sc-pending-consults" />
@@ -12,31 +16,31 @@
             <RadzenPanelMenuItem Text="Start New LOD" Icon="add_circle" Path="/lod/start-new-lod" />
             <RadzenPanelMenuItem Text="LOD Search" Icon="search" Path="/lod/lod-search" />
             
-            <RadzenPanelMenuItem Text="Reinvestigations" Icon="refresh">
+            <RadzenPanelMenuItem Text="Reinvestigations" Icon="refresh" Expanded="@false">
                 <RadzenPanelMenuItem Text="Reinvestigations" Icon="list" Path="/lod/reinvestigations" />
                 <RadzenPanelMenuItem Text="RR Search" Icon="search" Path="/lod/rr-search" />
                 <RadzenPanelMenuItem Text="Process Completed" Icon="done_all" Path="/lod/process-completed-cases" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Appeals" Icon="gavel">
+            <RadzenPanelMenuItem Text="Appeals" Icon="gavel" Expanded="@false">
                 <RadzenPanelMenuItem Text="Appeals" Icon="list" Path="/lod/appeals" />
                 <RadzenPanelMenuItem Text="AP Search" Icon="search" Path="/lod/ap-search" />
                 <RadzenPanelMenuItem Text="Process Completed Appeals" Icon="done_all" Path="/lod/process-completed-appeals" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Restricted SARC" Icon="lock">
+            <RadzenPanelMenuItem Text="Restricted SARC" Icon="lock" Expanded="@false">
                 <RadzenPanelMenuItem Text="My SARCs" Icon="folder" Path="/lod/my-sarcs" />
                 <RadzenPanelMenuItem Text="SARC Search" Icon="search" Path="/lod/sarc-search" />
                 <RadzenPanelMenuItem Text="Process Completed" Icon="done_all" Path="/lod/process-completed-restricted-sarcs" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="SARC Appeals" Icon="gavel">
+            <RadzenPanelMenuItem Text="SARC Appeals" Icon="gavel" Expanded="@false">
                 <RadzenPanelMenuItem Text="My SARC Appeals" Icon="folder" Path="/lod/my-sarc-appeals" />
                 <RadzenPanelMenuItem Text="SARC Appeal Search" Icon="search" Path="/lod/sarc-appeal-search" />
                 <RadzenPanelMenuItem Text="Process Completed" Icon="done_all" Path="/lod/process-completed-restricted-sarc-appeals" />
             </RadzenPanelMenuItem>
             
-            <RadzenPanelMenuItem Text="Utilities" Icon="build">
+            <RadzenPanelMenuItem Text="Utilities" Icon="build" Expanded="@false">
                 <RadzenPanelMenuItem Text="Inbox View" Icon="inbox" Path="/lod/inbox-view" />
                 <RadzenPanelMenuItem Text="Override" Icon="vpn_key" Path="/lod/override" />
                 <RadzenPanelMenuItem Text="Generate LOD Forms" Icon="description" Path="/lod/generate-lod-forms" />
@@ -45,12 +49,16 @@
         </RadzenPanelMenu>
     </RadzenSidebar>
     
-    <RadzenBody Style="padding: 1rem;">
-        @Body
+    <RadzenBody Style="background: var(--rz-base-100, #f8f9fa);">
+        <div style="padding: 1.5rem 2rem; max-width: 1600px; margin: 0 auto;">
+            @Body
+        </div>
     </RadzenBody>
 </RadzenLayout>
 
 @code {
+    private bool _sidebarExpanded = true;
+
     protected override void OnInitialized()
     {
         // Check if user is on LOD pages, otherwise redirect

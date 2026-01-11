@@ -21,13 +21,68 @@
             "args": [
                 "watch",
                 "run",
-                "--no-hot-reload",
                 "--project",
                 "${workspaceFolder}/AF.ECT.AppHost"
             ],
             "isBackground": true,
             "problemMatcher": "$msCompile",
             "group": "build"
+        },
+        {
+            "label": "watch-hot-reload",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Set-Location '${workspaceFolder}/AF.ECT.WebClient'; dotnet watch run"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*$",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*Building.*$",
+                    "endsPattern": "^.*Now listening on.*$"
+                }
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "launch-aspire-restart-on-change",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Set-Location '${workspaceFolder}/AF.ECT.AppHost'; $env:DOTNET_WATCH_RESTART_ON_RUDE_EDIT = 'true'; dotnet watch run --no-hot-reload"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*$",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*Building.*$",
+                    "endsPattern": "^.*Now listening on.*$"
+                }
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
         },
         {
             "label": "cleanup-and-build ECTSystem solution",
@@ -50,6 +105,50 @@
             ],
             "problemMatcher": "$msCompile",
             "group": "build"
+        },
+        {
+            "label": "launch-site",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Set-Location '${workspaceFolder}/AF.ECT.AppHost'; dotnet run"
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^.*$",
+                    "file": 1,
+                    "location": 2,
+                    "message": 3
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^.*Building.*$",
+                    "endsPattern": "^.*Now listening on.*$"
+                }
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "launch-site-with-browser",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Set-Location '${workspaceFolder}/AF.ECT.AppHost'; Start-Process dotnet -ArgumentList 'run' -PassThru; Start-Sleep -Seconds 15; Start-Process 'msedge' -ArgumentList 'https://localhost:17258'"
+            ],
+            "isBackground": true,
+            "problemMatcher": [],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
         }
     ]
 }

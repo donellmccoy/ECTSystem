@@ -1,0 +1,20 @@
+@inject NavigationManager NavigationManager
+
+<RadzenHeader>
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="1rem" Style="padding: 0.75rem 1.5rem; height: 64px;">
+        <RadzenSidebarToggle Click="@OnSidebarToggle" />
+        <RadzenText TextStyle="TextStyle.H5" Style="margin: 0; font-weight: 600; letter-spacing: -0.5px;">Electronic Case Tracking System</RadzenText>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.75rem" Style="margin-left: auto;">
+            <RadzenButton Icon="account_circle" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Medium" Click="@(() => NavigationManager.NavigateTo("/help/my-account"))" Style="border-radius: 8px;" Title="My Account" />
+            <RadzenButton Icon="logout" ButtonStyle="ButtonStyle.Danger" Size="ButtonSize.Medium" Click="@(() => NavigationManager.NavigateTo("/common/logout"))" Text="Logout" Style="border-radius: 8px;" />
+        </RadzenStack>
+    </RadzenStack>
+</RadzenHeader>
+
+@code {
+    /// <summary>
+    /// Event callback invoked when the sidebar toggle button is clicked.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnSidebarToggle { get; set; }
+}
