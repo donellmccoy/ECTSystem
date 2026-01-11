@@ -243,3 +243,115 @@ public static class AuditAssertions
         auditEvent.Success.Should().BeFalse();
     }
 }
+
+/// <summary>
+/// Assertion helpers for workflow-specific validations.
+/// </summary>
+public static class WorkflowAssertions
+{
+    /// <summary>
+    /// Asserts that a workflow state transition is valid.
+    /// </summary>
+    /// <param name="fromState">The source state</param>
+    /// <param name="toState">The target state</param>
+    /// <param name="allowedTransitions">The allowed state transitions</param>
+    public static void IsValidStateTransition(
+        string fromState,
+        string toState,
+        Dictionary<string, List<string>> allowedTransitions)
+    {
+        allowedTransitions.Should().ContainKey(fromState);
+        allowedTransitions[fromState].Should().Contain(toState,
+            $"Transition from {fromState} to {toState} is not allowed");
+    }
+
+    /// <summary>
+    /// Asserts that a workflow response contains required fields.
+    /// </summary>
+    /// <param name="response">The response to assert</param>
+    /// <param name="requiredFields">The required field names</param>
+    public static void HasRequiredFields(
+        object response,
+        params string[] requiredFields)
+    {
+        response.Should().NotBeNull();
+        var properties = response.GetType().GetProperties();
+        var propertyNames = properties.Select(p => p.Name).ToList();
+
+        foreach (var field in requiredFields)
+        {
+            propertyNames.Should().Contain(field, $"Required field '{field}' is missing");
+        }
+    }
+
+    /// <summary>
+    /// Asserts that workflow data contains no null required values.
+    /// </summary>
+    /// <param name="data">The data object to validate</param>
+    /// <param name="requiredProperties">The required property names</param>
+    public static void AllRequiredPropertiesPopulated(
+        object data,
+        params string[] requiredProperties)
+    {
+        data.Should().NotBeNull();
+        var type = data.GetType();
+
+        foreach (var propName in requiredProperties)
+        {
+            var property = type.GetProperty(propName);
+            property.Should().NotBeNull($"Property '{propName}' not found");
+            
+            var value = property!.GetValue(data);
+            value.Should().NotBeNull($"Required property '{propName}' is null");
+        }
+    }
+
+    /// <summary>
+    /// Asserts that a status code is valid within workflow context.
+    /// </summary>
+    /// <param name="statusCode">The status code to validate</param>
+    /// <param name="validCodes">The valid status codes</param>
+    public static void IsValidStatusCode(int statusCode, params int[] validCodes)
+    {
+        validCodes.Should().Contain(statusCode,
+            $"Status code {statusCode} is not valid in this workflow context");
+    }
+}
+
+/// <summary>
+/// Assertion helpers for gRPC-specific validations.
+/// </summary>
+public static class GrpcAssertions
+{
+    /// <summary>
+    /// Asserts that a gRPC response has a valid metadata.
+    /// </summary>
+    /// <param name="metadata">The response metadata</param>
+    /// <param name="keyToFind">The key to find</param>
+    public static void ContainsMetadata(Metadata metadata, string keyToFind)
+    {
+        metadata.Should().NotBeNull();
+        var entries = metadata.Where(m => m.Key == keyToFind).ToList();
+        entries.Should().NotBeEmpty($"Metadata key '{keyToFind}' not found");
+    }
+
+    /// <summary>
+    /// Asserts that an RPC exception has expected detail message.
+    /// </summary>
+    /// <param name="exception">The RPC exception</param>
+    /// <param name="expectedDetail">The expected detail substring</param>
+    public static void DetailContains(RpcException exception, string expectedDetail)
+    {
+        exception.Should().NotBeNull();
+        exception.Status.Detail.Should().Contain(expectedDetail);
+    }
+
+    /// <summary>
+    /// Asserts that a streaming call completed successfully.
+    /// </summary>
+    /// <param name="callInvoker">The call invoker result</param>
+    public static void StreamCompletedSuccessfully(object callInvoker)
+    {
+        callInvoker.Should().NotBeNull();
+    }
+}

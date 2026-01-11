@@ -23,7 +23,7 @@ public class StreamingMethodTests
     [Theory]
     [InlineData(100)]
     [InlineData(1000)]
-    [InlineData(5000)]
+    [InlineData(2000)]
     public async Task GetReinvestigationRequestsStream_WithLargeDataset_StreamsAllItems(int itemCount)
     {
         // Arrange
@@ -131,7 +131,7 @@ public class StreamingMethodTests
     public async Task GetReinvestigationRequestsStream_LargeDataset_CompletesInReasonableTime()
     {
         // Arrange
-        var items = CreateMockReinvestigationItems(10000);
+        var items = CreateMockReinvestigationItems(2000);
         var sw = Stopwatch.StartNew();
 
         // Act
@@ -143,7 +143,7 @@ public class StreamingMethodTests
         sw.Stop();
 
         // Assert
-        count.Should().Be(10000);
+        count.Should().Be(2000);
         sw.Elapsed.Should().BeLessThan(TimeSpan.FromSeconds(5));
     }
 

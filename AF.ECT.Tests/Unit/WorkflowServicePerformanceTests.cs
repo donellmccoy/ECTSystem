@@ -3,6 +3,7 @@ using AF.ECT.Server.Services.Interfaces;
 using AF.ECT.Data.Interfaces;
 using AF.ECT.Data.ResultTypes;
 using AF.ECT.Tests.Common;
+using AF.ECT.Tests.Fixtures;
 using FluentAssertions;
 using System.Diagnostics;
 using Grpc.Core;
@@ -12,20 +13,23 @@ namespace AF.ECT.Tests.Unit;
 /// <summary>
 /// Performance benchmark tests for WorkflowService critical paths.
 /// Ensures operations complete within acceptable time thresholds under various loads.
+/// Uses cached test data to avoid regeneration across tests.
 /// </summary>
-[Collection("WorkflowService Tests")]
+[Collection("Cached Test Data")]
 [Trait("Category", "Unit")]
 [Trait("Component", "WorkflowService Performance")]
 public class WorkflowServicePerformanceTests
 {
     private readonly Mock<ILogger<WorkflowServiceImpl>> _mockLogger;
     private readonly Mock<IDataService> _mockDataService;
+    private readonly CachedTestDataFixture _cachedFixture;
     private const int PerformanceThresholdMs = 500;
 
-    public WorkflowServicePerformanceTests()
+    public WorkflowServicePerformanceTests(CachedTestDataFixture cachedFixture)
     {
         _mockLogger = new Mock<ILogger<WorkflowServiceImpl>>();
         _mockDataService = new Mock<IDataService>();
+        _cachedFixture = cachedFixture;
     }
 
     private WorkflowServiceImpl CreateService() =>
@@ -46,7 +50,7 @@ public class WorkflowServicePerformanceTests
     public async Task GetReinvestigationRequests_SingleItem_CompletesWithinThreshold()
     {
         // Arrange
-        var mockResults = new List<core_lod_sp_GetReinvestigationRequestsResult> { new() };
+        var mockResults = _cachedFixture.GetMockResultsBatch(1);
         _mockDataService.Setup(ds => ds.GetReinvestigationRequestsAsync(It.IsAny<int>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(mockResults);
 
@@ -55,7 +59,7 @@ public class WorkflowServicePerformanceTests
         var stopwatch = Stopwatch.StartNew();
 
         // Act
-        var response = await service.GetReinvestigationRequests(request, null!);
+        var response = await service.GetReinvestigationRequests(request, CreateMockServerCallContext());
         stopwatch.Stop();
 
         // Assert
@@ -74,9 +78,7 @@ public class WorkflowServicePerformanceTests
     public async Task GetReinvestigationRequests_HundredItems_CompletesWithinThreshold()
     {
         // Arrange
-        var mockResults = Enumerable.Range(0, 100)
-            .Select(_ => new core_lod_sp_GetReinvestigationRequestsResult())
-            .ToList();
+        var mockResults = _cachedFixture.GetMockResultsBatch(100);
 
         _mockDataService.Setup(ds => ds.GetReinvestigationRequestsAsync(It.IsAny<int>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(mockResults);
@@ -86,7 +88,7 @@ public class WorkflowServicePerformanceTests
         var stopwatch = Stopwatch.StartNew();
 
         // Act
-        var response = await service.GetReinvestigationRequests(request, null!);
+        var response = await service.GetReinvestigationRequests(request, CreateMockServerCallContext());
         stopwatch.Stop();
 
         // Assert
@@ -143,9 +145,7 @@ public class WorkflowServicePerformanceTests
     public async Task GetReinvestigationRequests_LargeDataset_MemoryEfficient()
     {
         // Arrange
-        var largeDataset = Enumerable.Range(0, 1000)
-            .Select(_ => new core_lod_sp_GetReinvestigationRequestsResult())
-            .ToList();
+        var largeDataset = _cachedFixture.GetMockResultsBatch(1000);
 
         _mockDataService.Setup(ds => ds.GetReinvestigationRequestsAsync(It.IsAny<int>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(largeDataset);
@@ -159,7 +159,7 @@ public class WorkflowServicePerformanceTests
         var memoryBefore = GC.GetTotalMemory(false);
 
         // Act
-        var response = await service.GetReinvestigationRequests(request, null!);
+        var response = await service.GetReinvestigationRequests(request, CreateMockServerCallContext());
 
         var memoryAfter = GC.GetTotalMemory(false);
         var memoryUsedMb = (memoryAfter - memoryBefore) / (1024.0 * 1024.0);
@@ -204,7 +204,7 @@ public class WorkflowServicePerformanceTests
         var stopwatch = Stopwatch.StartNew();
 
         // Act
-        var response = await service.GetActionsByStep(request, null!);
+        var response = await service.GetActionsByStep(request, CreateMockServerCallContext());
         stopwatch.Stop();
 
         // Assert

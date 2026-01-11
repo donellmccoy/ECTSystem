@@ -8,6 +8,13 @@
     <NoWarn>CS0436,CS0433,CS7022,CS1591</NoWarn>
     <WarningsAsErrors>false</WarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Code Coverage Configuration -->
+    <CollectCoverage>true</CollectCoverage>
+    <CoverletOutputFormat>opencover%2ccobertura%2cjson</CoverletOutputFormat>
+    <CoverletOutput>./TestResults/coverage</CoverletOutput>
+    <Exclude>[AF.ECT.Tests]*</Exclude>
+    <ExcludeByAttribute>CompilerGenerated</ExcludeByAttribute>
+    <ExcludeByAttribute>Obsolete</ExcludeByAttribute>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +37,7 @@
     <PackageReference Include="Polly.Core" Version="8.6.4" />
     <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.10.0" />
     <PackageReference Include="xunit.analyzers" Version="1.18.0" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.14.1" />
   </ItemGroup>
 
   <ItemGroup>

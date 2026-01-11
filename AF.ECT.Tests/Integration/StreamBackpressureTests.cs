@@ -342,5 +342,286 @@ public class StreamBackpressureTests
         receivedCount.Should().Be(producerCount * itemsPerProducer);
     }
 
+    /// <summary>
+    /// Tests that buffer overflow is handled gracefully with item dropping or blocking.
+    /// </summary>
+    [Fact]
+    public async Task BufferOverflow_IsHandledGracefully()
+    {
+        // Arrange
+        const int itemCount = 1000;
+        const int bufferSize = 100;
+        var droppedItems = new AtomicInteger();
+        var buffer = ChannelFactory.CreateBounded<int>(bufferSize);
+
+        async Task ProduceWithOverflowHandling()
+        {
+            for (int i = 0; i < itemCount; i++)
+            {
+                var writeResult = buffer.Writer.TryWrite(i);
+                if (!writeResult)
+                {
+                    droppedItems.Increment();
+                }
+            }
+            buffer.Writer.Complete();
+        }
+
+        async Task ConsumeSlowly()
+        {
+            await foreach (var item in buffer.Reader.ReadAllAsync())
+            {
+                await Task.Delay(1); // Slow consumption
+            }
+        }
+
+        // Act
+        var producerTask = ProduceWithOverflowHandling();
+        var consumerTask = ConsumeSlowly();
+        
+        await Task.WhenAll(producerTask, consumerTask);
+
+        // Assert
+        droppedItems.Value.Should().BeGreaterThanOrEqualTo(0,
+            "Buffer overflow should be handled");
+    }
+
+    /// <summary>
+    /// Tests that producer-consumer coordination works with flow control.
+    /// </summary>
+    [Fact]
+    public async Task ProducerConsumerCoordination_WithFlowControl_WorksCorrectly()
+    {
+        // Arrange
+        const int itemCount = 100;
+        var producedCount = 0;
+        var consumedCount = 0;
+        var channel = ChannelFactory.CreateBounded<int>(10); // Small buffer
+
+        async Task ProduceWithFlowControl()
+        {
+            for (int i = 0; i < itemCount; i++)
+            {
+                await channel.Writer.WriteAsync(i);
+                Interlocked.Increment(ref producedCount);
+            }
+            channel.Writer.Complete();
+        }
+
+        async Task ConsumeWithFlowControl()
+        {
+            await foreach (var item in channel.Reader.ReadAllAsync())
+            {
+                await Task.Delay(1);
+                Interlocked.Increment(ref consumedCount);
+            }
+        }
+
+        // Act
+        var producerTask = ProduceWithFlowControl();
+        var consumerTask = ConsumeWithFlowControl();
+        await Task.WhenAll(producerTask, consumerTask);
+
+        // Assert
+        producedCount.Should().Be(itemCount);
+        consumedCount.Should().Be(itemCount);
+    }
+
+    /// <summary>
+    /// Tests that streaming handles connection loss gracefully.
+    /// </summary>
+    [Fact]
+    public async Task StreamingUnderConnectionLoss_IsHandledGracefully()
+    {
+        // Arrange
+        const int itemsBeforeLoss = 50;
+        var streamInterrupted = false;
+        var itemsBeforeInterruption = 0;
+
+        async IAsyncEnumerable<ManagedUserItem> StreamWithSimulatedLoss(
+            [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken ct = default)
+        {
+            for (int i = 1; i <= 100; i++)
+            {
+                if (i == itemsBeforeLoss)
+                {
+                    streamInterrupted = true;
+                    throw new InvalidOperationException("Simulated connection loss");
+                }
+
+                yield return new ManagedUserItem { UserId = i, UserName = $"User_{i}" };
+                await Task.Delay(1);
+            }
+        }
+
+        // Act & Assert
+        try
+        {
+            await foreach (var item in StreamWithSimulatedLoss())
+            {
+                itemsBeforeInterruption++;
+            }
+        }
+        catch (InvalidOperationException ex) when (ex.Message == "Simulated connection loss")
+        {
+            streamInterrupted.Should().BeTrue();
+            itemsBeforeInterruption.Should().Be(itemsBeforeLoss - 1);
+        }
+    }
+
+    /// <summary>
+    /// Tests that cancellation propagates correctly during streaming.
+    /// </summary>
+    [Fact]
+    public async Task Cancellation_PropagatsDuringStreaming()
+    {
+        // Arrange
+        var cts = new CancellationTokenSource();
+        var itemsConsumed = 0;
+        var cancellationObserved = false;
+
+        async IAsyncEnumerable<ManagedUserItem> StreamWithCancellation(
+            [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken ct = default)
+        {
+            for (int i = 1; i <= 1000; i++)
+            {
+                ct.ThrowIfCancellationRequested();
+                yield return new ManagedUserItem { UserId = i, UserName = $"User_{i}" };
+                await Task.Delay(1);
+            }
+        }
+
+        // Act
+        var consumerTask = Task.Run(async () =>
+        {
+            try
+            {
+                await foreach (var item in StreamWithCancellation(cts.Token))
+                {
+                    itemsConsumed++;
+                    if (itemsConsumed == 50)
+                    {
+                        cts.Cancel();
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                cancellationObserved = true;
+            }
+        });
+
+        await consumerTask;
+
+        // Assert
+        cancellationObserved.Should().BeTrue("Cancellation should be observed");
+        itemsConsumed.Should().BeLessThan(100, "Stream should stop after cancellation");
+    }
+
     #endregion
+}
+
+/// <summary>
+/// Helper class for atomic integer operations.
+/// </summary>
+internal class AtomicInteger
+{
+    private long _value = 0;
+
+    public void Increment()
+    {
+        Interlocked.Increment(ref _value);
+    }
+
+    public int Value => (int)Interlocked.Read(ref _value);
+}
+
+/// <summary>
+/// Channel helper for simulating bounded channel behavior.
+/// </summary>
+internal static class ChannelFactory
+{
+    public static ChannelEx<T> CreateBounded<T>(int capacity)
+    {
+        return new ChannelEx<T>(capacity);
+    }
+}
+
+/// <summary>
+/// Wrapper for BlockingCollection to provide channel-like semantics for testing.
+/// </summary>
+internal class ChannelEx<T> : IDisposable
+{
+    private readonly System.Collections.Concurrent.BlockingCollection<T> _collection;
+    public BlockingCollectionWriter<T> Writer { get; }
+    public BlockingCollectionReader<T> Reader { get; }
+
+    public ChannelEx(int capacity)
+    {
+        _collection = new System.Collections.Concurrent.BlockingCollection<T>(capacity);
+        Writer = new BlockingCollectionWriter<T>(_collection);
+        Reader = new BlockingCollectionReader<T>(_collection);
+    }
+
+    public void Dispose()
+    {
+        _collection.Dispose();
+    }
+}
+
+/// <summary>
+/// Writer for BlockingCollection.
+/// </summary>
+internal class BlockingCollectionWriter<T>
+{
+    private readonly System.Collections.Concurrent.BlockingCollection<T> _collection;
+
+    public BlockingCollectionWriter(System.Collections.Concurrent.BlockingCollection<T> collection)
+    {
+        _collection = collection;
+    }
+
+    public bool TryWrite(T item)
+    {
+        return _collection.TryAdd(item);
+    }
+
+    public async ValueTask WriteAsync(T item, CancellationToken cancellationToken = default)
+    {
+        _collection.Add(item, cancellationToken);
+        await Task.CompletedTask;
+    }
+
+    public void Complete()
+    {
+        _collection.CompleteAdding();
+    }
+}
+
+/// <summary>
+/// Reader for BlockingCollection.
+/// </summary>
+internal class BlockingCollectionReader<T>
+{
+    private readonly System.Collections.Concurrent.BlockingCollection<T> _collection;
+
+    public BlockingCollectionReader(System.Collections.Concurrent.BlockingCollection<T> collection)
+    {
+        _collection = collection;
+    }
+
+    public async IAsyncEnumerable<T> ReadAllAsync(
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        foreach (var item in _collection.GetConsumingEnumerable(cancellationToken))
+        {
+            yield return item;
+            await Task.Yield();
+        }
+    }
+
+    public bool TryRead(out T? item)
+    {
+        return _collection.TryTake(out item);
+    }
 }

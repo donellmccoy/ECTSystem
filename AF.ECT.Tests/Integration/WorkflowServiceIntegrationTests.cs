@@ -4,6 +4,13 @@ using AF.ECT.Tests.Infrastructure;
 
 namespace AF.ECT.Tests.Integration;
 
+/// <summary>
+/// Integration tests for gRPC service reflection and method invocation.
+/// Tests that all RPC methods can be called successfully and return appropriate default values.
+/// </summary>
+[Collection("Workflow Service Integration Tests")]
+[Trait("Category", "Integration")]
+[Trait("Component", "gRPC")]
 public class WorkflowServiceIntegrationTests : IntegrationTestBase
 {
     [Theory]
