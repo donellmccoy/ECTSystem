@@ -1,0 +1,269 @@
+@page "/fluent-dashboard"
+@layout AF.ECT.WebClient.Layout.FluentDashboardLayout
+
+<div class="max-w-[1400px] mx-auto flex flex-col gap-6">
+    <!-- Page Heading -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-[#201f1e] dark:text-white tracking-tight">Welcome, Maj. Anderson</h2>
+            <p class="text-[#605e5c] dark:text-gray-400 mt-1">Overview of current Line of Duty cases and pending actions.</p>
+        </div>
+        <div class="flex gap-2">
+            <button class="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded shadow-sm transition-colors text-sm font-semibold">
+                <span class="material-symbols-outlined text-[20px]">add</span>
+                Start New LOD
+            </button>
+        </div>
+    </div>
+    <!-- Metrics / Widgets -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1 -->
+        <div class="bg-surface-light dark:bg-surface-dark p-5 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col gap-1 hover:shadow-fluent-hover transition-shadow cursor-pointer group">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-[#605e5c] dark:text-gray-400">Pending Determinations</span>
+                <span class="material-symbols-outlined text-[#605e5c] group-hover:text-primary dark:text-gray-500 text-[20px]">pending_actions</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-bold text-[#201f1e] dark:text-white">14</span>
+                <span class="text-xs font-medium text-alert-red bg-red-100 dark:bg-red-900/30 px-1.5 py-0.5 rounded">+3 overdue</span>
+            </div>
+            <p class="text-xs text-[#605e5c] dark:text-gray-500 mt-1">Review required</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="bg-surface-light dark:bg-surface-dark p-5 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col gap-1 hover:shadow-fluent-hover transition-shadow">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-[#605e5c] dark:text-gray-400">Completed (YTD)</span>
+                <span class="material-symbols-outlined text-alert-green text-[20px]">check_circle</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-bold text-[#201f1e] dark:text-white">324</span>
+                <span class="text-xs font-medium text-alert-green bg-green-100 dark:bg-green-900/30 px-1.5 py-0.5 rounded">+12%</span>
+            </div>
+            <p class="text-xs text-[#605e5c] dark:text-gray-500 mt-1">vs last year</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="bg-surface-light dark:bg-surface-dark p-5 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col gap-1 hover:shadow-fluent-hover transition-shadow">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-[#605e5c] dark:text-gray-400">Reinvestigation Reqs</span>
+                <span class="material-symbols-outlined text-alert-yellow text-[20px]">sync_problem</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-bold text-[#201f1e] dark:text-white">2</span>
+            </div>
+            <p class="text-xs text-[#605e5c] dark:text-gray-500 mt-1">Requires immediate attention</p>
+        </div>
+        <!-- Card 4 -->
+        <div class="bg-surface-light dark:bg-surface-dark p-5 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col gap-1 hover:shadow-fluent-hover transition-shadow">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-[#605e5c] dark:text-gray-400">Appeals in Progress</span>
+                <span class="material-symbols-outlined text-[#605e5c] dark:text-gray-500 text-[20px]">gavel</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-bold text-[#201f1e] dark:text-white">5</span>
+            </div>
+            <p class="text-xs text-[#605e5c] dark:text-gray-500 mt-1">All within timeline</p>
+        </div>
+    </div>
+    <!-- Alerts Section -->
+    <div class="flex flex-col gap-3">
+        <h3 class="text-lg font-bold text-[#201f1e] dark:text-white">Priority Alerts</h3>
+        <!-- Critical Alert -->
+        <div class="flex items-start gap-4 p-4 rounded-md border-l-4 border-alert-red bg-[#fdf3f4] dark:bg-red-900/10 shadow-sm">
+            <span class="material-symbols-outlined text-alert-red mt-0.5">warning</span>
+            <div class="flex-1">
+                <h4 class="text-sm font-bold text-[#a4262c] dark:text-red-400">Action Required: Overdue Informal LODs</h4>
+                <p class="text-sm text-[#201f1e] dark:text-gray-200 mt-1">3 cases have exceeded the 90 calendar day threshold. Immediate justification required for HQ review.</p>
+            </div>
+            <button class="text-sm font-medium text-[#a4262c] hover:underline dark:text-red-400">View Cases</button>
+        </div>
+        <!-- Warning Alert -->
+        <div class="flex items-start gap-4 p-4 rounded-md border-l-4 border-alert-yellow bg-[#fff4ce] dark:bg-yellow-900/10 shadow-sm">
+            <span class="material-symbols-outlined text-yellow-700 dark:text-yellow-500 mt-0.5">info</span>
+            <div class="flex-1">
+                <h4 class="text-sm font-bold text-[#795d03] dark:text-yellow-500">Quarterly Audit Notice</h4>
+                <p class="text-sm text-[#201f1e] dark:text-gray-200 mt-1">The Q3 FY2024 audit is scheduled to begin in 5 days. Please ensure all case files are up to date.</p>
+            </div>
+            <button class="text-sm font-medium text-[#795d03] hover:underline dark:text-yellow-500">Dismiss</button>
+        </div>
+    </div>
+    <!-- Main Data Table Section -->
+    <div class="flex flex-col gap-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 overflow-hidden">
+        <!-- Toolbar -->
+        <div class="p-4 border-b border-[#e1dfdd] dark:border-gray-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <!-- Tabs -->
+            <div class="flex items-center gap-1 bg-[#f3f2f1] dark:bg-gray-800 p-1 rounded-md self-start">
+                <button class="px-3 py-1.5 text-sm font-semibold rounded shadow-sm bg-white dark:bg-gray-700 text-primary dark:text-blue-400 transition-all">My LODs</button>
+                <button class="px-3 py-1.5 text-sm font-medium rounded text-[#605e5c] dark:text-gray-400 hover:text-[#201f1e] dark:hover:text-white hover:bg-[#edebe9] dark:hover:bg-gray-600 transition-all">Unit Cases</button>
+                <button class="px-3 py-1.5 text-sm font-medium rounded text-[#605e5c] dark:text-gray-400 hover:text-[#201f1e] dark:hover:text-white hover:bg-[#edebe9] dark:hover:bg-gray-600 transition-all">All Active</button>
+            </div>
+            <!-- Actions -->
+            <div class="flex items-center gap-2 self-end sm:self-auto">
+                <button class="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-[#e1dfdd] dark:border-gray-600 rounded text-sm font-medium hover:bg-[#f3f2f1] dark:hover:bg-gray-700 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                    Filter
+                </button>
+                <button class="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-[#e1dfdd] dark:border-gray-600 rounded text-sm font-medium hover:bg-[#f3f2f1] dark:hover:bg-gray-700 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">download</span>
+                    Export
+                </button>
+            </div>
+        </div>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-[#faf9f8] dark:bg-gray-800/50 border-b border-[#e1dfdd] dark:border-gray-700">
+                        <th class="p-4 w-10">
+                            <input class="rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" />
+                        </th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Case ID</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Member</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Component</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Category</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Status</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Deadline</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#e1dfdd] dark:divide-gray-700">
+                    <!-- Row 1 -->
+                    <tr class="group hover:bg-[#f3f2f1] dark:hover:bg-gray-800/50 transition-colors">
+                        <td class="p-4">
+                            <input class="rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" />
+                        </td>
+                        <td class="p-4 text-sm font-medium text-primary hover:underline cursor-pointer">LOD-2023-0089</td>
+                        <td class="p-4">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-[#201f1e] dark:text-white">TSgt. Miller, John</span>
+                                <span class="text-xs text-[#605e5c] dark:text-gray-500">45th Medical Group</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">RegAF</td>
+                        <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">CAT A - ILOD</td>
+                        <td class="p-4">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">
+                                Medical Review
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-1.5">
+                                <div class="size-2 rounded-full bg-alert-green"></div>
+                                <span class="text-sm text-[#201f1e] dark:text-gray-200">12 Days Left</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-right">
+                            <button class="text-[#605e5c] hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">more_horiz</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Row 2 -->
+                    <tr class="group hover:bg-[#f3f2f1] dark:hover:bg-gray-800/50 transition-colors">
+                        <td class="p-4">
+                            <input class="rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" />
+                        </td>
+                        <td class="p-4 text-sm font-medium text-primary hover:underline cursor-pointer">LOD-2023-0042</td>
+                        <td class="p-4">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-[#201f1e] dark:text-white">SrA. Davis, Sarah</span>
+                                <span class="text-xs text-[#605e5c] dark:text-gray-500">128th Air Refueling Wing</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">ANG</td>
+                        <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">CAT B - EPTS</td>
+                        <td class="p-4">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300">
+                                Drafting
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-1.5">
+                                <div class="size-2 rounded-full bg-alert-red animate-pulse"></div>
+                                <span class="text-sm font-semibold text-alert-red dark:text-red-400">Overdue (92 Days)</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-right">
+                            <button class="text-[#605e5c] hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">more_horiz</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Row 3 -->
+                    <tr class="group hover:bg-[#f3f2f1] dark:hover:bg-gray-800/50 transition-colors">
+                        <td class="p-4">
+                            <input class="rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" />
+                        </td>
+                        <td class="p-4 text-sm font-medium text-primary hover:underline cursor-pointer">LOD-2023-0115</td>
+                        <td class="p-4">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-[#201f1e] dark:text-white">Capt. Rodriguez, Elena</span>
+                                <span class="text-xs text-[#605e5c] dark:text-gray-500">Space Systems Command</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">USSF</td>
+                        <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">CAT E - Misconduct</td>
+                        <td class="p-4">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300">
+                                Legal Review
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-1.5">
+                                <div class="size-2 rounded-full bg-alert-yellow"></div>
+                                <span class="text-sm text-[#201f1e] dark:text-gray-200">2 Days Left</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-right">
+                            <button class="text-[#605e5c] hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">more_horiz</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Row 4 -->
+                    <tr class="group hover:bg-[#f3f2f1] dark:hover:bg-gray-800/50 transition-colors">
+                        <td class="p-4">
+                            <input class="rounded border-gray-300 text-primary focus:ring-primary" type="checkbox" />
+                        </td>
+                        <td class="p-4 text-sm font-medium text-primary hover:underline cursor-pointer">LOD-2023-0092</td>
+                        <td class="p-4">
+                            <div class="flex flex-col">
+                                <span class="text-sm font-medium text-[#201f1e] dark:text-white">SSgt. Kowalski, P.</span>
+                                <span class="text-xs text-[#605e5c] dark:text-gray-500">934th Airlift Wing</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">AFR</td>
+                        <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">CAT A - ILOD</td>
+                        <td class="p-4">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                                Pending Signatures
+                            </span>
+                        </td>
+                        <td class="p-4">
+                            <div class="flex items-center gap-1.5">
+                                <div class="size-2 rounded-full bg-alert-green"></div>
+                                <span class="text-sm text-[#201f1e] dark:text-gray-200">45 Days Left</span>
+                            </div>
+                        </td>
+                        <td class="p-4 text-right">
+                            <button class="text-[#605e5c] hover:text-primary dark:text-gray-400 dark:hover:text-white transition-colors">
+                                <span class="material-symbols-outlined text-[20px]">more_horiz</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+        <div class="p-4 border-t border-[#e1dfdd] dark:border-gray-700 flex items-center justify-between">
+            <p class="text-sm text-[#605e5c] dark:text-gray-400">Showing <span class="font-medium text-[#201f1e] dark:text-white">1</span> to <span class="font-medium text-[#201f1e] dark:text-white">4</span> of <span class="font-medium text-[#201f1e] dark:text-white">14</span> results</p>
+            <div class="flex gap-1">
+                <button class="p-1 rounded text-[#605e5c] hover:bg-[#edebe9] dark:text-gray-400 dark:hover:bg-gray-700 disabled:opacity-50" disabled>
+                    <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+                </button>
+                <button class="p-1 rounded text-[#605e5c] hover:bg-[#edebe9] dark:text-gray-400 dark:hover:bg-gray-700">
+                    <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

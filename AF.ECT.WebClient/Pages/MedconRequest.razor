@@ -1,0 +1,248 @@
+@page "/medcon-request"
+@layout AF.ECT.WebClient.Layout.MemberLayout
+@inject NavigationManager NavigationManager
+
+<div class="px-6 md:px-10 lg:px-40 flex flex-col gap-6 py-6">
+    <!-- Breadcrumbs -->
+    <div class="flex flex-wrap gap-2 items-center text-sm">
+        <a class="text-secondary dark:text-slate-400 hover:text-primary transition-colors" href="/member-dashboard">Home</a>
+        <span class="text-slate-300 dark:text-slate-600">/</span>
+        <a class="text-secondary dark:text-slate-400 hover:text-primary transition-colors" href="#">LOD/MEDCON</a>
+        <span class="text-slate-300 dark:text-slate-600">/</span>
+        <span class="text-slate-900 dark:text-white font-medium">New Request</span>
+    </div>
+    <!-- Page Heading -->
+    <div class="flex flex-wrap justify-between items-end gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+        <div class="flex flex-col gap-2">
+            <h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-tight">Initiate MEDCON Request</h1>
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center rounded-full @(IsDraft ? "bg-slate-100 dark:bg-slate-800" : "bg-green-100 dark:bg-green-900") px-2.5 py-0.5 text-xs font-medium @(IsDraft ? "text-slate-800 dark:text-slate-300" : "text-green-800 dark:text-green-300")">
+                    @(IsDraft ? "Draft Status" : "Submitted")
+                </span>
+                <p class="text-secondary dark:text-slate-400 text-sm font-normal">Request ID #@RequestId</p>
+            </div>
+        </div>
+        <div class="flex gap-3">
+            <button @onclick="SaveDraft" disabled="@IsSaving" class="px-4 py-2 bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                @if (IsSaving)
+                {
+                    <span class="animate-spin inline-block mr-1">⟳</span>
+                }
+                Save Draft
+            </button>
+            <button @onclick="SubmitRequest" disabled="@(IsSaving || !CanSubmit)" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors shadow-md flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                <span class="material-symbols-outlined text-[18px]">send</span>
+                Submit Request
+            </button>
+        </div>
+    </div>
+    
+    @if (!string.IsNullOrEmpty(StatusMessage))
+    {
+        <div class="@(IsError ? "bg-red-50 dark:bg-red-900/20 border-red-500 text-red-700 dark:text-red-200" : "bg-green-50 dark:bg-green-900/20 border-green-500 text-green-700 dark:text-green-200") border-l-4 p-4 rounded-r-lg">
+            <div class="flex items-center">
+                <span class="material-symbols-outlined mr-2">@(IsError ? "error" : "check_circle")</span>
+                <p class="text-sm">@StatusMessage</p>
+            </div>
+        </div>
+    }
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Left Column: Main Form -->
+        <div class="lg:col-span-8 flex flex-col gap-8">
+            <!-- Section 1: LOD Determination -->
+            <section class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:shadow-none dark:border dark:border-slate-800 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-primary/10 p-2 rounded-lg text-primary">
+                            <span class="material-symbols-outlined">health_and_safety</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Line of Duty (LOD) Determination</h3>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-400 cursor-help" title="Select the appropriate LOD type based on expected duration">info</span>
+                </div>
+                <div class="p-6 space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">LOD Status Type</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <label class="relative flex items-start p-4 cursor-pointer rounded-lg border @(LodStatusType == "Interim" ? "border-primary bg-primary/5 ring-1 ring-primary" : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50") hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                <div class="flex items-center h-5">
+                                    <input @onchange="@(() => LodStatusType = "Interim")" checked="@(LodStatusType == "Interim")" class="size-4 border-gray-300 text-primary focus:ring-primary" name="lod_status" type="radio" />
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <span class="block font-medium text-slate-900 dark:text-white">Interim LOD</span>
+                                    <span class="block text-slate-500 dark:text-slate-400 mt-1">Valid for requests up to 90 days.</span>
+                                </div>
+                            </label>
+                            <label class="relative flex items-start p-4 cursor-pointer rounded-lg border @(LodStatusType == "Final" ? "border-primary bg-primary/5 ring-1 ring-primary" : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50") hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                                <div class="flex items-center h-5">
+                                    <input @onchange="@(() => LodStatusType = "Final")" checked="@(LodStatusType == "Final")" class="size-4 border-gray-300 text-primary focus:ring-primary" name="lod_status" type="radio" />
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <span class="block font-medium text-slate-900 dark:text-white">Final LOD</span>
+                                    <span class="block text-slate-500 dark:text-slate-400 mt-1">Required for > 90 days extensions.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Start Date</label>
+                            <div class="relative">
+                                <input @bind="StartDate" @bind:event="oninput" class="block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-sm focus:border-primary focus:ring-primary sm:text-sm py-2.5" type="date" />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">End Date</label>
+                            <div class="relative">
+                                <input @bind="EndDate" @bind:event="oninput" class="block w-full rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-sm focus:border-primary focus:ring-primary sm:text-sm py-2.5" type="date" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="@(DurationDays > 90 ? "bg-amber-50 dark:bg-amber-900/20 border-amber-500" : "bg-blue-50 dark:bg-blue-900/20 border-primary") border-l-4 p-4 rounded-r-lg">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <span class="material-symbols-outlined @(DurationDays > 90 ? "text-amber-600" : "text-primary")">@(DurationDays > 90 ? "warning" : "info")</span>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm @(DurationDays > 90 ? "text-amber-700 dark:text-amber-200" : "text-blue-700 dark:text-blue-200")">
+                                    @if (DurationDays > 0)
+                                    {
+                                        <span>Based on your dates, this request is for <span class="font-bold">@DurationDays days</span>. @DurationMessage</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Select start and end dates to calculate the duration.</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Right Column: Summary & Helper Info -->
+        <div class="lg:col-span-4 space-y-6">
+            <!-- Request Summary Card -->
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.1)] dark:shadow-none dark:border dark:border-slate-800 p-6 sticky top-24">
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">Request Summary</h4>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">Request Type</span>
+                        <span class="font-medium text-slate-900 dark:text-white">MEDCON Initial</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">Service Member</span>
+                        <span class="font-medium text-slate-900 dark:text-white">@ServiceMemberName</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">Unit</span>
+                        <span class="font-medium text-slate-900 dark:text-white">@UnitName</span>
+                    </div>
+                    <hr class="border-slate-100 dark:border-slate-800" />
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">LOD Type</span>
+                        <span class="font-medium text-slate-900 dark:text-white">@LodStatusType</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">Duration</span>
+                        <span class="font-bold text-slate-900 dark:text-white">@(DurationDays > 0 ? $"{DurationDays} Days" : "—")</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-slate-500 dark:text-slate-400">Pay Status</span>
+                        <span class="font-medium text-green-600 dark:text-green-400">@PayStatus</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Form State
+    private string LodStatusType { get; set; } = "Interim";
+    private DateTime? StartDate { get; set; }
+    private DateTime? EndDate { get; set; }
+    
+    // UI State
+    private bool IsSaving { get; set; }
+    private bool IsDraft { get; set; } = true;
+    private string StatusMessage { get; set; } = string.Empty;
+    private bool IsError { get; set; }
+    
+    // Member Info (would come from a service in production)
+    private int RequestId { get; set; } = 4092;
+    private string ServiceMemberName { get; set; } = "Capt. Sarah Connor";
+    private string UnitName { get; set; } = "102nd Intel Wing";
+    private string PayStatus { get; set; } = "Active Duty";
+    
+    // Computed Properties
+    private int DurationDays => (StartDate.HasValue && EndDate.HasValue && EndDate > StartDate) 
+        ? (int)(EndDate.Value - StartDate.Value).TotalDays 
+        : 0;
+    
+    private string DurationMessage => DurationDays > 90 
+        ? "Final LOD is recommended for durations over 90 days." 
+        : "Interim LOD is sufficient.";
+    
+    private bool CanSubmit => StartDate.HasValue && EndDate.HasValue && DurationDays > 0;
+    
+    // Event Handlers
+    private async Task SaveDraft()
+    {
+        IsSaving = true;
+        StatusMessage = string.Empty;
+        StateHasChanged();
+        
+        try
+        {
+            // Simulate API call
+            await Task.Delay(800);
+            
+            StatusMessage = "Draft saved successfully at " + DateTime.Now.ToString("h:mm tt");
+            IsError = false;
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = "Error saving draft: " + ex.Message;
+            IsError = true;
+        }
+        finally
+        {
+            IsSaving = false;
+        }
+    }
+    
+    private async Task SubmitRequest()
+    {
+        if (!CanSubmit) return;
+        
+        IsSaving = true;
+        StatusMessage = string.Empty;
+        StateHasChanged();
+        
+        try
+        {
+            // Simulate API call
+            await Task.Delay(1200);
+            
+            IsDraft = false;
+            StatusMessage = "Request submitted successfully. Redirecting to dashboard...";
+            IsError = false;
+            StateHasChanged();
+            
+            // Navigate after a short delay
+            await Task.Delay(1500);
+            NavigationManager.NavigateTo("/member-dashboard");
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = "Error submitting request: " + ex.Message;
+            IsError = true;
+        }
+        finally
+        {
+            IsSaving = false;
+        }
+    }
+}

@@ -15,8 +15,10 @@
     <!-- If you add any scoped CSS files, uncomment the following to load them
     <link href="AF.ECT.Client.styles.css" rel="stylesheet" /> -->
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Public+Sans:wght@400;500;700;900" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
 </head>
 
 <body>
@@ -42,12 +44,25 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#0f66bd",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#101922",
+                        "primary": "#1985f0",
+                        "primary-dark": "#106ebe",
+                        "secondary": "#4b739b",
+                        "background-light": "#f3f2f1", // Fluent light gray
+                        "background-dark": "#202020",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#2b2b2b",
+                        "border-light": "#e0e6eb",
+                        "border-dark": "#2d3748",
+                        "alert-red": "#d13438",
+                        "alert-green": "#107c10",
+                        "alert-yellow": "#ffb900",
                     },
                     fontFamily: {
-                        "display": ["Public Sans"]
+                        "display": ["Public Sans", "Segoe UI", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'fluent': '0 1.6px 3.6px 0 rgba(0,0,0,0.132), 0 0.3px 0.9px 0 rgba(0,0,0,0.108)',
+                        'fluent-hover': '0 3.2px 7.2px 0 rgba(0,0,0,0.132), 0 0.6px 1.8px 0 rgba(0,0,0,0.108)',
                     },
                     borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
                 },
@@ -56,4 +71,5 @@
     </script>
 
 </body>
+
 </html>

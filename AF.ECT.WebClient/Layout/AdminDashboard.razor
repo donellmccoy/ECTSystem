@@ -1,0 +1,331 @@
+@page "/admin-dashboard"
+@layout AF.ECT.WebClient.Layout.FluentDashboardLayout
+@inject NavigationManager NavigationManager
+
+<div class="max-w-[1400px] mx-auto flex flex-col gap-6">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+            <div class="flex items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-primary dark:text-blue-300 text-[10px] font-bold uppercase tracking-wide">sysAdmin</span>
+                <span class="text-[#605e5c] dark:text-gray-400 text-xs">/ Administration</span>
+            </div>
+            <h2 class="text-2xl font-bold text-[#201f1e] dark:text-white tracking-tight">Administration Dashboard</h2>
+            <p class="text-[#605e5c] dark:text-gray-400 mt-1">Manage users, units, workflows, and monitor system health.</p>
+        </div>
+        <div class="flex gap-2">
+            <button @onclick="ExportLogs" class="flex items-center gap-2 bg-white dark:bg-gray-700 border border-[#e1dfdd] dark:border-gray-600 hover:bg-[#f3f2f1] dark:hover:bg-gray-600 text-[#201f1e] dark:text-white px-4 py-2 rounded shadow-sm transition-colors text-sm font-semibold">
+                <span class="material-symbols-outlined text-[20px]">download</span>
+                Export Logs
+            </button>
+            <button @onclick="ShowAddUserModal" class="flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded shadow-sm transition-colors text-sm font-semibold">
+                <span class="material-symbols-outlined text-[20px]">add</span>
+                Add User
+            </button>
+        </div>
+    </div>
+    
+    @if (!string.IsNullOrEmpty(StatusMessage))
+    {
+        <div class="@(IsError ? "bg-red-100 dark:bg-red-900/20 border-red-500 text-red-700 dark:text-red-200" : "bg-green-100 dark:bg-green-900/20 border-green-500 text-green-700 dark:text-green-200") border-l-4 p-4 rounded-r-md flex items-center justify-between">
+            <div class="flex items-center">
+                <span class="material-symbols-outlined mr-2">@(IsError ? "error" : "check_circle")</span>
+                <p class="text-sm">@StatusMessage</p>
+            </div>
+            <button @onclick="@(() => StatusMessage = "")" class="text-sm hover:underline">Dismiss</button>
+        </div>
+    }
+    
+    <!-- Metrics Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div @onclick="NavigateToRoleRequests" class="bg-surface-light dark:bg-surface-dark p-5 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col gap-1 hover:shadow-fluent-hover transition-shadow cursor-pointer">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-[#605e5c] dark:text-gray-400">Pending User Approvals</span>
+                <span class="material-symbols-outlined text-[#605e5c] dark:text-gray-500 text-[20px]">person_add</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-bold text-[#201f1e] dark:text-white">@PendingApprovals</span>
+                @if (PendingApprovals > 0)
+                {
+                    <span class="text-xs font-medium text-alert-yellow bg-yellow-100 dark:bg-yellow-900/30 px-1.5 py-0.5 rounded">Action needed</span>
+                }
+            </div>
+            <p class="text-xs text-[#605e5c] dark:text-gray-500 mt-1">Role change requests</p>
+        </div>
+        <div class="bg-surface-light dark:bg-surface-dark p-5 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col gap-1 hover:shadow-fluent-hover transition-shadow">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-[#605e5c] dark:text-gray-400">Active Units</span>
+                <span class="material-symbols-outlined text-primary dark:text-blue-400 text-[20px]">domain</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-bold text-[#201f1e] dark:text-white">@ActiveUnits</span>
+                <span class="text-xs font-medium text-alert-green bg-green-100 dark:bg-green-900/30 px-1.5 py-0.5 rounded">+2 new</span>
+            </div>
+            <p class="text-xs text-[#605e5c] dark:text-gray-500 mt-1">Across all MAJCOMs</p>
+        </div>
+        <div class="bg-surface-light dark:bg-surface-dark p-5 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col gap-1 hover:shadow-fluent-hover transition-shadow">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-[#605e5c] dark:text-gray-400">Total System Users</span>
+                <span class="material-symbols-outlined text-[#605e5c] dark:text-gray-500 text-[20px]">group</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-bold text-[#201f1e] dark:text-white">@TotalUsers.ToString("N0")</span>
+            </div>
+            <p class="text-xs text-[#605e5c] dark:text-gray-500 mt-1">Active accounts</p>
+        </div>
+        <div class="bg-surface-light dark:bg-surface-dark p-5 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col gap-1 hover:shadow-fluent-hover transition-shadow">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-[#605e5c] dark:text-gray-400">System Status</span>
+                <span class="material-symbols-outlined text-alert-green text-[20px]">check_circle</span>
+            </div>
+            <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-3xl font-bold text-alert-green">@SystemStatus</span>
+            </div>
+            <p class="text-xs text-[#605e5c] dark:text-gray-500 mt-1">@Uptime Uptime (30 days)</p>
+        </div>
+    </div>
+    <!-- Quick Actions -->
+    <div class="flex flex-col gap-3">
+        <h3 class="text-lg font-bold text-[#201f1e] dark:text-white">Quick Actions</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            <button @onclick="ShowAddUserModal" class="bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group text-center h-32">
+                <div class="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
+                    <span class="material-symbols-outlined text-primary dark:text-blue-400 text-[28px]">person_add</span>
+                </div>
+                <span class="text-sm font-semibold text-[#201f1e] dark:text-white">Add Member</span>
+            </button>
+            <button @onclick="CreateUnit" class="bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group text-center h-32">
+                <div class="p-2 rounded-full bg-purple-50 dark:bg-purple-900/20 group-hover:bg-purple-100 dark:group-hover:bg-purple-900/40 transition-colors">
+                    <span class="material-symbols-outlined text-purple-600 dark:text-purple-400 text-[28px]">domain_add</span>
+                </div>
+                <span class="text-sm font-semibold text-[#201f1e] dark:text-white">Create Unit</span>
+            </button>
+            <button @onclick="ManageUsers" class="bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group text-center h-32">
+                <div class="p-2 rounded-full bg-green-50 dark:bg-green-900/20 group-hover:bg-green-100 dark:group-hover:bg-green-900/40 transition-colors">
+                    <span class="material-symbols-outlined text-green-600 dark:text-green-400 text-[28px]">manage_accounts</span>
+                </div>
+                <span class="text-sm font-semibold text-[#201f1e] dark:text-white">Manage Users</span>
+            </button>
+            <button @onclick="ManageEmailTemplates" class="bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group text-center h-32">
+                <div class="p-2 rounded-full bg-orange-50 dark:bg-orange-900/20 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/40 transition-colors">
+                    <span class="material-symbols-outlined text-orange-600 dark:text-orange-400 text-[28px]">mail</span>
+                </div>
+                <span class="text-sm font-semibold text-[#201f1e] dark:text-white">Email Templates</span>
+            </button>
+            <button @onclick="NavigateToRoleRequests" class="bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group text-center h-32 relative">
+                <div class="p-2 rounded-full bg-red-50 dark:bg-red-900/20 group-hover:bg-red-100 dark:group-hover:bg-red-900/40 transition-colors">
+                    <span class="material-symbols-outlined text-red-600 dark:text-red-400 text-[28px]">assignment_ind</span>
+                </div>
+                <span class="text-sm font-semibold text-[#201f1e] dark:text-white">Role Requests</span>
+                @if (PendingApprovals > 0)
+                {
+                    <span class="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-alert-red text-[10px] font-bold text-white">@PendingApprovals</span>
+                }
+            </button>
+            <button @onclick="ViewWorkflow" class="bg-surface-light dark:bg-surface-dark p-4 rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 flex flex-col items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group text-center h-32">
+                <div class="p-2 rounded-full bg-gray-100 dark:bg-gray-700 group-hover:bg-gray-200 dark:group-hover:bg-gray-600 transition-colors">
+                    <span class="material-symbols-outlined text-[#605e5c] dark:text-gray-400 text-[28px]">schema</span>
+                </div>
+                <span class="text-sm font-semibold text-[#201f1e] dark:text-white">Workflow View</span>
+            </button>
+        </div>
+    </div>
+    <!-- Maintenance Alert -->
+    @if (ShowMaintenanceAlert)
+    {
+        <div class="flex flex-col gap-3">
+            <div class="flex items-start gap-4 p-4 rounded-md border-l-4 border-alert-yellow bg-[#fff4ce] dark:bg-yellow-900/10 shadow-sm">
+                <span class="material-symbols-outlined text-yellow-700 dark:text-yellow-500 mt-0.5">info</span>
+                <div class="flex-1">
+                    <h4 class="text-sm font-bold text-[#795d03] dark:text-yellow-500">Scheduled System Maintenance</h4>
+                    <p class="text-sm text-[#201f1e] dark:text-gray-200 mt-1">@MaintenanceMessage</p>
+                </div>
+                <button @onclick="ViewMaintenanceDetails" class="text-sm font-medium text-[#795d03] hover:underline dark:text-yellow-500">Details</button>
+            </div>
+        </div>
+    }
+    <!-- Pending Access Table -->
+    <div class="flex flex-col gap-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-fluent border border-[#e1dfdd] dark:border-gray-700 overflow-hidden">
+        <div class="p-4 border-b border-[#e1dfdd] dark:border-gray-700 flex items-center justify-between">
+            <h3 class="text-base font-bold text-[#201f1e] dark:text-white">Recent Pending Access Requests</h3>
+            <button @onclick="ViewAllRequests" class="text-sm font-medium text-primary hover:underline">View All Requests</button>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-[#faf9f8] dark:bg-gray-800/50 border-b border-[#e1dfdd] dark:border-gray-700">
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">User</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Unit / Organization</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Role Requested</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider">Date</th>
+                        <th class="p-4 text-xs font-semibold text-[#605e5c] dark:text-gray-400 uppercase tracking-wider text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#e1dfdd] dark:divide-gray-700">
+                    @foreach (var request in PendingRequests)
+                    {
+                        <tr class="group hover:bg-[#f3f2f1] dark:hover:bg-gray-800/50 transition-colors">
+                            <td class="p-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="bg-gray-200 dark:bg-gray-700 rounded-full size-8 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300">@request.Initials</div>
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-medium text-[#201f1e] dark:text-white">@request.Name</span>
+                                        <span class="text-xs text-[#605e5c] dark:text-gray-500">@request.Email</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">@request.Unit</td>
+                            <td class="p-4">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">
+                                    @request.RoleRequested
+                                </span>
+                            </td>
+                            <td class="p-4 text-sm text-[#201f1e] dark:text-gray-200">@request.Date.ToString("MMM dd, yyyy")</td>
+                            <td class="p-4 text-right">
+                                <button @onclick="@(() => ApproveRequest(request.Id))" disabled="@request.IsProcessing" class="text-primary hover:text-primary-dark font-medium text-sm mr-3 disabled:opacity-50">
+                                    @(request.IsProcessing ? "..." : "Approve")
+                                </button>
+                                <button @onclick="@(() => DenyRequest(request.Id))" disabled="@request.IsProcessing" class="text-alert-red hover:text-red-700 font-medium text-sm disabled:opacity-50">
+                                    @(request.IsProcessing ? "..." : "Deny")
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    @if (PendingRequests.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="5" class="p-8 text-center text-[#605e5c] dark:text-gray-400">
+                                <span class="material-symbols-outlined text-4xl mb-2">check_circle</span>
+                                <p>No pending access requests</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    // UI State
+    private string StatusMessage { get; set; } = string.Empty;
+    private bool IsError { get; set; }
+    private bool ShowMaintenanceAlert { get; set; } = true;
+    
+    // Dashboard Metrics
+    private int PendingApprovals => PendingRequests.Count;
+    private int ActiveUnits { get; set; } = 142;
+    private int TotalUsers { get; set; } = 1250;
+    private string SystemStatus { get; set; } = "Normal";
+    private string Uptime { get; set; } = "99.9%";
+    private string MaintenanceMessage { get; set; } = "The ALOD system will undergo routine maintenance this Sunday from 0200 to 0600 ZULU. Workflow services may be intermittent.";
+    
+    // Pending Requests Data
+    private List<AccessRequest> PendingRequests = new()
+    {
+        new AccessRequest { Id = 1, Name = "TSgt. Smith, James", Email = "james.smith.mil@mail.mil", Initials = "TS", Unit = "934th Airlift Wing (AFR)", RoleRequested = "unitAdmin", Date = new DateTime(2023, 10, 24) },
+        new AccessRequest { Id = 2, Name = "MSgt. Johnson, Lisa", Email = "lisa.johnson.mil@mail.mil", Initials = "LJ", Unit = "302nd Airlift Wing (AFR)", RoleRequested = "reviewer", Date = new DateTime(2023, 10, 23) },
+        new AccessRequest { Id = 3, Name = "SSgt. Williams, Robert", Email = "robert.williams.mil@mail.mil", Initials = "RW", Unit = "1st Fighter Wing (RegAF)", RoleRequested = "memberView", Date = new DateTime(2023, 10, 22) }
+    };
+    
+    // Event Handlers
+    private void ExportLogs()
+    {
+        StatusMessage = "System logs exported successfully.";
+        IsError = false;
+    }
+    
+    private void ShowAddUserModal()
+    {
+        StatusMessage = "Add User dialog would open here.";
+        IsError = false;
+    }
+    
+    private void CreateUnit()
+    {
+        StatusMessage = "Create Unit wizard would open here.";
+        IsError = false;
+    }
+    
+    private void ManageUsers()
+    {
+        StatusMessage = "Navigating to User Management...";
+        IsError = false;
+    }
+    
+    private void ManageEmailTemplates()
+    {
+        StatusMessage = "Email Templates editor would open here.";
+        IsError = false;
+    }
+    
+    private void NavigateToRoleRequests()
+    {
+        // Scroll to the table or navigate to dedicated page
+        StatusMessage = "Viewing role requests below.";
+        IsError = false;
+    }
+    
+    private void ViewWorkflow()
+    {
+        StatusMessage = "Workflow visualization would display here.";
+        IsError = false;
+    }
+    
+    private void ViewMaintenanceDetails()
+    {
+        StatusMessage = "Maintenance scheduled for Sunday 0200-0600 ZULU. All services will be temporarily unavailable.";
+        IsError = false;
+    }
+    
+    private void ViewAllRequests()
+    {
+        StatusMessage = "Navigating to full request list...";
+        IsError = false;
+    }
+    
+    private async Task ApproveRequest(int requestId)
+    {
+        var request = PendingRequests.FirstOrDefault(r => r.Id == requestId);
+        if (request == null) return;
+        
+        request.IsProcessing = true;
+        StateHasChanged();
+        
+        // Simulate API call
+        await Task.Delay(800);
+        
+        PendingRequests.Remove(request);
+        StatusMessage = $"Access request for {request.Name} has been approved.";
+        IsError = false;
+    }
+    
+    private async Task DenyRequest(int requestId)
+    {
+        var request = PendingRequests.FirstOrDefault(r => r.Id == requestId);
+        if (request == null) return;
+        
+        request.IsProcessing = true;
+        StateHasChanged();
+        
+        // Simulate API call
+        await Task.Delay(800);
+        
+        PendingRequests.Remove(request);
+        StatusMessage = $"Access request for {request.Name} has been denied.";
+        IsError = false;
+    }
+    
+    // Data Model
+    private class AccessRequest
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Initials { get; set; } = "";
+        public string Unit { get; set; } = "";
+        public string RoleRequested { get; set; } = "";
+        public DateTime Date { get; set; }
+        public bool IsProcessing { get; set; }
+    }
+}
