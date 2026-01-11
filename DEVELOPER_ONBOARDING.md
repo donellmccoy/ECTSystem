@@ -1,5 +1,8 @@
 # ECTSystem Developer Onboarding Guide
 
+**Last Updated**: January 11, 2026  
+**Status**: ✅ Updated with current architecture and implementation status
+
 Welcome to the Electronic Case Tracking (ECT) System development team! This guide will help you get set up and productive quickly.
 
 ## Table of Contents
@@ -26,7 +29,7 @@ Before starting, ensure you have the following installed:
 
 | Software | Version | Download Link | Purpose |
 |----------|---------|---------------|---------|
-| .NET SDK | 9.0.306 or later | [Download](https://dotnet.microsoft.com/download/dotnet/9.0) | Core runtime and development tools |
+| .NET SDK | 9.0.306 or later (January 2026) | [Download](https://dotnet.microsoft.com/download/dotnet/9.0) | Core runtime and development tools |
 | Visual Studio 2022 | 17.12+ | [Download](https://visualstudio.microsoft.com/) | Primary IDE (Community/Professional/Enterprise) |
 | SQL Server | 2022+ | [Download](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) | Database (Developer/Express edition OK) |
 | Git | Latest | [Download](https://git-scm.com/) | Version control |
