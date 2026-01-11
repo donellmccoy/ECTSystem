@@ -16,7 +16,7 @@ jobs:
         with:
           dotnet-version: '9.0'
       - name: Restore dependencies
-        run: dotnet restore ElectronicCaseTracking.sln
+        run: dotnet restore ECTSystem.sln
       - name: Build
         run: dotnet build --configuration Release --no-restore
       - name: Publish AppHost
@@ -37,7 +37,7 @@ jobs:
         with:
           dotnet-version: '9.0'
       - name: Restore dependencies
-        run: dotnet restore ElectronicCaseTracking.sln
+        run: dotnet restore ECTSystem.sln
       - name: Run tests
         run: dotnet test AF.ECT.Tests/AF.ECT.Tests.csproj --configuration Release --collect "XPlat Code Coverage" --results-directory ./test-results
       - name: Upload test results

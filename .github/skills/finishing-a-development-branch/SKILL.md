@@ -55,7 +55,7 @@ Stop. Don't proceed to Step 2.
 
 **Build verification (ECTSystem):**
 ```bash
-dotnet build ElectronicCaseTracking.sln --no-restore
+dotnet build ECTSystem.sln --no-restore
 # Expected: 0 errors, 0 warnings
 ```
 
@@ -102,7 +102,7 @@ git merge <feature-branch>
 # Verify tests on merged result
 # .NET / C# (ECTSystem)
 dotnet test AF.ECT.Tests --no-build --logger "console;verbosity=minimal"
-dotnet build ElectronicCaseTracking.sln --no-restore
+dotnet build ECTSystem.sln --no-restore
 
 # Node.js
 npm test
@@ -128,7 +128,7 @@ gh pr create --title "feat: [feature description]" --body "$(cat <<'EOF'
 - Tests added: [list test names]
 
 ## Verification
-- [x] `dotnet build ElectronicCaseTracking.sln` succeeds (0 errors, 0 warnings)
+- [x] `dotnet build ECTSystem.sln` succeeds (0 errors, 0 warnings)
 - [x] `dotnet test AF.ECT.Tests` passes (X tests, 0 failures)
 - [x] gRPC contracts updated (AF.ECT.Shared/Protos)
 - [x] EF Core migrations applied (if DB changes)

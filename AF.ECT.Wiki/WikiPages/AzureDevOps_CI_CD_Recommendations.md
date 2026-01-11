@@ -49,7 +49,7 @@ Based on the ECTSystem's architecture—a .NET Aspire-orchestrated distributed a
 ### 2. **Build Stage: Restore, Build, and Package**
    - **Why?** Ensures code compiles correctly and packages are ready for deployment. Use .NET CLI for efficiency.
    - **Recommendations**:
-     - Restore NuGet packages: `dotnet restore ElectronicCaseTracking.sln`.
+     - Restore NuGet packages: `dotnet restore ECTSystem.sln`.
      - Build the solution: `dotnet build --configuration Release --no-restore`.
      - Publish projects: Use `dotnet publish` for each (AppHost, Server, WebClient, Win UI) to create deployable artifacts. For Aspire, publish the AppHost as a container-ready app. For Win UI, publish as a self-contained app or MSIX package.
      - Generate containers: Use Docker tasks or `dotnet publish` with `--os linux --arch x64` for ACA/AKS (web/server components).
@@ -60,12 +60,7 @@ Based on the ECTSystem's architecture—a .NET Aspire-orchestrated distributed a
          displayName: 'Restore NuGet packages'
          inputs:
            command: 'restore'
-           projects: 'ElectronicCaseTracking.sln'
-       - task: DotNetCoreCLI@2
-         displayName: 'Build solution'
-         inputs:
-           command: 'build'
-           projects: 'ElectronicCaseTracking.sln'
+           projects: 'ECTSystem.sln'
            arguments: '--configuration Release'
        - task: DotNetCoreCLI@2
          displayName: 'Publish AppHost'

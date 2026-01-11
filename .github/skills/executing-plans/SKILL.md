@@ -34,13 +34,13 @@ For each task:
 ```bash
 # After each task in plan, run verification
 # Build the solution to catch compilation errors early
-dotnet build ElectronicCaseTracking.sln /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary
+dotnet build ECTSystem.sln /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary /m:8
 
 # Run tests to verify functionality
 dotnet test AF.ECT.Tests --filter "YourTestNamePattern" --no-build
 
 # Check for warnings that become errors
-dotnet build ElectronicCaseTracking.sln /property:GenerateFullPaths=true /p:TreatWarningsAsErrors=true
+dotnet build ECTSystem.sln /property:GenerateFullPaths=true /p:TreatWarningsAsErrors=true
 ```
 
 ### Step 3: Report
@@ -74,7 +74,7 @@ Verification Results:
 $ dotnet test AF.ECT.Tests --filter "Audit|UserCount" --no-build
   9 tests passed, 0 failed
 
-$ dotnet build ElectronicCaseTracking.sln
+$ dotnet build ECTSystem.sln
   Build complete with 0 errors, 0 warnings
 
 Ready for feedback.

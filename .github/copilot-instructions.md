@@ -12,7 +12,7 @@
 ## CRITICAL: Build Verification Requirement
 **ALWAYS verify the solution builds successfully before responding to any code changes. Do not rebuild solution if markdown are changed**
 
-- After making ANY code modifications, run `dotnet build ElectronicCaseTracking.sln` and wait for completion
+- After making ANY code modifications, run `dotnet build ECTSystem.sln` and wait for completion
 - Only respond after confirming the build succeeds (exit code 0)
 - If build fails, fix errors before providing any analysis or next steps
 - Never assume builds will succeed - always verify explicitly
@@ -29,11 +29,11 @@ ECTSystem is an Electronic Case Tracking application for ALOD (Army Lodging) bui
 - **Communication**: Client uses `WorkflowClient` for gRPC calls; server implements `WorkflowServiceImpl`.
 
 ## Development Workflow
-- **Build**: `dotnet build ElectronicCaseTracking.sln` (uses tasks.json for automation).
+- **Build**: `dotnet build ECTSystem.sln` (uses tasks.json for automation).
 - **Run**: `dotnet run` in `AF.ECT.AppHost` launches Aspire dashboard at http://localhost:15888.
 - **Debug**: Use launchSettings.json profiles; attach debugger to processes.
 - **Test**: `dotnet test` runs xUnit tests in `AF.ECT.Tests`.
-- **Package Updates**: `dotnet list ElectronicCaseTracking.sln package --outdated` to check for outdated NuGet packages.
+- **Package Updates**: `dotnet list ECTSystem.sln package --outdated` to check for outdated NuGet packages.
 - **Database**: Migrations via EF Core; stored procedures for complex queries.
 
 

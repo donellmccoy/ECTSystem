@@ -38,6 +38,6 @@ The rest of the code (methods, constructors for testing, retry policies, etc.) r
    - Both reference [`AF.ECT.Shared`](AF.ECT.Shared ) for shared components.
 
 ### Next Steps
-- The refactor is complete and tested with `dotnet build ElectronicCaseTracking.sln`.
+- The refactor is complete and tested with `dotnet build ECTSystem.sln`.
 - Audit.NET integration provides automated auditing for compliance.
 - If further optimizations are needed, consider platform-specific audit configurations.

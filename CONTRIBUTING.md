@@ -48,7 +48,7 @@ Before contributing, ensure you have:
    ```
 4. Build the solution:
    ```bash
-   dotnet build ElectronicCaseTracking.sln
+   dotnet build ECTSystem.sln
    ```
 5. Run tests to verify setup:
    ```bash
@@ -276,7 +276,7 @@ dotnet test /p:CollectCoverage=true
 **CRITICAL**: Always verify the solution builds successfully before committing:
 
 ```bash
-dotnet build ElectronicCaseTracking.sln
+dotnet build ECTSystem.sln
 ```
 
 ## Pull Request Process

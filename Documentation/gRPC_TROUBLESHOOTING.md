@@ -282,10 +282,10 @@ Sometimes a clean restart resolves issues:
 # In Visual Studio: Stop Debugging (Shift+F5)
 
 # Clean solution
-dotnet clean ElectronicCaseTracking.sln
+dotnet clean ECTSystem.sln
 
 # Rebuild
-dotnet build ElectronicCaseTracking.sln
+dotnet build ECTSystem.sln
 
 # Restart from Aspire
 # Set AF.ECT.AppHost as startup project

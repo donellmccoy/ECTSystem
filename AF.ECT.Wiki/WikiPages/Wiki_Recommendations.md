@@ -69,7 +69,7 @@ For an Azure DevOps-style wiki (Markdown-based, collaborative, with page trees, 
    - Seed with content from `Documentation/`.
 
 5. **Build and Run**:
-   - `dotnet build ElectronicCaseTracking.sln`.
+   - `dotnet build ECTSystem.sln`.
    - Launch via Aspire: Access at assigned endpoint.
 
 This provides a dynamic, interactive wiki with Azure DevOps-like features.

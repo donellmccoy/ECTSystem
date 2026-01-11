@@ -130,7 +130,7 @@ ECTSystem/
 ├── AF.ECT.ServiceDefaults/  # Common service configuration
 ├── AF.ECT.Tests/            # Unit and integration tests
 ├── AF.ECT.Wiki/             # Documentation wiki (Blazor)
-├── ElectronicCaseTracking.sln
+├── ECTSystem.sln
 └── README.md
 ```
 
@@ -141,7 +141,7 @@ ECTSystem/
 ### First-Time Build
 
 1. **Open Solution in Visual Studio**
-   - Double-click `ElectronicCaseTracking.sln`
+   - Double-click `ECTSystem.sln`
    - Wait for Visual Studio to restore NuGet packages
 
 2. **Build from Visual Studio**
@@ -150,7 +150,7 @@ ECTSystem/
 
 3. **Build from Command Line** (alternative)
    ```powershell
-   dotnet build ElectronicCaseTracking.sln
+   dotnet build ECTSystem.sln
    ```
 
 ### Common Build Issues
@@ -159,13 +159,13 @@ If you encounter build errors:
 
 1. **Restore NuGet Packages**
    ```powershell
-   dotnet restore ElectronicCaseTracking.sln
+   dotnet restore ECTSystem.sln
    ```
 
 2. **Clean and Rebuild**
    ```powershell
-   dotnet clean ElectronicCaseTracking.sln
-   dotnet build ElectronicCaseTracking.sln
+   dotnet clean ECTSystem.sln
+   dotnet build ECTSystem.sln
    ```
 
 3. See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed solutions
@@ -248,7 +248,7 @@ In `AF.ECT.WebClient/appsettings.Development.json`:
 
 4. **Build and Test**
    ```powershell
-   dotnet build ElectronicCaseTracking.sln
+   dotnet build ECTSystem.sln
    dotnet test
    ```
 

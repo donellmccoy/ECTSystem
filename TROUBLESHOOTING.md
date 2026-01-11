@@ -32,12 +32,12 @@ error NU1101: Unable to find package Microsoft.EntityFrameworkCore
 
 2. Restore packages explicitly:
    ```powershell
-   dotnet restore ElectronicCaseTracking.sln
+   dotnet restore ECTSystem.sln
    ```
 
 3. Rebuild the solution:
    ```powershell
-   dotnet build ElectronicCaseTracking.sln
+   dotnet build ECTSystem.sln
    ```
 
 ### Problem: Build fails with "SDK not found" error

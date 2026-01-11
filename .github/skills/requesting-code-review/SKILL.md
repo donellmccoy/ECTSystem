@@ -32,7 +32,7 @@ HEAD_SHA=$(git rev-parse HEAD)
 **2. For C# .NET Projects (ECTSystem):**
 ```bash
 # Verify build and tests before requesting review
-dotnet build ElectronicCaseTracking.sln --no-restore
+dotnet build ECTSystem.sln --no-restore
 dotnet test AF.ECT.Tests --filter "YourNewTests" --no-build
 
 # Get SHAs
@@ -95,7 +95,7 @@ You: [Fix progress indicators]
 
 You: Let me request code review before proceeding.
 
-dotnet build ElectronicCaseTracking.sln --no-restore
+dotnet build ECTSystem.sln --no-restore
   ✓ Build succeeded, 0 errors, 0 warnings
   
 dotnet test AF.ECT.Tests --filter "GetWorkflowCount" --no-build

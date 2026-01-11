@@ -112,7 +112,7 @@ Expected: PASS
 
 **Step 5: Verify build succeeds with no warnings**
 
-Run: `dotnet build ElectronicCaseTracking.sln /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary`
+Run: `dotnet build ECTSystem.sln /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary`
 Expected: Build succeeded with 0 errors, 0 warnings
 
 **Step 6: Commit**

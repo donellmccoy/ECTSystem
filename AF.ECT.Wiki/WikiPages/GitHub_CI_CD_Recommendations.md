@@ -43,7 +43,7 @@ Based on the ECTSystem's architecture—a .NET Aspire-orchestrated distributed a
          with:
            dotnet-version: '9.0'
        - name: Restore dependencies
-         run: dotnet restore ElectronicCaseTracking.sln
+         run: dotnet restore ECTSystem.sln
        - name: Build
          run: dotnet build --configuration Release --no-restore
        - name: Publish AppHost

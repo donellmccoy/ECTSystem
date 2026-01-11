@@ -104,9 +104,9 @@ Auto-detect and run appropriate setup:
 
 ```bash
 # .NET / C# Project (ECTSystem)
-if [ -f "ElectronicCaseTracking.sln" ] || [ -f "*.sln" ]; then 
+if [ -f "ECTSystem.sln" ] || [ -f "*.sln" ]; then 
   dotnet restore
-  dotnet build ElectronicCaseTracking.sln /property:GenerateFullPaths=true
+  dotnet build ECTSystem.sln /property:GenerateFullPaths=true
 fi
 
 # Node.js
@@ -125,8 +125,8 @@ if [ -f go.mod ]; then go mod download; fi
 
 **For ECTSystem specifically:**
 ```bash
-dotnet restore ElectronicCaseTracking.sln
-dotnet build ElectronicCaseTracking.sln /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary /m:8
+dotnet restore ECTSystem.sln
+dotnet build ECTSystem.sln /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary /m:8
 ```
 
 ### 4. Verify Clean Baseline
