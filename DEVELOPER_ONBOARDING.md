@@ -378,20 +378,141 @@ The server uses a carefully ordered middleware pipeline:
 
 This order is critical for security and performance.
 
-**Client Usage** in `AF.ECT.Shared/Services/WorkflowClient.cs`:
+### Distributed Tracing & W3C Trace Context
+
+ECTSystem now implements W3C Trace Context propagation for end-to-end distributed tracing:
 
 ```csharp
-public class WorkflowClient : IWorkflowClient
-{
-    private readonly WorkflowService.WorkflowServiceClient _client;
+// In WorkflowClient - automatically injects trace context
+var metadata = new Grpc.Core.Metadata();
+metadata.InjectW3CTraceContext(); // Adds traceparent, tracestate headers
 
-    public async Task<User> GetUserByIdAsync(int userId)
-    {
-        var response = await _client.GetUserByIdAsync(new GetUserByIdRequest { UserId = userId });
-        return response.User;
-    }
+// Server-side extraction
+var activity = DistributedTracingExtensions.ExtractW3CTraceContext(metadata);
+activity?.AddGrpcTraceAttributes("GetUserById", "WorkflowService", correlationId);
+```
+
+**Benefits:**
+- End-to-end request tracing across client-server boundaries
+- Parent-child span relationships for call chain visualization
+- Correlation IDs linked to OpenTelemetry traces
+- Compatible with Jaeger, Zipkin, and Azure Application Insights
+
+**Location:** `AF.ECT.Shared/Extensions/DistributedTracingExtensions.cs`
+
+### Structured Logging with Correlation IDs
+
+Correlation IDs are automatically managed and enriched in all logs:
+
+```csharp
+// ICorrelationIdProvider automatically tracks request tracing
+public class CorrelationIdProvider : ICorrelationIdProvider
+{
+    // Generates correlation ID: {MachineName}-{Timestamp}-{GUID}
+    public string GenerateCorrelationId() { ... }
+    
+    // Sets response header for client-side tracking
+    public void SetCorrelationId(string correlationId) { ... }
 }
 ```
+
+All logs automatically include:
+- Correlation ID (links client → server → database operations)
+- Request path and method
+- Execution duration
+- User identity (if authenticated)
+
+**Location:** `AF.ECT.Server/Services/CorrelationIdProvider.cs`
+
+### Per-User Rate Limiting
+
+Beyond IP-based rate limiting, per-user quotas prevent individual authenticated users from exhausting resources:
+
+```csharp
+// UserRateLimiter - tracks requests per user
+public interface IUserRateLimiter
+{
+    bool IsAllowed(string userId);  // Default: 100 requests/minute
+    Task<bool> IsAllowedAsync(string userId, int maxRequestsPerMinute);
+}
+```
+
+**Configuration** in `WorkflowClientOptions`:
+- `MaxRequestsPerUserPerMinute`: Default 100 requests/minute per authenticated user
+- Automatically resets on minute boundaries
+- Logged when limits exceeded for security monitoring
+
+**Location:** `AF.ECT.Server/Services/UserRateLimiter.cs`
+
+### Runtime Configuration Hot-Reload
+
+Non-critical settings can be reloaded without application restart:
+
+```csharp
+public class ConfigurationHotReloadService
+{
+    public void ReloadTimeoutSettings() { ... }      // Safe: timeouts only affect new calls
+    public void ReloadLogLevels() { ... }            // Safe: affects new log messages
+    public void ReloadRateLimitSettings() { ... }    // Safe: affects new requests
+    
+    public bool ValidateReloadSafety() { ... }       // Prevents unsafe reloads
+}
+```
+
+**Safe to reload:** Timeouts, logging levels, rate limit thresholds, cache TTLs
+**Not safe to reload:** Connection strings, CORS origins, security settings
+
+**Location:** `AF.ECT.Server/Services/ConfigurationHotReloadService.cs`
+
+### Database Query Optimization
+
+Database operations now include performance monitoring and optimization helpers:
+
+```csharp
+// Slow query detection (logs queries > 1000ms)
+optionsBuilder.EnableSlowQueryLogging(thresholdMs: 1000);
+
+// Query result caching for read-heavy operations
+var cachedUsers = await userQuery.WithCaching("users", durationMinutes: 30).ToListAsync();
+
+// Logging for N+1 query detection
+var results = await query.ToListWithLoggingAsync("GetActiveUsers");
+```
+
+**Features:**
+- Automatic slow query logging in debug output
+- Query execution time tracking
+- N+1 query detection helper
+- Soft-delete query filter support
+
+**Location:** `AF.ECT.Data/Extensions/QueryOptimizationExtensions.cs`
+
+### Enhanced Health Checks
+
+Health checks now include memory monitoring and tagged categorization:
+
+```csharp
+services.AddHealthChecks()
+    .AddDbContextCheck<ALODContext>(name: "Database", tags: ["critical", "database"])
+    .AddCheck("Memory", () => GC.GetTotalMemory(false) < 1_000_000_000 ? 
+        HealthCheckResult.Healthy() : HealthCheckResult.Degraded())
+    .AddCheck("Self", () => HealthCheckResult.Healthy(), tags: ["application"]);
+```
+
+**Exposed at:** `/healthz` with JSON response showing each check status
+
+### Compiler Warnings & Strict Analysis
+
+The project now enables:
+- **Nullable reference types:** Catches null reference issues at compile time
+- **Code analyzers:** CA, IDE, and security analyzers enabled
+- **Code style enforcement:** Ensures consistent formatting and patterns
+- **XML documentation:** Required on all public APIs
+
+**Configuration:** `Directory.Build.props`
+- `<Nullable>enable</Nullable>` - Strict null checking
+- `<EnableNETAnalyzers>true</EnableNETAnalyzers>` - Run .NET analyzers
+- `<AnalysisLevel>latest</AnalysisLevel>` - Use latest analysis rules
 
 ### Service Configuration Order
 

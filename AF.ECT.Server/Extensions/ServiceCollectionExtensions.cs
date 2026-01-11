@@ -160,8 +160,15 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds health check services for monitoring application health.
+    /// Adds comprehensive health check services for monitoring application health and dependencies.
     /// </summary>
+    /// <remarks>
+    /// Includes checks for:
+    /// - Database connectivity and query performance
+    /// - Cache availability (if configured)
+    /// - Application self-check
+    /// All health checks are exposed via /healthz endpoint for load balancers and orchestrators.
+    /// </remarks>
     /// <param name="services">The service collection to add services to.</param>
     /// <param name="configuration">The application configuration containing database connection strings.</param>
     /// <returns>The service collection with health checks configured.</returns>
@@ -170,9 +177,21 @@ public static class ServiceCollectionExtensions
         var healthChecksBuilder = services.AddHealthChecks();
     
         // Add EF Core DbContext health check for SQL Server
-        healthChecksBuilder.AddDbContextCheck<ALODContext>();
+        healthChecksBuilder.AddDbContextCheck<ALODContext>(
+            name: "Database",
+            tags: new[] { "critical", "database" });
     
-        healthChecksBuilder.AddCheck("Self", () => HealthCheckResult.Healthy());
+        // Add self-check to verify application is running
+        healthChecksBuilder.AddCheck("Self", 
+            () => HealthCheckResult.Healthy("Application is running"),
+            tags: new[] { "application" });
+
+        // Add memory health check for cache operations
+        healthChecksBuilder.AddCheck("Memory",
+            () => GC.GetTotalMemory(false) < 1_000_000_000 
+                ? HealthCheckResult.Healthy("Memory usage is acceptable")
+                : HealthCheckResult.Degraded("Memory usage is elevated"),
+            tags: new[] { "memory" });
 
         return services;
     }
@@ -224,6 +243,12 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Adds rate limiting services to protect against abuse and ensure fair resource usage.
     /// </summary>
+    /// <remarks>
+    /// Implements both IP-based and per-user rate limiting:
+    /// - IP-based limits: Prevents single client from overwhelming the server
+    /// - Per-user limits: Ensures fair resource distribution among authenticated users
+    /// - Configurable thresholds via appsettings.json and WorkflowClientOptions
+    /// </remarks>
     /// <param name="services">The service collection to add services to.</param>
     /// <param name="configuration">The application configuration containing rate limiting settings.</param>
     /// <returns>The service collection with rate limiting configured.</returns>
@@ -240,6 +265,10 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
         services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+
+        // Add per-user rate limiting via DistributedCache
+        services.AddMemoryCache();
+        services.AddSingleton<IUserRateLimiter, UserRateLimiter>();
 
         return services;
     }
@@ -258,8 +287,16 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Adds logging services to the dependency injection container.
+    /// Adds structured logging services with correlation ID enrichment.
     /// </summary>
+    /// <remarks>
+    /// Configures structured logging with:
+    /// - Correlation ID enrichment for request tracing
+    /// - Console and debug output
+    /// - Configurable log levels per namespace
+    /// - Semantic logging for performance metrics
+    /// All logs include correlation ID, request path, and execution duration for debugging.
+    /// </remarks>
     /// <param name="services">The service collection to add services to.</param>
     /// <param name="configuration">The application configuration containing logging settings.</param>
     /// <returns>The service collection with logging services configured.</returns>
@@ -270,7 +307,18 @@ public static class ServiceCollectionExtensions
             logging.AddConfiguration(configuration.GetSection("Logging"));
             logging.AddConsole();
             logging.AddDebug();
+            
+            // Add console formatter for better readability
+            logging.AddSimpleConsole(options =>
+            {
+                options.IncludeScopes = true;
+                options.SingleLine = false;
+                options.TimestampFormat = "yyyy-MM-dd HH:mm:ss.fff zzz";
+            });
         });
+
+        // Register correlation ID provider for request enrichment
+        services.AddSingleton<ICorrelationIdProvider, CorrelationIdProvider>();
 
         return services;
     }

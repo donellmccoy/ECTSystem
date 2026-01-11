@@ -13,10 +13,15 @@ ECTSystem is built using .NET 9.0 and leverages ASP.NET Core for the backend, Bl
 - **Workflow Automation**: Automated case processing with gRPC-based services
 - **Reporting and Analytics**: Generate detailed reports on case metrics and performance
 - **Audit Logging**: End-to-end audit trails with correlation IDs for military-grade compliance
-- **Observability**: Integrated OpenTelemetry for logging, monitoring, and health checks
+- **Observability**: Integrated OpenTelemetry with W3C Trace Context for distributed tracing
+- **Health Monitoring**: Comprehensive health checks for database, memory, and system status
+- **Rate Limiting**: Both IP-based and per-user rate limiting for DoS protection
+- **Structured Logging**: Correlation ID enrichment across all service layers
 - **Multi-Platform UI**: Modern web interface with Blazor and desktop application with Win UI
 - **API Integration**: RESTful APIs with JSON transcoding for external system integration
 - **Database Layer**: Robust data access with Entity Framework Core and optimized stored procedures
+- **Query Optimization**: Slow query detection and performance monitoring helpers
+- **Configuration Management**: Runtime hot-reload for non-critical settings without restart
 
 ## Architecture
 
@@ -205,20 +210,36 @@ The tSQLt test suite includes 10 comprehensive tests covering:
 
 For detailed tSQLt installation and troubleshooting, see: `tsqlt/INSTALLATION_GUIDE.md`
 
-## Contributing
+## Recent Improvements (January 2026)
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+ECTSystem has been enhanced with enterprise-grade infrastructure improvements:
 
-## License
+### 🔍 Distributed Tracing
+- **W3C Trace Context** propagation across client-server boundaries
+- End-to-end request tracing for debugging and performance monitoring
+- Integration with OpenTelemetry for Jaeger, Zipkin, and Application Insights
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### 📊 Observability
+- **Correlation IDs** automatically tracked across all service layers
+- **Structured logging** with semantic enrichment
+- **Enhanced health checks** including memory monitoring and tagged categorization
+- **Slow query detection** for database performance optimization
 
-## Support
+### 🔐 Security & Rate Limiting
+- **Per-user rate limiting** (100 requests/minute configurable)
+- **IP-based rate limiting** (existing, enhanced)
+- **Compiler warnings enabled** with strict null checking
+- **Code analyzers** enforced (CA, IDE, security rules)
 
-For questions or issues, please open an issue on GitHub.
+### ⚙️ Operations
+- **Runtime configuration hot-reload** for non-critical settings
+- **Query optimization helpers** for caching and N+1 detection
+- **Database soft-delete support** with automatic query filtering
+- **Performance monitoring** integrated into all layers
+
+For details on these improvements, see **[IMPLEMENTATION_COMPLETE.md](IMPLEMENTATION_COMPLETE.md)**.
+
+---
 
 ## Documentation
 

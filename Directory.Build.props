@@ -1,6 +1,21 @@
 <Project>
   <PropertyGroup>
-    <!-- Suppress all warnings -->
-    <NoWarn>*</NoWarn>
+    <!-- Enable strict nullable reference types checking -->
+    <Nullable>enable</Nullable>
+    
+    <!-- Enable .NET analyzer framework and latest rules -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    
+    <!-- Enforce code style in build -->
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    
+    <!-- Generate XML documentation files for IntelliSense -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    
+    <!-- Suppress only known non-blocking NuGet warnings -->
+    <!-- NU1605: Dependency downgrade (acceptable in complex scenarios) -->
+    <!-- NU1608: Deprecated package (informational) -->
+    <NoWarn>NU1605;NU1608</NoWarn>
   </PropertyGroup>
 </Project>
