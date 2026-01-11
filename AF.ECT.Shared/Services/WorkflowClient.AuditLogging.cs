@@ -73,5 +73,67 @@ public partial class WorkflowClient
     /// <returns>A unique correlation ID.</returns>
     private static string GenerateCorrelationId() => Guid.NewGuid().ToString();
 
+    /// <summary>
+    /// Logs audit information for streaming gRPC calls with item count and performance metrics.
+    /// </summary>
+    /// <remarks>
+    /// Streaming audit events are logged after the stream completes or fails, including:
+    /// - Total items yielded
+    /// - Total duration
+    /// - Success/failure status
+    /// - Correlation ID for end-to-end tracing
+    /// </remarks>
+    /// <param name="methodName">The name of the streaming method.</param>
+    /// <param name="correlationId">The correlation ID for tracing.</param>
+    /// <param name="startTime">The start time of the streaming operation.</param>
+    /// <param name="itemCount">The total number of items yielded from the stream.</param>
+    /// <param name="duration">The total duration of the streaming operation.</param>
+    /// <param name="success">Whether the streaming operation completed successfully.</param>
+    /// <param name="errorMessage">The error message if the streaming operation failed.</param>
+    /// <param name="additionalData">Additional audit data (e.g., query parameters).</param>
+    private void LogStreamingAuditEvent(string methodName, string correlationId, DateTime startTime, int itemCount, TimeSpan duration, bool success, string? errorMessage = null, object? additionalData = null)
+    {
+        using (var scope = AuditScope.Create($"gRPC:Stream:{methodName}", () => new
+        {
+            ItemCount = itemCount,
+            Duration = duration.TotalMilliseconds,
+            ItemsPerSecond = itemCount > 0 ? itemCount / Math.Max(1, duration.TotalSeconds) : 0,
+            AdditionalData = additionalData
+        }))
+        {
+            scope.Event.StartDate = startTime;
+            scope.Event.EndDate = startTime + duration;
+            scope.Event.Duration = (int)duration.TotalMilliseconds;
+            scope.SetCustomField("CorrelationId", correlationId);
+            scope.SetCustomField("Success", success);
+            scope.SetCustomField("ItemCount", itemCount);
+            scope.SetCustomField("ItemsPerSecond", itemCount > 0 ? itemCount / Math.Max(1, duration.TotalSeconds) : 0);
+            if (!success && errorMessage != null)
+            {
+                scope.SetCustomField("ErrorMessage", errorMessage);
+            }
+            scope.SetCustomField("ClientInfo", new
+            {
+                UserAgent = "ECTSystem-BlazorClient",
+                Version = "1.0.0",
+                Environment = "Production"
+            });
+        }
+
+        // Keep existing logger calls for immediate logging
+        if (success)
+        {
+            _logger?.LogInformation(
+                "gRPC Streaming Audit: {MethodName} completed successfully. CorrelationId: {CorrelationId}, Items: {ItemCount}, Duration: {DurationMs}ms, ItemsPerSecond: {ItemsPerSecond:F2}",
+                methodName, correlationId, itemCount, duration.TotalMilliseconds, itemCount / Math.Max(1, duration.TotalSeconds));
+        }
+        else
+        {
+            _logger?.LogError(
+                "gRPC Streaming Audit: {MethodName} failed. CorrelationId: {CorrelationId}, Items: {ItemCount}, Duration: {DurationMs}ms, Error: {ErrorMessage}",
+                methodName, correlationId, itemCount, duration.TotalMilliseconds, errorMessage);
+        }
+    }
+
     #endregion
 }

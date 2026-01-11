@@ -1,6 +1,7 @@
 using System.Net;
 using Polly.CircuitBreaker;
 using Xunit.Abstractions;
+using AF.ECT.Tests.Data;
 using AF.ECT.Tests.Infrastructure;
 using static AF.ECT.Tests.Data.ChaosTestData;
 

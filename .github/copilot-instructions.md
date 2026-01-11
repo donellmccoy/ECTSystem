@@ -87,3 +87,50 @@ ECTSystem is an Electronic Case Tracking application for ALOD (Army Lodging) bui
 - Example: See `AF.ECT.WebClient/Services/WorkflowClient.cs` for extensive XML comments on gRPC client methods.
 
 Focus on gRPC-first design, Aspire for cloud readiness, and military-specific workflows. Avoid generic patterns; follow existing protobuf and EF conventions.
+
+### AI Agent Instructions: Ensuring C# Compilation via Dependency Tree Analysis
+
+**Objective**: Analyze and resolve type dependency issues in a C# project to ensure error-free compilation. Focus on dependency trees (graphs of project references, NuGet packages, and transitive dependencies) to detect missing types, version conflicts, circular references, or incompatibilities.
+
+**Prerequisites**:
+- Access to .NET CLI (e.g., `dotnet` commands).
+- Project in SDK-style .csproj format.
+- Tools: IDE (Visual Studio/VS Code), NuGet Package Manager, optional analyzers (e.g., NetArchTest).
+
+**Step-by-Step Process**:
+
+1. **Restore Dependencies**:
+   - Run `dotnet restore` to fetch all packages and build the initial dependency tree.
+   - Output: Locks file (packages.lock.json) if enabled; enables deterministic restores.
+
+2. **Generate Dependency Tree**:
+   - Use `dotnet list package --include-transitive` to output the full dependency tree (top-level and transitive packages).
+   - For visual graph: Install dotnet-graph (via NuGet) and run `dotnet graph --project YourProject.csproj --output graph.dot`; convert to image (e.g., via Graphviz).
+   - Alternative: In Visual Studio, view Dependencies node in Solution Explorer for tree visualization.
+
+3. **Analyze Tree for Issues**:
+   - **Missing Types**: Traverse tree nodes; check if referenced types (from code) exist in listed assemblies. Use IDE's "Go to Definition" or `dotnet build --no-restore` to simulate and log unresolved references (e.g., CS0246 errors).
+   - **Version Conflicts**: Identify duplicates (e.g., multiple versions of same package). Resolve via binding redirects or package consolidation (update .csproj with explicit versions).
+   - **Circular Dependencies**: Detect cycles (e.g., Project A refs B, B refs A). Use tools like NDepend or manual graph traversal; break by refactoring interfaces.
+   - **Incompatibilities**: Check target frameworks (e.g., .NET 8 vs .NET Framework); ensure all nodes align via `<TargetFramework>` in .csproj.
+   - **Vulnerabilities/Outdated**: Run `dotnet list package --outdated --vulnerable` on tree; update risky nodes.
+
+4. **Validate Compilation**:
+   - Build with tree insights: `dotnet build /p:TreatWarningsAsErrors=true`.
+   - If errors, map to tree (e.g., missing transitive dep → add explicit reference).
+   - Enable analyzers: Add `<EnableNETAnalyzers>true</EnableNETAnalyzers>` to .csproj; run to flag tree-related warnings.
+
+5. **Automate & Report**:
+   - Integrate into CI: Script tree generation/analysis in pipelines (e.g., GitHub Actions YAML with `dotnet` steps).
+   - Report: Output tree summary, issues, and fixes (e.g., JSON or markdown table: | Package | Version | Issue | Resolution |).
+
+**Error Handling**:
+- If tree generation fails: Check .csproj validity; fallback to manual inspection.
+- Escalate unresolved issues: Suggest human review for complex graphs.
+
+**Best Practices**:
+- Keep tree minimal: Remove unused refs with `dotnet sln remove` or analyzers.
+- Use semantic versioning; pin critical deps.
+- Re-run process after changes for iterative validation.
+
+These instructions ensure proactive dependency management, reducing compilation failures to near-zero.

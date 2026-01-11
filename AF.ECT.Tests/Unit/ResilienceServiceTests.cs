@@ -3,6 +3,7 @@ using Polly.CircuitBreaker;
 using Polly.Timeout;
 using Xunit.Abstractions;
 using AF.ECT.Tests.Infrastructure;
+using AF.ECT.Tests.Data;
 using static AF.ECT.Tests.Data.ResilienceServiceTestData;
 
 namespace AF.ECT.Tests.Unit;

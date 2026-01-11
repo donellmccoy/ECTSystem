@@ -1,5 +1,6 @@
 using static AF.ECT.Tests.Data.DbContextExtensionsTestData;
 using AF.ECT.Tests.Infrastructure;
+using AF.ECT.Tests.Data;
 using AF.ECT.Data.Extensions;
 using Microsoft.Data.Sqlite;
 

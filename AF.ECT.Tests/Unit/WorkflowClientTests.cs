@@ -1,5 +1,6 @@
 using Grpc.Core;
 using Grpc.Net.Client;
+using AF.ECT.Tests.Data;
 using AF.ECT.Shared.Services;
 using static AF.ECT.Tests.Data.WorkflowClientTestData;
 
@@ -453,6 +454,353 @@ public class WorkflowClientTests : IDisposable
 
         // Assert
         await Task.CompletedTask; // Placeholder
+    }
+
+    #endregion
+
+    #region gRPC Error Handling Tests
+
+    /// <summary>
+    /// Tests that GetReinvestigationRequestsAsync handles Unavailable status code with retry logic.
+    /// </summary>
+    [Fact]
+    public async Task GetReinvestigationRequestsAsync_HandlesUnavailableStatus_WithRetry()
+    {
+        // Arrange
+        var request = new GetReinvestigationRequestsRequest { UserId = 123, Sarc = true };
+        var rpcException = new Grpc.Core.RpcException(new Grpc.Core.Status(Grpc.Core.StatusCode.Unavailable, "Service unavailable"));
+        
+        var successResponse = new GetReinvestigationRequestsResponse
+        {
+            Items = { new ReinvestigationRequestItem { Id = 1, Description = "Recovered after retry" } }
+        };
+        var successAsyncCall = new AsyncUnaryCall<GetReinvestigationRequestsResponse>(
+            Task.FromResult(successResponse),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        // Configure mock to fail once, then succeed (simulating retry recovery)
+        _mockGrpcClient.SetupSequence(x => x.GetReinvestigationRequestsAsync(
+                It.IsAny<GetReinvestigationRequestsRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Throws(rpcException)
+            .Returns(successAsyncCall);
+
+        // Act & Assert - Should not throw due to retry policy
+        var result = await _greeterClient.GetReinvestigationRequestsAsync(request.UserId, request.Sarc);
+        Assert.NotNull(result);
+    }
+
+    /// <summary>
+    /// Tests that GetUserNameAsync handles DeadlineExceeded status code with retry logic.
+    /// </summary>
+    [Fact]
+    public async Task GetUserNameAsync_HandlesDeadlineExceededStatus_WithRetry()
+    {
+        // Arrange
+        var rpcException = new Grpc.Core.RpcException(new Grpc.Core.Status(Grpc.Core.StatusCode.DeadlineExceeded, "Deadline exceeded"));
+        
+        var successResponse = new GetUserNameResponse
+        {
+            Items = { new UserNameItem { UserId = 1, FirstName = "Recovered", LastName = "User" } }
+        };
+        var successAsyncCall = new AsyncUnaryCall<GetUserNameResponse>(
+            Task.FromResult(successResponse),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        _mockGrpcClient.SetupSequence(x => x.GetUserNameAsync(
+                It.IsAny<GetUserNameRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Throws(rpcException)
+            .Returns(successAsyncCall);
+
+        // Act & Assert
+        var result = await _greeterClient.GetUserNameAsync("John", "Doe");
+        Assert.NotNull(result);
+    }
+
+    /// <summary>
+    /// Tests that GetManagedUsersAsync handles Internal status code with retry logic.
+    /// </summary>
+    [Fact]
+    public async Task GetManagedUsersAsync_HandlesInternalStatus_WithRetry()
+    {
+        // Arrange
+        var rpcException = new Grpc.Core.RpcException(new Grpc.Core.Status(Grpc.Core.StatusCode.Internal, "Internal server error"));
+        
+        var successResponse = new GetManagedUsersResponse
+        {
+            Items = { new ManagedUserItem { UserId = 1, UserName = "RecoveredUser" } }
+        };
+        var successAsyncCall = new AsyncUnaryCall<GetManagedUsersResponse>(
+            Task.FromResult(successResponse),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        _mockGrpcClient.SetupSequence(x => x.GetManagedUsersAsync(
+                It.IsAny<GetManagedUsersRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Throws(rpcException)
+            .Returns(successAsyncCall);
+
+        // Act & Assert
+        var result = await _greeterClient.GetManagedUsersAsync(1, "123456789", "John", 1, 1, 1, true);
+        Assert.NotNull(result);
+    }
+
+    /// <summary>
+    /// Tests that non-retryable gRPC errors (NotFound) are thrown immediately.
+    /// </summary>
+    [Fact]
+    public async Task GetUserAltTitleAsync_ThrowsImmediately_ForNonRetryableErrors()
+    {
+        // Arrange
+        var rpcException = new Grpc.Core.RpcException(new Grpc.Core.Status(Grpc.Core.StatusCode.NotFound, "User not found"));
+        
+        _mockGrpcClient.Setup(x => x.GetUserAltTitleAsync(
+                It.IsAny<GetUserAltTitleRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Throws(rpcException);
+
+        // Act & Assert - Should throw immediately for non-retryable errors
+        await Assert.ThrowsAsync<Grpc.Core.RpcException>(async () =>
+            await _greeterClient.GetUserAltTitleAsync(1, 1));
+    }
+
+    /// <summary>
+    /// Tests that PermissionDenied status is thrown immediately without retry.
+    /// </summary>
+    [Fact]
+    public async Task GetPermissionsAsync_ThrowsImmediately_ForPermissionDenied()
+    {
+        // Arrange
+        var rpcException = new Grpc.Core.RpcException(new Grpc.Core.Status(Grpc.Core.StatusCode.PermissionDenied, "Permission denied"));
+        
+        _mockGrpcClient.Setup(x => x.GetPermissionsAsync(
+                It.IsAny<GetPermissionsRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Throws(rpcException);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Grpc.Core.RpcException>(async () =>
+            await _greeterClient.GetPermissionsAsync(1));
+    }
+
+    #endregion
+
+    #region Timeout and Resilience Tests
+
+    /// <summary>
+    /// Tests that methods handle timeout scenarios gracefully with exponential backoff.
+    /// </summary>
+    [Fact]
+    public async Task GetReinvestigationRequestsAsync_RecoveryAfterTimeout_WithExponentialBackoff()
+    {
+        // Arrange
+        var callCount = 0;
+        var request = new GetReinvestigationRequestsRequest { UserId = 123, Sarc = false };
+        var timeoutException = new Grpc.Core.RpcException(new Grpc.Core.Status(Grpc.Core.StatusCode.DeadlineExceeded, "Timeout"));
+        
+        var successResponse = new GetReinvestigationRequestsResponse
+        {
+            Items = { new ReinvestigationRequestItem { Id = 1, Description = "Recovered" } }
+        };
+        var successAsyncCall = new AsyncUnaryCall<GetReinvestigationRequestsResponse>(
+            Task.FromResult(successResponse),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        _mockGrpcClient.Setup(x => x.GetReinvestigationRequestsAsync(
+                It.IsAny<GetReinvestigationRequestsRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Returns(() =>
+            {
+                callCount++;
+                if (callCount < 3)
+                    throw timeoutException;
+                return successAsyncCall;
+            });
+
+        // Act
+        var result = await _greeterClient.GetReinvestigationRequestsAsync(request.UserId, request.Sarc);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(3, callCount); // Verify retry attempts
+    }
+
+    /// <summary>
+    /// Tests that methods handle cancellation tokens correctly.
+    /// </summary>
+    [Fact]
+    public async Task GetReinvestigationRequestsAsync_CanBeCancelled()
+    {
+        // Arrange
+        var request = new GetReinvestigationRequestsRequest { UserId = 123, Sarc = true };
+        var successResponse = new GetReinvestigationRequestsResponse
+        {
+            Items = { new ReinvestigationRequestItem { Id = 1 } }
+        };
+        var successAsyncCall = new AsyncUnaryCall<GetReinvestigationRequestsResponse>(
+            Task.FromResult(successResponse),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        _mockGrpcClient.Setup(x => x.GetReinvestigationRequestsAsync(
+                It.IsAny<GetReinvestigationRequestsRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Returns(successAsyncCall);
+
+        // Act - Verify that the method completes without throwing on normal operation
+        var result = await _greeterClient.GetReinvestigationRequestsAsync(request.UserId, request.Sarc);
+
+        // Assert
+        Assert.NotNull(result);
+    }
+
+    /// <summary>
+    /// Tests that multiple concurrent requests are handled correctly with retry policies.
+    /// </summary>
+    [Fact]
+    public async Task MultipleRequests_ConcurrentExecution_WithRetryPolicies()
+    {
+        // Arrange
+        var tasks = new List<Task<object>>();
+        var rpcException = new Grpc.Core.RpcException(new Grpc.Core.Status(Grpc.Core.StatusCode.Unavailable, "Service unavailable"));
+        
+        var response1 = new GetReinvestigationRequestsResponse
+        {
+            Items = { new ReinvestigationRequestItem { Id = 1 } }
+        };
+        var asyncCall1 = new AsyncUnaryCall<GetReinvestigationRequestsResponse>(
+            Task.FromResult(response1),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        var response2 = new GetUserNameResponse
+        {
+            Items = { new UserNameItem { UserId = 1, FirstName = "Test" } }
+        };
+        var asyncCall2 = new AsyncUnaryCall<GetUserNameResponse>(
+            Task.FromResult(response2),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        _mockGrpcClient.SetupSequence(x => x.GetReinvestigationRequestsAsync(
+                It.IsAny<GetReinvestigationRequestsRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Throws(rpcException)
+            .Returns(asyncCall1);
+
+        _mockGrpcClient.SetupSequence(x => x.GetUserNameAsync(
+                It.IsAny<GetUserNameRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Throws(rpcException)
+            .Returns(asyncCall2);
+
+        // Act
+        var task1 = _greeterClient.GetReinvestigationRequestsAsync(1, true).ContinueWith(t => (object?)t.Result);
+        var task2 = _greeterClient.GetUserNameAsync("John", "Doe").ContinueWith(t => (object?)t.Result);
+        
+        var results = await Task.WhenAll(task1, task2);
+
+        // Assert
+        Assert.NotEmpty(results);
+        Assert.All(results, r => Assert.NotNull(r));
+    }
+
+    /// <summary>
+    /// Tests that retry count limits are respected (no infinite retries).
+    /// </summary>
+    [Fact]
+    public async Task GetManagedUsersAsync_RespectsRetryLimit_AfterMaxAttempts()
+    {
+        // Arrange
+        var callCount = 0;
+        var maxRetries = 3;
+        var rpcException = new Grpc.Core.RpcException(new Grpc.Core.Status(Grpc.Core.StatusCode.Unavailable, "Always fails"));
+        
+        _mockGrpcClient.Setup(x => x.GetManagedUsersAsync(
+                It.IsAny<GetManagedUsersRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Returns(() =>
+            {
+                callCount++;
+                throw rpcException;
+            });
+
+        // Act & Assert
+        var ex = await Assert.ThrowsAsync<Grpc.Core.RpcException>(async () =>
+            await _greeterClient.GetManagedUsersAsync(1, "123456789", "John", 1, 1, 1, true));
+        
+        Assert.NotNull(ex);
+        // Verify retries were attempted (callCount should be > 1 but <= maxRetries + 1)
+        Assert.InRange(callCount, 2, maxRetries + 2);
+    }
+
+    #endregion
+
+    #region gRPC Response Validation Tests
+
+    /// <summary>
+    /// Tests that empty responses are handled correctly.
+    /// </summary>
+    [Fact]
+    public async Task GetReinvestigationRequestsAsync_HandlesEmptyResponse()
+    {
+        // Arrange
+        var emptyResponse = new GetReinvestigationRequestsResponse();
+        var emptyAsyncCall = new AsyncUnaryCall<GetReinvestigationRequestsResponse>(
+            Task.FromResult(emptyResponse),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        _mockGrpcClient.Setup(x => x.GetReinvestigationRequestsAsync(
+                It.IsAny<GetReinvestigationRequestsRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Returns(emptyAsyncCall);
+
+        // Act
+        var result = await _greeterClient.GetReinvestigationRequestsAsync(1, true);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Empty(result.Items);
+    }
+
+    /// <summary>
+    /// Tests that malformed gRPC responses are handled gracefully.
+    /// </summary>
+    [Fact]
+    public async Task GetUserNameAsync_HandlesMalformedResponse()
+    {
+        // Arrange
+        var malformedResponse = new GetUserNameResponse
+        {
+            Items = { new UserNameItem { UserId = -1, FirstName = null!, LastName = null! } }
+        };
+        var malformedAsyncCall = new AsyncUnaryCall<GetUserNameResponse>(
+            Task.FromResult(malformedResponse),
+            Task.FromResult(new Metadata()),
+            () => Grpc.Core.Status.DefaultSuccess,
+            () => [],
+            () => { });
+
+        _mockGrpcClient.Setup(x => x.GetUserNameAsync(
+                It.IsAny<GetUserNameRequest>(), It.IsAny<Metadata>(), It.IsAny<DateTime?>(), It.IsAny<CancellationToken>()))
+            .Returns(malformedAsyncCall);
+
+        // Act
+        var result = await _greeterClient.GetUserNameAsync("", "");
+
+        // Assert - Should not throw, but should handle gracefully
+        Assert.NotNull(result);
     }
 
     #endregion

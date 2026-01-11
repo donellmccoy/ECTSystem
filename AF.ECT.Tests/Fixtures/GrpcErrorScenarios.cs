@@ -138,43 +138,43 @@ public static class GrpcErrorScenarios
         {
             Name = "Timeout (DeadlineExceeded)",
             ExpectedStatusCode = StatusCode.DeadlineExceeded,
-            ExceptionFactory = CreateDeadlineExceededException
+            ExceptionFactory = () => CreateDeadlineExceededException()
         },
         new ErrorScenario
         {
             Name = "Cancelled Operation",
             ExpectedStatusCode = StatusCode.Cancelled,
-            ExceptionFactory = CreateCancelledOperationException
+            ExceptionFactory = () => CreateCancelledOperationException()
         },
         new ErrorScenario
         {
             Name = "Unauthenticated",
             ExpectedStatusCode = StatusCode.Unauthenticated,
-            ExceptionFactory = CreateUnauthenticatedException
+            ExceptionFactory = () => CreateUnauthenticatedException()
         },
         new ErrorScenario
         {
             Name = "Permission Denied",
             ExpectedStatusCode = StatusCode.PermissionDenied,
-            ExceptionFactory = CreatePermissionDeniedException
+            ExceptionFactory = () => CreatePermissionDeniedException()
         },
         new ErrorScenario
         {
             Name = "Not Found",
             ExpectedStatusCode = StatusCode.NotFound,
-            ExceptionFactory = CreateNotFoundException
+            ExceptionFactory = () => CreateNotFoundException()
         },
         new ErrorScenario
         {
             Name = "Internal Error",
             ExpectedStatusCode = StatusCode.Internal,
-            ExceptionFactory = CreateInternalException
+            ExceptionFactory = () => CreateInternalException()
         },
         new ErrorScenario
         {
             Name = "Unavailable",
             ExpectedStatusCode = StatusCode.Unavailable,
-            ExceptionFactory = CreateUnavailableException
+            ExceptionFactory = () => CreateUnavailableException()
         }
     };
 }

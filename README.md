@@ -224,7 +224,19 @@ For questions or issues, please open an issue on GitHub.
 
 For comprehensive documentation, see:
 
+### Getting Started
+- **[IMPLEMENTATION_DELIVERY.md](IMPLEMENTATION_DELIVERY.md)** - Quick start guide and delivery summary (START HERE!)
 - **[DEVELOPER_ONBOARDING.md](DEVELOPER_ONBOARDING.md)** - Complete setup guide for new developers
+
+### Implementation Guides
+- **[Documentation/GETTING_STARTED_IMPLEMENTATION.md](Documentation/GETTING_STARTED_IMPLEMENTATION.md)** - Step-by-step implementation guide with code examples (8-phase checklist)
+- **[Documentation/STREAMING_OPTIMIZATION_GUIDE.md](Documentation/STREAMING_OPTIMIZATION_GUIDE.md)** - High-performance streaming patterns
+- **[Documentation/POLLY_RESILIENCE_GUIDE.md](Documentation/POLLY_RESILIENCE_GUIDE.md)** - Fault tolerance and resilience patterns
+- **[Documentation/DISTRIBUTED_TRACING_GUIDE.md](Documentation/DISTRIBUTED_TRACING_GUIDE.md)** - End-to-end tracing with correlation IDs
+- **[Documentation/REST_API_JSON_TRANSCODING.md](Documentation/REST_API_JSON_TRANSCODING.md)** - Dual REST + gRPC API implementation
+- **[Documentation/STREAMING_BENCHMARKS.md](Documentation/STREAMING_BENCHMARKS.md)** - Performance benchmarking infrastructure
+
+### Reference & Support
 - **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - REST and gRPC API reference with examples
 - **[ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)** - System architecture visualizations
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines and coding standards
