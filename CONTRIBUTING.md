@@ -38,19 +38,26 @@ Before contributing, ensure you have:
 
 1. Fork the repository on GitHub
 2. Clone your fork locally:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/ECTSystem.git
    cd ECTSystem
    ```
+
 3. Add the upstream repository:
+
    ```bash
    git remote add upstream https://github.com/dmccoy2025/ECTSystem.git
    ```
+
 4. Build the solution:
+
    ```bash
    dotnet build ECTSystem.sln
    ```
+
 5. Run tests to verify setup:
+
    ```bash
    dotnet test
    ```
@@ -95,6 +102,7 @@ git push origin main
 Follow Microsoft's [C# Coding Conventions](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions) and these project-specific rules:
 
 #### File-Scoped Namespaces
+
 **REQUIRED**: Use file-scoped namespaces throughout the solution:
 
 ```csharp
@@ -134,6 +142,7 @@ Follow SOLID principles for all code:
 ### Architecture Patterns
 
 #### Dependency Injection
+
 **REQUIRED**: Use dependency injection everywhere. Configure services in `Program.cs`:
 
 ```csharp
@@ -141,6 +150,7 @@ services.AddScoped<IDataService, DataService>();
 ```
 
 #### Configuration Validation
+
 **REQUIRED**: Use strongly-typed options classes with data annotations:
 
 ```csharp
@@ -153,6 +163,7 @@ public class DatabaseOptions
 ```
 
 Validate on startup:
+
 ```csharp
 services.AddOptions<DatabaseOptions>()
     .BindConfiguration("DatabaseOptions")
@@ -170,6 +181,7 @@ services.AddOptions<DatabaseOptions>()
 ## Documentation Requirements
 
 ### XML Documentation Comments
+
 **REQUIRED**: All public methods, classes, properties, and fields must have XML documentation:
 
 ```csharp
@@ -273,6 +285,7 @@ dotnet test /p:CollectCoverage=true
 ```
 
 ### Build Verification
+
 **CRITICAL**: Always verify the solution builds successfully before committing:
 
 ```bash
@@ -294,6 +307,7 @@ dotnet build ECTSystem.sln
 ### Creating a Pull Request
 
 1. Push your branch to your fork:
+
    ```bash
    git push origin feature/your-feature-name
    ```

@@ -20,22 +20,27 @@ This guide provides solutions to common issues encountered when developing, depl
 ### Problem: `dotnet build` fails with NuGet restore errors
 
 **Symptoms:**
+
 ```
 error NU1101: Unable to find package Microsoft.EntityFrameworkCore
 ```
 
 **Solution:**
+
 1. Clear NuGet package cache:
+
    ```powershell
    dotnet nuget locals all --clear
    ```
 
 2. Restore packages explicitly:
+
    ```powershell
    dotnet restore ECTSystem.sln
    ```
 
 3. Rebuild the solution:
+
    ```powershell
    dotnet build ECTSystem.sln
    ```
@@ -43,12 +48,15 @@ error NU1101: Unable to find package Microsoft.EntityFrameworkCore
 ### Problem: Build fails with "SDK not found" error
 
 **Symptoms:**
+
 ```
 error MSB4236: The SDK 'Microsoft.NET.Sdk' specified could not be found.
 ```
 
 **Solution:**
+
 1. Verify .NET 9.0 SDK is installed:
+
    ```powershell
    dotnet --list-sdks
    ```
@@ -56,6 +64,7 @@ error MSB4236: The SDK 'Microsoft.NET.Sdk' specified could not be found.
 2. If .NET 9.0 is missing, download from: https://dotnet.microsoft.com/download/dotnet/9.0
 
 3. Check `global.json` specifies correct SDK version:
+
    ```json
    {
      "sdk": {
@@ -68,12 +77,15 @@ error MSB4236: The SDK 'Microsoft.NET.Sdk' specified could not be found.
 ### Problem: Protobuf code generation fails
 
 **Symptoms:**
+
 ```
 error CS0246: The type or namespace name 'WorkflowService' could not be found
 ```
 
 **Solution:**
+
 1. Clean and rebuild the Shared project first:
+
    ```powershell
    dotnet clean AF.ECT.Shared/AF.ECT.Shared.csproj
    dotnet build AF.ECT.Shared/AF.ECT.Shared.csproj
@@ -82,6 +94,7 @@ error CS0246: The type or namespace name 'WorkflowService' could not be found
 2. Verify `.proto` files exist in `AF.ECT.Shared/Protos/`
 
 3. Check `AF.ECT.Shared.csproj` contains Protobuf item groups:
+
    ```xml
    <ItemGroup>
      <Protobuf Include="Protos\workflow.proto" GrpcServices="Both" />
@@ -95,17 +108,21 @@ error CS0246: The type or namespace name 'WorkflowService' could not be found
 ### Problem: Cannot connect to SQL Server
 
 **Symptoms:**
+
 ```
 Microsoft.Data.SqlClient.SqlException: A network-related or instance-specific error occurred
 ```
 
 **Solution:**
+
 1. Verify SQL Server is running:
+
    ```powershell
    Get-Service -Name MSSQL*
    ```
 
 2. Check connection string in `appsettings.Development.json`:
+
    ```json
    "DatabaseOptions": {
      "ConnectionString": "Server=localhost;Database=ALOD;Integrated Security=true;TrustServerCertificate=true"
@@ -113,6 +130,7 @@ Microsoft.Data.SqlClient.SqlException: A network-related or instance-specific er
    ```
 
 3. Test connection with sqlcmd:
+
    ```powershell
    sqlcmd -S localhost -E -Q "SELECT @@VERSION"
    ```
@@ -122,12 +140,15 @@ Microsoft.Data.SqlClient.SqlException: A network-related or instance-specific er
 ### Problem: Database timeout errors during startup
 
 **Symptoms:**
+
 ```
 System.TimeoutException: Timeout expired during database operation
 ```
 
 **Solution:**
+
 1. Increase command timeout in `appsettings.json`:
+
    ```json
    "DatabaseOptions": {
      "CommandTimeout": 60,
@@ -137,12 +158,14 @@ System.TimeoutException: Timeout expired during database operation
    ```
 
 2. Check database performance:
+
    ```sql
    -- Check for blocking queries
    SELECT * FROM sys.dm_exec_requests WHERE blocking_session_id <> 0;
    ```
 
 3. Rebuild database indexes:
+
    ```sql
    EXEC sp_MSforeachtable 'ALTER INDEX ALL ON ? REBUILD';
    ```
@@ -154,17 +177,21 @@ System.TimeoutException: Timeout expired during database operation
 ### Problem: gRPC calls fail with "Status(StatusCode=Unavailable)"
 
 **Symptoms:**
+
 ```
 Grpc.Core.RpcException: Status(StatusCode=Unavailable, Detail="Error connecting to service")
 ```
 
 **Solution:**
+
 1. Verify server is running and listening on the correct port:
+
    ```powershell
    netstat -ano | findstr :5173
    ```
 
 2. Check `WorkflowClientOptions` in `appsettings.json`:
+
    ```json
    "WorkflowClientOptions": {
      "ServerUrl": "http://localhost:5173"
@@ -172,6 +199,7 @@ Grpc.Core.RpcException: Status(StatusCode=Unavailable, Detail="Error connecting 
    ```
 
 3. Ensure HTTP/2 is enabled in server configuration (Program.cs):
+
    ```csharp
    builder.WebHost.ConfigureKestrel(options =>
    {
@@ -182,18 +210,22 @@ Grpc.Core.RpcException: Status(StatusCode=Unavailable, Detail="Error connecting 
 ### Problem: Browser cannot make gRPC-Web calls
 
 **Symptoms:**
+
 ```
 TypeError: Failed to fetch
 ```
 
 **Solution:**
+
 1. Verify gRPC-Web middleware is registered in `Program.cs`:
+
    ```csharp
    app.UseGrpcWeb();
    app.MapGrpcService<WorkflowServiceImpl>().EnableGrpcWeb();
    ```
 
 2. Check CORS configuration allows gRPC-Web headers:
+
    ```json
    "CorsOptions": {
      "AllowedOrigins": "http://localhost:5173,https://localhost:7293"
@@ -211,19 +243,23 @@ TypeError: Failed to fetch
 ### Problem: Users cannot access protected pages
 
 **Symptoms:**
+
 ```
 401 Unauthorized
 ```
 
 **Solution:**
+
 1. In development, verify dev mode authentication is working (no CAC required yet)
 
 2. Check user exists in database:
+
    ```sql
    SELECT * FROM dbo.CoreUser WHERE Username = 'testuser';
    ```
 
 3. Verify user has required roles:
+
    ```sql
    SELECT u.Username, r.RoleName 
    FROM dbo.CoreUser u
@@ -235,12 +271,15 @@ TypeError: Failed to fetch
 ### Problem: CORS errors when calling API
 
 **Symptoms:**
+
 ```
 Access to fetch at 'http://localhost:5173' from origin 'http://localhost:5000' has been blocked by CORS policy
 ```
 
 **Solution:**
+
 1. Add client origin to `CorsOptions` in `appsettings.json`:
+
    ```json
    "CorsOptions": {
      "AllowedOrigins": "http://localhost:5000,http://localhost:5173"
@@ -260,7 +299,9 @@ Access to fetch at 'http://localhost:5173' from origin 'http://localhost:5000' h
 - High CPU usage on server
 
 **Solution:**
+
 1. Enable SQL query logging to identify slow queries:
+
    ```json
    "Logging": {
      "LogLevel": {
@@ -270,6 +311,7 @@ Access to fetch at 'http://localhost:5173' from origin 'http://localhost:5000' h
    ```
 
 2. Check for N+1 query problems - use `Include()` for related entities:
+
    ```csharp
    var users = await context.CoreUsers
        .Include(u => u.CoreUserRoles)
@@ -280,6 +322,7 @@ Access to fetch at 'http://localhost:5173' from origin 'http://localhost:5000' h
 3. Add database indexes for frequently queried columns
 
 4. Enable response compression in `Program.cs`:
+
    ```csharp
    builder.Services.AddResponseCompression();
    ```
@@ -287,21 +330,26 @@ Access to fetch at 'http://localhost:5173' from origin 'http://localhost:5000' h
 ### Problem: High memory usage
 
 **Symptoms:**
+
 - Application memory grows over time
 - OutOfMemoryException errors
 
 **Solution:**
+
 1. Ensure DbContext instances are properly disposed:
+
    ```csharp
    await using var context = await contextFactory.CreateDbContextAsync();
    ```
 
 2. Use pagination for large datasets:
+
    ```csharp
    var logs = await GetAllLogsPaginationAsync(pageNumber: 1, pageSize: 100);
    ```
 
 3. Configure EF Core tracking behavior:
+
    ```csharp
    query.AsNoTracking()  // For read-only queries
    ```
@@ -313,11 +361,13 @@ Access to fetch at 'http://localhost:5173' from origin 'http://localhost:5000' h
 ### Problem: Application fails to start in production
 
 **Symptoms:**
+
 ```
 Application startup exception
 ```
 
 **Solution:**
+
 1. Check application logs for detailed error messages
 
 2. Verify all required environment variables are set:
@@ -327,24 +377,29 @@ Application startup exception
 3. Ensure `appsettings.Production.json` exists and contains correct configuration
 
 4. Validate configuration on startup - check for validation errors:
+
    ```
-Invalid configuration: DatabaseOptions.ConnectionString is required
+   Invalid configuration: DatabaseOptions.ConnectionString is required
    ```
 
 ### Problem: Health checks fail in Kubernetes
 
 **Symptoms:**
+
 - Pod restarts frequently
 - Readiness probe failures
 
 **Solution:**
+
 1. Verify health check endpoints are accessible:
+
    ```powershell
    curl http://localhost:5173/health
    curl http://localhost:5173/alive
    ```
 
 2. Increase probe timeout in Kubernetes manifest:
+
    ```yaml
    livenessProbe:
      httpGet:
@@ -355,6 +410,7 @@ Invalid configuration: DatabaseOptions.ConnectionString is required
    ```
 
 3. Add database health check to detect connection issues early:
+
    ```csharp
    builder.Services.AddHealthChecks()
        .AddSqlServer(connectionString, name: "database");
@@ -367,19 +423,23 @@ Invalid configuration: DatabaseOptions.ConnectionString is required
 ### Problem: Aspire dashboard doesn't show services
 
 **Symptoms:**
+
 - Dashboard opens at http://localhost:15888 but shows no services
 - Services are running but not visible
 
 **Solution:**
+
 1. Verify `AF.ECT.AppHost` is the startup project
 
 2. Check `AppHost.cs` has service registrations:
+
    ```csharp
    builder.AddProject<Projects.AF_ECT_Server>("server");
    builder.AddProject<Projects.AF_ECT_WebClient>("webclient");
    ```
 
 3. Restart the AppHost project:
+
    ```powershell
    cd AF.ECT.AppHost
    dotnet run
@@ -391,9 +451,11 @@ Invalid configuration: DatabaseOptions.ConnectionString is required
 - Traces and metrics not visible in Aspire dashboard
 
 **Solution:**
+
 1. Verify `OTEL_EXPORTER_OTLP_ENDPOINT` is set (automatically set by Aspire)
 
 2. Check service has `AddServiceDefaults()` called:
+
    ```csharp
    var builder = WebApplication.CreateBuilder(args);
    builder.AddServiceDefaults();  // Required for OpenTelemetry
@@ -408,11 +470,14 @@ Invalid configuration: DatabaseOptions.ConnectionString is required
 ### Problem: Logs not appearing in output
 
 **Symptoms:**
+
 - No log messages in console or files
 - Unable to diagnose issues
 
 **Solution:**
+
 1. Check log level in `appsettings.Development.json`:
+
    ```json
    "Logging": {
      "LogLevel": {
@@ -424,6 +489,7 @@ Invalid configuration: DatabaseOptions.ConnectionString is required
    ```
 
 2. Verify Serilog is configured (if using):
+
    ```csharp
    Log.Logger = new LoggerConfiguration()
        .ReadFrom.Configuration(builder.Configuration)
@@ -431,6 +497,7 @@ Invalid configuration: DatabaseOptions.ConnectionString is required
    ```
 
 3. Enable structured logging for better diagnostics:
+
    ```csharp
    _logger.LogInformation("Processing request for user {UserId} at {Time}", userId, DateTime.UtcNow);
    ```
@@ -438,11 +505,14 @@ Invalid configuration: DatabaseOptions.ConnectionString is required
 ### Problem: Cannot attach debugger to running process
 
 **Symptoms:**
+
 - Debugger shows "Unable to attach"
 - Breakpoints not hit
 
 **Solution:**
+
 1. Ensure you're running in Debug configuration:
+
    ```powershell
    dotnet run --configuration Debug
    ```

@@ -55,6 +55,7 @@ git clone https://github.com/dmccoy2025/ECTSystem.git
 cd ECTSystem
 ```
 
+
 ### Build the Solution
 
 ```bash
@@ -64,11 +65,13 @@ dotnet build ECTSystem.sln
 ### Run the Application
 
 1. Navigate to the AppHost project:
+
    ```bash
    cd AF.ECT.AppHost
    ```
 
 2. Run the application:
+
    ```bash
    dotnet run
    ```
@@ -104,16 +107,19 @@ For direct gRPC communication (bypassing JSON transcoding), use gRPC clients or 
 **Prerequisites:** Install [grpcurl](https://github.com/fullstorydev/grpcurl).
 
 **List available services:**
+
 ```bash
 grpcurl -plaintext localhost:5173 list
 ```
 
 **Call a gRPC method directly:**
+
 ```bash
 grpcurl -plaintext -d '{"user_id": 1}' localhost:5173 workflow.WorkflowService/GetUserById
 ```
 
 **Using .NET gRPC Client:**
+
 ```csharp
 // In your .NET application
 using var channel = GrpcChannel.ForAddress("http://localhost:5173");
@@ -146,6 +152,7 @@ In development mode, interactive API documentation is available via Swagger UI a
 ### Unit and Integration Tests
 
 Run .NET tests using:
+
 ```bash
 dotnet test
 ```
@@ -153,6 +160,7 @@ dotnet test
 ### Database Testing
 
 #### Quick Pagination Test
+
 Test stored procedure pagination consistency without installing additional frameworks:
 
 ```powershell
@@ -165,6 +173,7 @@ This test verifies:
 - Proper OFFSET calculation
 
 #### Comprehensive SQL Tests
+
 Run detailed SQL-based pagination tests:
 
 ```powershell
