@@ -22,6 +22,7 @@ This error typically occurs due to one of the following:
 **Problem:** The server's CORS policy doesn't include the WebClient's origin.
 
 **How to Identify:**
+
 - Check browser DevTools Console for CORS errors
 - Look for "Access-Control-Allow-Origin" errors
 - Server running on different port than allowed in CORS
@@ -44,6 +45,7 @@ Update `AF.ECT.Server/appsettings.Development.json`:
 ```
 
 **Verification:**
+
 1. Restart both Server and WebClient
 2. Check Server logs for CORS debug messages (enable with `"Microsoft.AspNetCore.Cors": "Debug"`)
 3. Verify browser DevTools Network tab shows successful preflight OPTIONS requests
@@ -53,6 +55,7 @@ Update `AF.ECT.Server/appsettings.Development.json`:
 **Problem:** Server not configured to handle gRPC-Web protocol required by browsers.
 
 **How to Identify:**
+
 - Check if `.UseGrpcWeb()` is in server middleware pipeline
 - Look for `EnableGrpcWeb()` on service mappings
 
@@ -73,6 +76,7 @@ app.MapGrpcService<WorkflowServiceImpl>().EnableGrpcWeb();
 **Problem:** Browser doesn't trust self-signed development certificate.
 
 **How to Identify:**
+
 - Browser shows "Not Secure" or certificate warnings
 - Network tab shows "ERR_CERT_AUTHORITY_INVALID"
 
@@ -91,6 +95,7 @@ Restart browser after trusting the certificate.
 **Problem:** WebClient is configured to connect to incorrect server address.
 
 **How to Identify:**
+
 - Check `AF.ECT.WebClient/appsettings.json` `ServerUrl`
 - Compare with actual server listening ports in startup logs
 
@@ -121,6 +126,7 @@ Or for HTTP (not recommended for production):
 **Problem:** Firewall or antivirus software blocking local network connections.
 
 **How to Identify:**
+
 - Works on one machine but not another
 - Firewall logs show blocked connections to localhost ports
 
@@ -145,6 +151,7 @@ Or temporarily disable firewall for development (not recommended for production)
 **Problem:** Middleware configured in wrong order, preventing gRPC-Web from working.
 
 **How to Identify:**
+
 - CORS errors despite correct configuration
 - gRPC requests timing out
 
@@ -168,6 +175,7 @@ app.MapGrpcService<WorkflowServiceImpl>().EnableGrpcWeb();  // 8. Services
 **Problem:** Blazor WASM requires HTTP/1.1 for gRPC-Web, but server is HTTP/2 only.
 
 **How to Identify:**
+
 - Check Kestrel logs for "HTTP/2 is not enabled" warnings
 - Browser DevTools shows protocol negotiation failures
 
@@ -401,14 +409,14 @@ public const int DefaultMaxSendMessageSize = 100 * 1024 * 1024;     // 100 MB
 
 If you've tried all the above and still experiencing problems:
 
-1. **Check GitHub Issues:** https://github.com/dmccoy2025/ECTSystem/issues
-2. **Create New Issue:** Include:
-   - Error messages from both client and server logs
-   - Browser DevTools Console output
- - Browser DevTools Network tab screenshots
-   - Configuration files (appsettings.json, appsettings.Development.json)
-   - Steps to reproduce
-3. **Contact Team:** Reach out on team communication channels
+- **Check GitHub Issues:** <https://github.com/dmccoy2025/ECTSystem/issues>
+- **Create New Issue:** Include:
+  - Error messages from both client and server logs
+  - Browser DevTools Console output
+  - Browser DevTools Network tab screenshots
+  - Configuration files (appsettings.json, appsettings.Development.json)
+  - Steps to reproduce
+- **Contact Team:** Reach out on team communication channels
 
 ---
 

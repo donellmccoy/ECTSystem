@@ -712,7 +712,7 @@ if (app.Environment.IsDevelopment())
 app.Run();
 ```
 
-### 2. Swagger UI will show:
+### 2. Swagger UI will show
 
 ```
 GET  /v1/workflows/{id}             - Get single workflow
@@ -740,10 +740,13 @@ GET  /v1/users/online               - Stream online users
 ## Troubleshooting
 
 ### Issue: "400 Bad Request - Could not find route"
+
 **Solution**: Ensure proto file has correct google.api.http annotations
 
 ### Issue: "Streaming not working over HTTP"
+
 **Solution**: Use Server-Sent Events (SSE) for HTTP streaming instead of raw streaming
 
 ### Issue: "Content-Type mismatch"
+
 **Solution**: Always set `Content-Type: application/json` for requests

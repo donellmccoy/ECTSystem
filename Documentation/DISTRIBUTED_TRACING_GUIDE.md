@@ -703,6 +703,7 @@ public class WorkflowClient
 Access traces at `http://localhost:16686` (when running Jaeger collector).
 
 Example queries:
+
 - By correlation ID: `tags:CorrelationId="corr-20240101120000-abc123def456"`
 - By service: `service.name="AF.ECT.Server"`
 - Slow requests: `duration > 1000ms`
@@ -742,16 +743,19 @@ Request in Blazor Client
 ## Troubleshooting
 
 ### Traces not appearing in Jaeger
+
 - Verify OTLP collector is running on `http://localhost:4317`
 - Check `AddOtlpExporter()` configuration
 - Enable console exporter temporarily for debugging
 
 ### Missing correlation IDs
+
 - Verify middleware is registered before other middleware
 - Check gRPC metadata propagation in client calls
 - Inspect HTTP headers in browser dev tools
 
 ### High overhead from tracing
+
 - Enable sampling: `.AddOtlpExporter(o => o.SamplingRatio = 0.1)`
 - Filter out health check endpoints
 - Exclude noisy operations from tracing

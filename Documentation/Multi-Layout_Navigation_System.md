@@ -1,11 +1,13 @@
 # Multi-Layout Navigation System
 
 ## Overview
+
 The ECTSystem now uses a **multi-layout approach** with a top menu bar for switching between major functional areas and area-specific sidebars for detailed navigation within each section.
 
 ## Architecture
 
 ### MainLayout (Default)
+
 **File:** `AF.ECT.WebClient/Layout/MainLayout.razor`
 
 - **Top Header:** Application title with user account and logout buttons
@@ -25,9 +27,11 @@ The ECTSystem now uses a **multi-layout approach** with a top menu bar for switc
 Each major section has its own layout with a **left sidebar** containing hierarchical navigation:
 
 #### 1. LODLayout
+
 **File:** `AF.ECT.WebClient/Layout/LODLayout.razor`
 
 **Sections:**
+
 - My LODs, Consults, Audit, Search
 - Reinvestigations (with sub-menu)
 - Appeals (with sub-menu)
@@ -38,9 +42,11 @@ Each major section has its own layout with a **left sidebar** containing hierarc
 **Total Pages:** ~23
 
 #### 2. SpecialCasesLayout
+
 **File:** `AF.ECT.WebClient/Layout/SpecialCasesLayout.razor`
 
 **Sections:**
+
 - My Special Cases, Search, Other Cases
 - Case Types (expandable):
   - BMT, BCMR, CMAS, CI, DW, INCAP, IRILO, MEB, MH
@@ -49,9 +55,11 @@ Each major section has its own layout with a **left sidebar** containing hierarc
 **Total Pages:** ~60+
 
 #### 3. OtherCasesLayout
+
 **File:** `AF.ECT.WebClient/Layout/OtherCasesLayout.razor`
 
 **Sections:**
+
 - WWD, P-Waiver, AGR Certification, MEB
 - Specialty Cases (nested):
   - INCAP, BMT Waivers MEPS, Congressionals, BCMR, CMAS
@@ -60,9 +68,11 @@ Each major section has its own layout with a **left sidebar** containing hierarc
 **Total Pages:** ~160+
 
 #### 4. ReportsLayout
+
 **File:** `AF.ECT.WebClient/Layout/ReportsLayout.razor`
 
 **Sections:**
+
 - Ad Hoc Reporting & Results
 - LOD Reports (17 different reports):
   - Case History, Category Count, Disapproved, Disposition
@@ -76,9 +86,11 @@ Each major section has its own layout with a **left sidebar** containing hierarc
 **Total Pages:** ~24
 
 #### 5. AdministrationLayout
+
 **File:** `AF.ECT.WebClient/Layout/AdministrationLayout.razor`
 
 **Sections:**
+
 - Create (Add Member, Create Unit/User)
 - Emails (Templates, Test, Settings)
 - Lookup (8 lookup tools)
@@ -98,9 +110,11 @@ Each major section has its own layout with a **left sidebar** containing hierarc
 **Total Pages:** ~70+
 
 #### 6. HelpLayout
+
 **File:** `AF.ECT.WebClient/Layout/HelpLayout.razor`
 
 **Sections:**
+
 - My Account (Select, View)
 - Documentation:
   - Policy documents (ALOD Manual, AFI, AFRCI, DODI)
@@ -149,6 +163,7 @@ Pages specify which layout to use via the `@layout` directive at the top of the 
 ## Implementation Steps
 
 ### Option 1: Manual (Quick Test)
+
 Update a few sample pages to use specific layouts:
 
 ```razor
@@ -157,6 +172,7 @@ Update a few sample pages to use specific layouts:
 ```
 
 ### Option 2: Automated (Production)
+
 Create a PowerShell script to update all pages based on their folder location:
 
 ```powershell
@@ -173,9 +189,11 @@ Get-ChildItem "AF.ECT.WebClient/Pages/LOD" -Filter *.razor -Recurse | ForEach-Ob
 ```
 
 ### Option 3: Default Layout per Folder
+
 Create `_Imports.razor` files in each folder to set the default layout:
 
 **AF.ECT.WebClient/Pages/LOD/_Imports.razor:**
+
 ```razor
 @layout LODLayout
 ```
@@ -203,21 +221,25 @@ This automatically applies LODLayout to all pages in the LOD folder and subfolde
 ## Benefits
 
 ### 1. **Organization**
+
 - Clear separation of concerns
 - Each area has its own focused navigation
 - Reduces cognitive load (only see relevant options)
 
 ### 2. **Performance**
+
 - Smaller navigation trees per area
 - Faster rendering (less DOM elements)
 - Better mobile experience
 
 ### 3. **Maintainability**
+
 - Easy to update area-specific navigation
 - Add new sections without affecting existing ones
 - Clear file organization matches user flow
 
 ### 4. **Scalability**
+
 - Can easily add new major sections
 - Sidebar menus can be deeply nested
 - Supports future growth (400+ pages handled efficiently)
@@ -247,6 +269,7 @@ AF.ECT.WebClient/
 ## Menu Structure Examples
 
 ### LOD Section (Sidebar)
+
 ```
 📁 LOD
 ├── 📄 My LODs
@@ -269,6 +292,7 @@ AF.ECT.WebClient/
 ```
 
 ### Reports Section (Sidebar)
+
 ```
 📊 Reports
 ├── 📈 Ad Hoc Reporting
@@ -285,6 +309,7 @@ AF.ECT.WebClient/
 ```
 
 ### Administration Section (Sidebar)
+
 ```
 ⚙️ Administration
 ├── ➕ Create
@@ -307,11 +332,13 @@ AF.ECT.WebClient/
 ## Next Steps
 
 ### Immediate
+
 1. ✅ Created all layout files with navigation
 2. ✅ Updated MainLayout with top menu bar
 3. ✅ Verified build succeeds
 
 ### To Complete
+
 1. **Apply Layouts:** Add `@layout` directives to all 460+ pages OR create `_Imports.razor` files in each folder
 2. **Test Navigation:** Run the app and verify menu navigation works
 3. **Refine UI:** Adjust sidebar widths, colors, icons as needed
@@ -324,11 +351,13 @@ AF.ECT.WebClient/
 ### For Developers Adding New Pages
 
 **Step 1:** Create the page in the appropriate folder:
+
 ```bash
 AF.ECT.WebClient/Pages/LOD/NewFeature.razor
 ```
 
 **Step 2:** Add the layout directive:
+
 ```razor
 @layout LODLayout
 @page "/lod/new-feature"
@@ -339,6 +368,7 @@ AF.ECT.WebClient/Pages/LOD/NewFeature.razor
 ```
 
 **Step 3:** Add menu item to the layout:
+
 ```razor
 <!-- In LODLayout.razor -->
 <RadzenPanelMenuItem Text="New Feature" Icon="new_releases" Path="/lod/new-feature" />

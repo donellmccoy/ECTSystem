@@ -104,6 +104,7 @@ dotnet run
 ```
 
 **Acceptance Criteria**:
+
 - ✅ Build succeeds with 0 errors
 - ✅ Polly 8.6.4 installed
 - ✅ OpenTelemetry 1.13.x installed
@@ -122,6 +123,7 @@ dotnet run
 **Implementation Steps**:
 
 1. **Update Usings**
+
    ```csharp
    using Polly;
    using Polly.CircuitBreaker;
@@ -132,6 +134,7 @@ dotnet run
    ```
 
 2. **Replace ResilienceService Constructor** with ResiliencePipeline pattern
+
    ```csharp
    public class ResilienceService : IResilienceService
    {
@@ -163,6 +166,7 @@ dotnet run
    ```
 
 3. **Update Methods** to use ResiliencePipeline
+
    ```csharp
    public async Task<HttpResponseMessage> ExecuteResilientHttpRequestAsync(
        Func<Task<HttpResponseMessage>> action)
@@ -172,6 +176,7 @@ dotnet run
    ```
 
 4. **Test**
+
    ```bash
    dotnet build AF.ECT.Server
    dotnet test AF.ECT.Tests
@@ -186,12 +191,14 @@ dotnet run
 **Goal**: Enable end-to-end request tracing with correlation IDs
 
 **References**:
+
 - [DISTRIBUTED_TRACING_GUIDE.md - Correlation IDs Section](./DISTRIBUTED_TRACING_GUIDE.md#correlation-id-implementation)
 - [DISTRIBUTED_TRACING_GUIDE.md - CorrelationIdMiddleware Section](./DISTRIBUTED_TRACING_GUIDE.md#correlationidmiddleware-aspnet-core-middleware)
 
 **Files to Create/Modify**:
 
 1. **Create**: `AF.ECT.Shared/Utilities/CorrelationIdGenerator.cs`
+
    ```csharp
    namespace AF.ECT.Shared.Utilities;
    
@@ -223,6 +230,7 @@ dotnet run
    ```
 
 2. **Create**: `AF.ECT.Server/Middleware/CorrelationIdMiddleware.cs`
+
    ```csharp
    namespace AF.ECT.Server.Middleware;
    
@@ -249,12 +257,14 @@ dotnet run
    ```
 
 3. **Update**: `AF.ECT.Server/Program.cs` - Register middleware
+
    ```csharp
    // In the middleware pipeline section, add before routing:
    app.UseMiddleware<CorrelationIdMiddleware>();
    ```
 
 4. **Test**
+
    ```bash
    # Make a request and verify correlation ID in response headers
    curl -v http://localhost:5000/healthz
@@ -274,6 +284,7 @@ dotnet run
 **Files to Create/Modify**:
 
 1. **Create**: `AF.ECT.Server/Interceptors/CorrelationIdInterceptor.cs`
+
    ```csharp
    using Grpc.Core;
    using Grpc.Core.Interceptors;
@@ -312,6 +323,7 @@ dotnet run
    ```
 
 2. **Update**: `AF.ECT.Server/Extensions/ServiceCollectionExtensions.cs` - Register interceptor
+
    ```csharp
    public static IServiceCollection AddGrpcServices(this IServiceCollection services)
    {
@@ -331,12 +343,14 @@ dotnet run
    ```
 
 3. **Update**: WorkflowServiceImpl methods to extract correlation ID
+
    ```csharp
    private string GetCorrelationId() => 
        HttpContext?.Items["CorrelationId"]?.ToString() ?? Guid.NewGuid().ToString();
    ```
 
 **Test**
+
 ```bash
 dotnet test AF.ECT.Tests
 ```
@@ -354,8 +368,9 @@ dotnet test AF.ECT.Tests
 **Implementation Steps**:
 
 1. **Database: Create Covering Indexes**
-   
+
    In `AF.ECT.Database/dbo/Tables/`:
+
    ```sql
    CREATE NONCLUSTERED INDEX IX_User_IsActive_Streaming
    ON [dbo].[Users] (IsActive)
@@ -364,8 +379,9 @@ dotnet test AF.ECT.Tests
    ```
 
 2. **Database: Create Streaming Stored Procedure**
-   
+
    In `AF.ECT.Database/usp/`:
+
    ```sql
    CREATE PROCEDURE [dbo].[usp_GetUsersStreaming]
        @PageSize INT = 100,
@@ -382,8 +398,9 @@ dotnet test AF.ECT.Tests
    ```
 
 3. **Data Layer: Implement Streaming Method**
-   
+
    In `AF.ECT.Data/Services/DataService.cs`:
+
    ```csharp
    public async IAsyncEnumerable<UserDto> GetUsersStreamAsync(
        int pageSize = 100,
@@ -414,8 +431,9 @@ dotnet test AF.ECT.Tests
    ```
 
 4. **gRPC Service: Implement Streaming Endpoint**
-   
+
    In `AF.ECT.Server/Services/WorkflowServiceImpl.cs`:
+
    ```csharp
    public override async Task GetUsersStream(
        Empty request,
@@ -430,6 +448,7 @@ dotnet test AF.ECT.Tests
    ```
 
 5. **Test**
+
    ```bash
    dotnet build AF.ECT.Server
    dotnet test AF.ECT.Tests
@@ -448,8 +467,9 @@ dotnet test AF.ECT.Tests
 **Implementation Steps**:
 
 1. **Update Proto File**: Add google.api.http annotations
-   
+
    In `AF.ECT.Shared/Protos/workflow.proto`:
+
    ```protobuf
    import "google/api/annotations.proto";
    
@@ -470,14 +490,16 @@ dotnet test AF.ECT.Tests
    ```
 
 2. **Regenerate C# Code**
+
    ```bash
    # In AF.ECT.Shared directory
    dotnet build
    ```
 
 3. **Enable Swagger with gRPC Services**
-   
+
    In `AF.ECT.Server/Extensions/ServiceCollectionExtensions.cs`:
+
    ```csharp
    public static IServiceCollection AddDocumentation(this IServiceCollection services)
    {
@@ -494,6 +516,7 @@ dotnet test AF.ECT.Tests
    ```
 
 4. **Test REST Endpoints**
+
    ```bash
    # Navigate to http://localhost:5000/swagger
    # Test GET /v1/workflows
@@ -513,6 +536,7 @@ dotnet test AF.ECT.Tests
 **Files to Create**:
 
 1. **Create**: `AF.ECT.Tests/Performance/StreamingBenchmarks.cs`
+
    ```csharp
    using BenchmarkDotNet.Attributes;
    using BenchmarkDotNet.Diagnosers;
@@ -544,6 +568,7 @@ dotnet test AF.ECT.Tests
    ```
 
 2. **Run Benchmarks**
+
    ```bash
    cd AF.ECT.Tests
    dotnet run -c Release -- --job short
@@ -567,6 +592,7 @@ dotnet test AF.ECT.Tests
 **Steps**:
 
 1. **Start Jaeger Container**
+
    ```bash
    docker run -d \
      -p 6831:6831/udp \
@@ -576,11 +602,12 @@ dotnet test AF.ECT.Tests
    ```
 
 2. **Access Jaeger UI**
-   - Navigate to: http://localhost:16686
+   - Navigate to: <http://localhost:16686>
    - Service dropdown: Select "AF.ECT.Server"
    - View traces with correlation IDs
 
 3. **Generate Sample Traces**
+
    ```bash
    # Make gRPC call
    curl -H "x-correlation-id: trace-123" http://localhost:5000/v1/workflows
@@ -608,6 +635,7 @@ dotnet test AF.ECT.Tests
    - Verify timeout cancels operation
 
 2. **Streaming Tests**
+
    ```csharp
    [Fact]
    public async Task GetUsersStream_ReturnsAllUsers_WhenPageSizeSmall()
@@ -629,6 +657,7 @@ dotnet test AF.ECT.Tests
    ```
 
 3. **Correlation ID Tests**
+
    ```csharp
    [Fact]
    public async Task Request_IncludesCorrelationId_InResponse()
@@ -645,6 +674,7 @@ dotnet test AF.ECT.Tests
    ```
 
 **Run Tests**:
+
 ```bash
 dotnet test AF.ECT.Tests
 ```
@@ -676,36 +706,42 @@ dotnet test AF.ECT.Tests
 ## Testing & Validation Checklist
 
 ### Build Verification
+
 - [ ] `dotnet build ECTSystem.sln` succeeds
 - [ ] No compilation errors
 - [ ] No warnings (except approved suppressions)
 
 ### Unit Tests
+
 - [ ] `dotnet test AF.ECT.Tests --logger "console;verbosity=detailed"` all pass
 - [ ] Code coverage >80% for modified files
 - [ ] All resilience patterns tested
 
 ### Integration Tests
+
 - [ ] Streaming endpoints return data correctly
 - [ ] REST endpoints respond with correct status codes
 - [ ] Correlation IDs propagate through layers
 - [ ] Error handling works properly
 
 ### Performance Tests
+
 - [ ] Streaming throughput >100K items/sec
 - [ ] TTFI <10ms
 - [ ] Memory efficient (<500KB for 5K items)
 - [ ] No memory leaks (run for 10+ minutes)
 
 ### Observability Tests
+
 - [ ] Jaeger shows complete request traces
 - [ ] Correlation IDs visible in logs
 - [ ] Health checks return 200/503 correctly
 - [ ] Circuit breaker state visible in logs
 
 ### Manual Testing
-- [ ] Access Aspire dashboard: http://localhost:15888
-- [ ] View Swagger docs: http://localhost:5000/swagger
+
+- [ ] Access Aspire dashboard: <http://localhost:15888>
+- [ ] View Swagger docs: <http://localhost:5000/swagger>
 - [ ] Test gRPC streaming with grpcurl
 - [ ] Test REST endpoints with curl/Postman
 
@@ -714,20 +750,26 @@ dotnet test AF.ECT.Tests
 ## Common Issues & Solutions
 
 ### Issue: "The type or namespace name 'ResiliencePipeline' could not be found"
+
 **Solution**: Update `using` statements to include `Polly`
+
 ```csharp
 using Polly;
 ```
 
 ### Issue: "Correlation ID is null in downstream calls"
+
 **Solution**: Ensure CorrelationIdMiddleware is registered before routing in Program.cs
+
 ```csharp
 app.UseMiddleware<CorrelationIdMiddleware>();
 app.UseRouting();  // Must be after middleware
 ```
 
 ### Issue: "Circuit breaker opens immediately"
+
 **Solution**: Adjust circuit breaker thresholds for your workload
+
 ```csharp
 FailureRatio = 0.5,           // 50% failure before breaking
 MinimumThroughput = 5,        // At least 5 calls before evaluating
@@ -735,13 +777,17 @@ SamplingDuration = TimeSpan.FromSeconds(30)  // Evaluation window
 ```
 
 ### Issue: "Streaming endpoint timeout on large datasets"
+
 **Solution**: Implement backpressure and pagination
+
 ```csharp
 await Task.Delay(50, cancellationToken);  // Backpressure
 ```
 
 ### Issue: "No traces appear in Jaeger"
+
 **Solution**: Verify OpenTelemetry exporter is configured
+
 ```csharp
 // In ServiceDefaults telemetry setup
 .AddOtlpExporter(options => options.Endpoint = new Uri("http://localhost:4317"))

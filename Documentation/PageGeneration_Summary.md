@@ -1,20 +1,25 @@
 # Page Generation Summary
 
 ## Overview
+
 Successfully generated 400+ Razor pages with code-behind files for the ECTSystem application based on the site_access.json navigation structure.
 
 ## What Was Created
 
 ### 1. UserRole Enum
+
 **File:** `AF.ECT.Shared/Enums/UserRole.cs`
+
 - Contains 100+ role definitions mapped from site_access.json
 - Examples: SysAdmin, LodSearch, MyLod, LodView, APView, RSARCView, BMTView, MEBView, etc.
 - Used in all `[Authorize(Roles = "...")]` attributes throughout the application
 
 ### 2. PowerShell Generation Scripts
+
 Created 5 scripts in `Scripts/` directory to automate page generation:
 
 #### Generate-RazorPages.ps1
+
 - Common pages (Default, DevLogin, About, SessionViewer, etc.)
 - LOD workflow pages (MyLODs, LODSearch, StartNewLOD, etc.)
 - Special Cases pages (MySpecialCases, Search, OtherCases)
@@ -22,6 +27,7 @@ Created 5 scripts in `Scripts/` directory to automate page generation:
 - **Total:** ~100 pages
 
 #### Generate-RazorPages-Part2.ps1
+
 - Reports pages (AdHocReporting, LOD reports, PH reports, etc.)
 - Administration structure:
   - Create (AddMember, CreateUnit, CreateUser)
@@ -32,6 +38,7 @@ Created 5 scripts in `Scripts/` directory to automate page generation:
 - **Total:** ~75 pages
 
 #### Generate-RazorPages-Part3.ps1
+
 - Help pages (SelectAccount, MyAccount)
 - Documentation (ALODManual, MasterLODChecklist, policy documents)
 - ReleaseNotes (18 version-specific pages)
@@ -45,6 +52,7 @@ Created 5 scripts in `Scripts/` directory to automate page generation:
 - **Total:** ~95 pages
 
 #### Generate-RazorPages-Part4.ps1
+
 - OtherCases workflows:
   - WWD (11 pages)
   - PWaiver (10 pages)
@@ -62,6 +70,7 @@ Created 5 scripts in `Scripts/` directory to automate page generation:
 - **Total:** ~110 pages
 
 #### Generate-RazorPages-Part5.ps1
+
 - Remaining SpecialtyCases workflows:
   - DW (10 pages)
   - NE (10 pages)
@@ -76,7 +85,9 @@ Created 5 scripts in `Scripts/` directory to automate page generation:
 ## Page Structure
 
 ### Razor Page (.razor)
+
 Each page includes:
+
 - `@page` directive with route (e.g., `@page "/lod/my-lods"`)
 - `@attribute [Authorize(Roles = "...")]` for role-based access
 - `@using Microsoft.AspNetCore.Authorization`
@@ -84,7 +95,9 @@ Each page includes:
 - Basic HTML structure with "This page is under development" message
 
 ### Code-Behind File (.razor.cs)
+
 Each code-behind includes:
+
 - Proper namespace matching folder structure
 - XML documentation comments for IntelliSense
 - `IWorkflowClient` injection via `[Inject]` attribute
@@ -94,6 +107,7 @@ Each code-behind includes:
 ## Example Code
 
 ### Razor Page
+
 ```razor
 @page "/lod/my-lods"
 @attribute [Authorize(Roles = "MyLod")]
@@ -107,6 +121,7 @@ Each code-behind includes:
 ```
 
 ### Code-Behind
+
 ```csharp
 using Microsoft.AspNetCore.Components;
 
@@ -136,9 +151,11 @@ public partial class MyLODs
 ## Issues Resolved
 
 ### Namespace Conflict
+
 **Problem:** Created a folder named "System" under Administration, which conflicted with .NET's System namespace.
 
-**Solution:** 
+**Solution:**
+
 1. Renamed folder from `Administration/System` to `Administration/SystemAdmin`
 2. Updated all namespaces in code-behind files from `AF.ECT.WebClient.Pages.Administration.System` to `AF.ECT.WebClient.Pages.Administration.SystemAdmin`
 3. Updated all routes from `/administration/system/` to `/administration/system-admin/`
@@ -218,6 +235,7 @@ AF.ECT.WebClient/Pages/
 ## Verification
 
 ### Build Status
+
 ✅ **SUCCESS** - Solution builds without errors after resolving System namespace conflict.
 
 ```
@@ -226,6 +244,7 @@ AF.ECT.WebClient succeeded → AF.ECT.WebClient\bin\Debug\net9.0\wwwroot
 ```
 
 ### Statistics
+
 - **Total Pages Generated:** 460+
 - **Total Code-Behind Files:** 460+
 - **Total Files Created:** 920+
@@ -235,24 +254,30 @@ AF.ECT.WebClient succeeded → AF.ECT.WebClient\bin\Debug\net9.0\wwwroot
 ## Next Steps
 
 ### 1. Implement Page Functionality
+
 Each page currently displays "This page is under development." Developers should:
+
 - Add Blazor components for UI
 - Implement gRPC calls using injected `IWorkflowClient`
 - Add data binding and form validation
 - Implement business logic in `OnInitializedAsync()` or other lifecycle methods
 
 ### 2. Update Navigation
+
 Update `nav_tree.json` and navigation components to reflect the new page structure.
 
 ### 3. Add Route Guards
+
 Consider adding additional authorization checks in code-behind files for fine-grained access control.
 
 ### 4. Testing
+
 - Unit test each page component
 - Integration test workflow navigation
 - Security test role-based authorization
 
 ### 5. Documentation
+
 - Add user guides for each workflow
 - Document role permissions and access patterns
 - Create API documentation for gRPC calls
@@ -260,6 +285,7 @@ Consider adding additional authorization checks in code-behind files for fine-gr
 ## Files Modified
 
 ### Created Files
+
 1. `AF.ECT.Shared/Enums/UserRole.cs`
 2. `Scripts/Generate-RazorPages.ps1`
 3. `Scripts/Generate-RazorPages-Part2.ps1`
@@ -269,6 +295,7 @@ Consider adding additional authorization checks in code-behind files for fine-gr
 7. 920+ Razor page and code-behind files in `AF.ECT.WebClient/Pages/`
 
 ### Modified Files
+
 None - all existing files remain unchanged.
 
 ## Lessons Learned
@@ -280,6 +307,7 @@ None - all existing files remain unchanged.
 5. **Partial Classes:** Separating markup (.razor) from logic (.razor.cs) follows best practices and improves code organization.
 
 ## References
+
 - Source JSON: `AF.ECT.WebClient/site_access.json`
 - Coding Instructions: `.github/copilot-instructions.md`
 - Project Documentation: `Documentation/`

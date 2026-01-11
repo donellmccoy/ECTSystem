@@ -3,6 +3,7 @@
 This guide provides comprehensive examples of implementing resilience patterns using Polly in ECTSystem.
 
 ## Table of Contents
+
 1. [Circuit Breaker Pattern](#circuit-breaker-pattern)
 2. [Retry Pattern](#retry-pattern)
 3. [Timeout Pattern](#timeout-pattern)
@@ -18,6 +19,7 @@ This guide provides comprehensive examples of implementing resilience patterns u
 ### What is a Circuit Breaker?
 
 A circuit breaker prevents cascading failures by stopping requests to a failing service. It has three states:
+
 - **Closed**: Normal operation, requests pass through
 - **Open**: Service is failing, requests fail immediately
 - **Half-Open**: Testing if service recovered, allows limited requests

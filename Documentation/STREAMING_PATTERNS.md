@@ -24,6 +24,7 @@ This document provides comprehensive guidance on implementing gRPC streaming in 
 Server streaming allows the gRPC server to send multiple messages to the client in response to a single request. This is ideal for large datasets, real-time updates, and data that flows naturally as a sequence.
 
 **When to use server streaming:**
+
 - Returning large result sets (users, cases, findings, etc.)
 - Real-time data feeds or event streams
 - Situations where client can process items as they arrive
@@ -54,6 +55,7 @@ await foreach (var user in client.GetUsersOnlineStreamAsync(cancellationToken))
 ```
 
 **Key Points:**
+
 - Use `[EnumeratorCancellation]` attribute to allow cancellation of async enumerables
 - Always call `ThrowIfCancellationRequested()` at strategic points
 - `await foreach` is syntactic sugar for `IAsyncEnumerable` consumption
@@ -146,6 +148,7 @@ var circuitBreakerPolicy = Policy.Handle<RpcException>()
 ```
 
 **When to use:**
+
 - Protect downstream services from overload
 - Prevent repeated calls to unavailable services
 - Allow time for service recovery
@@ -329,6 +332,7 @@ LogStreamingAuditEvent(
 ### Audit Trail Storage
 
 Audit events are stored in the `AuditLogs` table with:
+
 - **EventType**: "gRPC:Streaming" (structured as "gRPC:{Method}")
 - **AuditData**: JSON containing method name, correlation ID, item count, duration
 - **CreatedDate**: Timestamp of event
@@ -497,7 +501,7 @@ catch (Exception ex)
 ### Status Code Meanings
 
 | Status Code | Meaning | Action |
-|---|---|---|
+| --- | --- | --- |
 | `OK` | Success | No action |
 | `Unavailable` | Server down/unreachable | Retry with backoff |
 | `DeadlineExceeded` | Timeout | Don't retry, increase timeout |
@@ -796,7 +800,7 @@ public async Task StreamWithRetryAsync(CancellationToken ct)
 ## Summary of Best Practices
 
 | Practice | Benefit |
-|---|---|
+| --- | --- |
 | Always propagate `CancellationToken` | Enables graceful shutdown and timeout control |
 | Process items immediately | Prevents backpressure and memory issues |
 | Log with correlation IDs | Enables end-to-end traceability |

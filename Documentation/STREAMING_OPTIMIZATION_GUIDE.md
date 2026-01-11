@@ -482,23 +482,29 @@ public enum HealthStatus
 ## Troubleshooting Common Streaming Issues
 
 ### Issue: "Connection Timeout"
+
 **Cause:** Streaming takes longer than default timeout (30s)
 **Solution:** Increase timeout in WorkflowClientOptions
+
 ```csharp
 var options = new WorkflowClientOptions { RequestTimeoutSeconds = 120 };
 ```
 
 ### Issue: "Memory Unbounded Growth"
+
 **Cause:** Buffering without backpressure
 **Solution:** Process items immediately or use bounded channels
+
 ```csharp
 // Process immediately
 await foreach (var item in stream) ProcessItem(item);
 ```
 
 ### Issue: "Rate Limit Exceeded"
+
 **Cause:** Too many concurrent streams or high throughput
 **Solution:** Increase limits or implement client-side backoff
+
 ```csharp
 var options = new StreamingRateLimitingOptions
 {
@@ -508,8 +514,10 @@ var options = new StreamingRateLimitingOptions
 ```
 
 ### Issue: "Blazor Component Hanging"
+
 **Cause:** Unbounded streaming without cancellation
 **Solution:** Implement component disposal with cancellation
+
 ```csharp
 async ValueTask IAsyncDisposable.DisposeAsync()
 {

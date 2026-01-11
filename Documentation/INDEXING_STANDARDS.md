@@ -1,11 +1,13 @@
 # Database Indexing Standards for ECTSystem
 
 ## Overview
+
 This document establishes consistent indexing standards for Entity Framework Core configuration files across the ECTSystem solution. Following these standards ensures optimal database performance, maintainability, and consistency.
 
 ## Index Naming Conventions
 
 ### Standard Index Naming Pattern
+
 Following **Microsoft's recommended best practice**, all indexes should use the **inline string parameter** for naming:
 
 ```csharp
@@ -30,12 +32,14 @@ builder.HasIndex(e => e.Name)
 ### Naming Rules
 
 #### 1. Regular Indexes
+
 - **Prefix:** `IX_`
 - **Format:** `IX_TableName_Column1_Column2_...`
 - **Case:** Use the exact table name case (PascalCase or snake_case as defined in schema)
 - **Column Order:** List columns in the same order as the composite index definition
 
 **Examples:**
+
 ```csharp
 // Single column index - use inline string parameter
 builder.HasIndex(e => e.Active, "IX_core_user_Active");
@@ -48,12 +52,14 @@ builder.HasIndex(e => e.UserId, "IX_core_workflow_UserId");
 ```
 
 #### 2. Unique Indexes
+
 - **Prefix:** `UQ_`
 - **Format:** `UQ_TableName_Column1_Column2_...`
 - **Include:** `.IsUnique()` fluent API call
 - **Note:** Use `.HasDatabaseName()` method chaining for unique indexes since they require `.IsUnique()`
 
 **Examples:**
+
 ```csharp
 // Unique constraint requires method chaining
 builder.HasIndex(e => e.Name)
@@ -66,20 +72,24 @@ builder.HasIndex(e => new { e.Title, e.Compo })
 ```
 
 #### 3. Primary Keys
+
 - **Prefix:** `PK_`
 - **Format:** `PK_TableName`
 
 **Example:**
+
 ```csharp
 builder.HasKey(e => e.Id)
     .HasName("PK_core_user");
 ```
 
 #### 4. Foreign Keys
+
 - **Prefix:** `FK_`
 - **Format:** `FK_TableName_ReferencedTable` or `FK_TableName_ColumnName`
 
 **Example:**
+
 ```csharp
 builder.HasOne(d => d.CreatedByNavigation)
     .WithMany(p => p.CoreMemos)
@@ -92,6 +102,7 @@ builder.HasOne(d => d.CreatedByNavigation)
 ### Required Indexes
 
 #### 1. Foreign Key Columns
+
 **Always index foreign key columns** to optimize JOIN operations.
 
 ```csharp
@@ -103,6 +114,7 @@ builder.HasIndex(e => e.WorkflowId, "IX_TableName_WorkflowId");
 ```
 
 #### 2. Audit Tracking Fields
+
 Index audit fields for reporting and compliance queries:
 
 ```csharp
@@ -116,6 +128,7 @@ builder.HasIndex(e => e.ModifiedBy, "IX_TableName_ModifiedBy");
 ```
 
 #### 3. Status and Flag Columns
+
 Index boolean flags and status columns frequently used in WHERE clauses:
 
 ```csharp
@@ -127,6 +140,7 @@ builder.HasIndex(e => e.IsEnabled, "IX_TableName_IsEnabled");
 ```
 
 #### 4. Natural Key Columns
+
 Index columns used for business key lookups:
 
 ```csharp
@@ -153,6 +167,7 @@ builder.HasIndex(e => new { e.WorkflowId, e.SortOrder }, "IX_TableName_WorkflowI
 ```
 
 #### Column Order in Composite Indexes
+
 Order columns by **selectivity** (most selective first) and **query patterns**:
 
 1. **Equality columns** (WHERE col = value) come first
@@ -160,6 +175,7 @@ Order columns by **selectivity** (most selective first) and **query patterns**:
 3. **Most selective columns** (fewer distinct values) first for filtering
 
 **Example:**
+
 ```csharp
 // Good: UserId is selective, Status has few values
 builder.HasIndex(e => new { e.UserId, e.Status, e.CreatedDate }, "IX_TableName_UserId_Status_CreatedDate");
@@ -187,6 +203,7 @@ builder.HasIndex(e => e.CreatedDate)
 ```
 
 **When to use filtered indexes:**
+
 - When queries consistently filter by the same predicate
 - When the filtered subset is significantly smaller than the full table
 - For soft-delete patterns (deleted = 0)
@@ -195,6 +212,7 @@ builder.HasIndex(e => e.CreatedDate)
 ## Special Cases
 
 ### 1. Keyless Entities (Views, Query Results)
+
 For entities without primary keys (views, stored procedure results):
 
 ```csharp
@@ -209,6 +227,7 @@ public void Configure(EntityTypeBuilder<MyView> builder)
 ```
 
 ### 2. Temporary/Staging Tables
+
 Staging tables used for bulk imports may have minimal indexes:
 
 ```csharp
@@ -222,6 +241,7 @@ builder.HasIndex(e => e.Imported, "IX_TempTable_Imported");
 ```
 
 ### 3. Small Lookup Tables
+
 Very small lookup tables (< 100 rows) may only need primary key:
 
 ```csharp
@@ -236,6 +256,7 @@ builder.HasIndex(e => e.Name)
 ```
 
 ### 4. Large Text Columns
+
 Avoid indexing large text columns (nvarchar(max), text):
 
 ```csharp
@@ -249,6 +270,7 @@ builder.Property(e => e.Notes).HasColumnType("text");
 ## Index Configuration Patterns
 
 ### Basic Pattern
+
 ```csharp
 public void Configure(EntityTypeBuilder<MyEntity> builder)
 {
@@ -302,6 +324,7 @@ public void Configure(EntityTypeBuilder<MyEntity> builder)
 ```
 
 ### Organization Best Practices
+
 Within the `Configure` method, organize indexes by:
 
 1. **Foreign key indexes** - Group all FK indexes together
@@ -315,24 +338,30 @@ Within the `Configure` method, organize indexes by:
 ## Performance Considerations
 
 ### Index Overhead
+
 Remember that indexes have costs:
+
 - **Storage:** Each index requires disk space
 - **Write Performance:** Indexes slow down INSERT, UPDATE, DELETE operations
 - **Maintenance:** Indexes require rebuilding/reorganization
 
 **Guidelines:**
+
 - Don't create indexes "just in case"
 - Base indexes on actual query patterns
 - Monitor index usage via DMVs (Dynamic Management Views)
 - Remove unused indexes identified through monitoring
 
 ### Index Selectivity
+
 Good indexes have high selectivity (many distinct values):
+
 - ✅ **High selectivity:** UserId, Email, OrderNumber (good for indexing)
 - ⚠️ **Medium selectivity:** StatusId, CategoryId (useful in composite indexes)
 - ❌ **Low selectivity:** IsActive (boolean), Gender (consider filtered indexes)
 
 ### Covering Indexes
+
 Consider adding INCLUDE columns for frequently accessed columns:
 
 ```csharp
@@ -347,6 +376,7 @@ migrationBuilder.Sql(@"
 ## Examples from ECTSystem
 
 ### Example 1: User Entity Configuration
+
 ```csharp
 public class CoreUserConfiguration : IEntityTypeConfiguration<CoreUser>
 {
@@ -391,6 +421,7 @@ public class CoreUserConfiguration : IEntityTypeConfiguration<CoreUser>
 ```
 
 ### Example 2: Workflow Configuration
+
 ```csharp
 public class CoreWorkflowConfiguration : IEntityTypeConfiguration<CoreWorkflow>
 {
@@ -425,6 +456,7 @@ public class CoreWorkflowConfiguration : IEntityTypeConfiguration<CoreWorkflow>
 ```
 
 ### Example 3: Memo Configuration with Filtered Indexes
+
 ```csharp
 public class CoreMemoConfiguration : IEntityTypeConfiguration<CoreMemo>
 {
@@ -508,6 +540,7 @@ builder.HasOne(d => d.Parent)
 ```
 
 **Why use shadow navigation:**
+
 - ✅ Works seamlessly with auto-generated entities that lack collection properties
 - ✅ Prevents compilation errors when entities are regenerated from database
 - ✅ Maintains full relationship functionality without manual entity modifications
@@ -527,6 +560,7 @@ builder.HasOne(d => d.Parent)
 ### Hybrid Approach for Mixed Codebases
 
 If your codebase contains both auto-generated and manually-maintained entities:
+
 - Use **shadow navigation** `.WithMany()` for all auto-generated entity configurations
 - Use **named collections** `.WithMany(p => p.Collection)` only for manually-maintained entities with collection properties
 - Document which entities are auto-generated vs manual in entity class headers
