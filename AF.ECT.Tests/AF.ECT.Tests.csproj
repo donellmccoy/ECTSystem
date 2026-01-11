@@ -28,6 +28,7 @@
     <PackageReference Include="Grpc.AspNetCore.Web" Version="2.71.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.10" />
     <PackageReference Include="Polly" Version="8.6.4" />
+    <PackageReference Include="xunit.analyzers" Version="1.18.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,7 @@
 // Implicit usings from .NET 9.0 (System, System.Collections.Generic, System.Linq, System.Threading, System.Threading.Tasks)
 // are automatically included via <ImplicitUsings>enable</ImplicitUsings>
 
+global using System.Linq.Expressions;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
@@ -9,5 +10,12 @@ global using Microsoft.Extensions.Options;
 global using Xunit;
 global using FluentAssertions;
 global using Moq;
+global using Grpc.Core;
 global using AF.ECT.Shared;
 global using AF.ECT.Shared.Options;
+global using AF.ECT.Data;
+global using AF.ECT.Data.Models;
+global using AF.ECT.Data.Interfaces;
+global using AF.ECT.Data.ResultTypes;
+global using AF.ECT.Tests.Builders;
+global using AF.ECT.Tests.Fixtures;

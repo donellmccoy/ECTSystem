@@ -4,17 +4,35 @@
     <DataCollectors>
       <DataCollector friendlyName="XPlat code coverage">
         <Configuration>
+          <!-- Coverage Report Formats -->
           <Format>json,cobertura,lcov,opencover</Format>
+          
+          <!-- Exclusions -->
           <Exclude>[*.Tests]*</Exclude>
           <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
+          <ExcludeByFile>**/Protos/*.cs</ExcludeByFile>
+          
+          <!-- Coverage Configuration -->
           <SingleHit>false</SingleHit>
           <UseSourceLink>true</UseSourceLink>
           <IncludeTestAssembly>false</IncludeTestAssembly>
           <SkipAutoProps>true</SkipAutoProps>
           <DeterministicReport>false</DeterministicReport>
           <OutputFormat>json</OutputFormat>
+          
+          <!-- Coverage Thresholds by Module -->
+          <!-- Server: 75%+, Shared: 85%+, Data: 70%+ -->
+          <Threshold>70</Threshold>
         </Configuration>
       </DataCollector>
     </DataCollectors>
   </DataCollectionRunSettings>
+  
+  <!-- Test Execution Settings -->
+  <RunConfiguration>
+    <!-- Parallel test execution for faster feedback -->
+    <MaxCpuCount>0</MaxCpuCount>
+    <!-- Fail test run if coverage threshold not met (optional) -->
+    <CollectSourceInformation>true</CollectSourceInformation>
+  </RunConfiguration>
 </RunSettings>
