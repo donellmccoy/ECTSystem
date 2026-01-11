@@ -282,7 +282,7 @@ This document provides a systematic checklist for verifying all recommended enha
 
 - [ ] `dotnet test AF.ECT.Tests` - All tests pass
 - [ ] `dotnet run -c Release --project AF.ECT.Tests --filter *Streaming*` - Benchmarks complete
-- [ ] Performance within targets (see [STREAMING_BENCHMARKS.md](STREAMING_BENCHMARKS.md))
+- [ ] Performance within targets (see [STREAMING_BENCHMARKS.md](./STREAMING_BENCHMARKS.md))
 
 ---
 
@@ -327,11 +327,11 @@ This document provides a systematic checklist for verifying all recommended enha
 ### Documentation Files
 
 - [ ] **Create Documentation Files**
-  - [ ] [STREAMING_OPTIMIZATION_GUIDE.md](STREAMING_OPTIMIZATION_GUIDE.md) ✅ Created
-  - [ ] [POLLY_RESILIENCE_GUIDE.md](POLLY_RESILIENCE_GUIDE.md) ✅ Created
-  - [ ] [DISTRIBUTED_TRACING_GUIDE.md](DISTRIBUTED_TRACING_GUIDE.md) ✅ Created
-  - [ ] [STREAMING_BENCHMARKS.md](STREAMING_BENCHMARKS.md) ✅ Created
-  - [ ] [REST_API_JSON_TRANSCODING.md](REST_API_JSON_TRANSCODING.md) ✅ Created
+  - [ ] [STREAMING_OPTIMIZATION_GUIDE.md](./STREAMING_OPTIMIZATION_GUIDE.md) ✅ Created
+  - [ ] [POLLY_RESILIENCE_GUIDE.md](./POLLY_RESILIENCE_GUIDE.md) ✅ Created
+  - [ ] [DISTRIBUTED_TRACING_GUIDE.md](./DISTRIBUTED_TRACING_GUIDE.md) ✅ Created
+  - [ ] [STREAMING_BENCHMARKS.md](./STREAMING_BENCHMARKS.md) ✅ Created
+  - [ ] [REST_API_JSON_TRANSCODING.md](./REST_API_JSON_TRANSCODING.md) ✅ Created
 
 - [ ] **Update Existing Documentation**
   - [ ] README.md - Add links to new guides
@@ -547,11 +547,11 @@ This document provides a systematic checklist for verifying all recommended enha
 ## Questions & Support
 
 For questions about any phase, refer to:
-- [STREAMING_OPTIMIZATION_GUIDE.md](STREAMING_OPTIMIZATION_GUIDE.md)
-- [POLLY_RESILIENCE_GUIDE.md](POLLY_RESILIENCE_GUIDE.md)
-- [DISTRIBUTED_TRACING_GUIDE.md](DISTRIBUTED_TRACING_GUIDE.md)
-- [STREAMING_BENCHMARKS.md](STREAMING_BENCHMARKS.md)
-- [REST_API_JSON_TRANSCODING.md](REST_API_JSON_TRANSCODING.md)
+- [STREAMING_OPTIMIZATION_GUIDE.md](./STREAMING_OPTIMIZATION_GUIDE.md)
+- [POLLY_RESILIENCE_GUIDE.md](./POLLY_RESILIENCE_GUIDE.md)
+- [DISTRIBUTED_TRACING_GUIDE.md](./DISTRIBUTED_TRACING_GUIDE.md)
+- [STREAMING_BENCHMARKS.md](./STREAMING_BENCHMARKS.md)
+- [REST_API_JSON_TRANSCODING.md](./REST_API_JSON_TRANSCODING.md)
 
 ---
 

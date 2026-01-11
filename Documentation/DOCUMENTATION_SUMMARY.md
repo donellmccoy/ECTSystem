@@ -6,7 +6,7 @@ This document summarizes the comprehensive documentation created for implementin
 
 ## Documentation Files Created
 
-### 1. **[STREAMING_OPTIMIZATION_GUIDE.md](STREAMING_OPTIMIZATION_GUIDE.md)**
+### 1. **[STREAMING_OPTIMIZATION_GUIDE.md](./STREAMING_OPTIMIZATION_GUIDE.md)**
 Comprehensive guide for optimizing gRPC streaming in ECTSystem, including:
 - **Database Query Optimization**: Streaming-optimized stored procedures, index strategies, and connection pooling
 - **Streaming Integration with Blazor**: Setting up gRPC-Web in Blazor, consuming streams in components, real-time dashboards
@@ -21,7 +21,7 @@ Comprehensive guide for optimizing gRPC streaming in ECTSystem, including:
 - Real-time dashboard components with multiple streams
 - Rate limiting for streaming endpoints
 
-### 2. **[POLLY_RESILIENCE_GUIDE.md](POLLY_RESILIENCE_GUIDE.md)**
+### 2. **[POLLY_RESILIENCE_GUIDE.md](./POLLY_RESILIENCE_GUIDE.md)**
 Complete reference for implementing Polly resilience patterns in ECTSystem:
 - **Circuit Breaker Pattern**: Preventing cascading failures with state management
 - **Retry Pattern**: Exponential backoff with jitter to prevent thundering herd
@@ -39,7 +39,7 @@ Complete reference for implementing Polly resilience patterns in ECTSystem:
 - ResiliencePipeline builder pattern
 - Integration with OpenTelemetry and metrics
 
-### 3. **[DISTRIBUTED_TRACING_GUIDE.md](DISTRIBUTED_TRACING_GUIDE.md)**
+### 3. **[DISTRIBUTED_TRACING_GUIDE.md](./DISTRIBUTED_TRACING_GUIDE.md)**
 End-to-end distributed tracing implementation for complete observability:
 - **Correlation ID Implementation**: Generating and propagating correlation IDs across service boundaries
 - **Correlation ID in gRPC**: Server and client interceptor patterns
@@ -56,7 +56,7 @@ End-to-end distributed tracing implementation for complete observability:
 - End-to-end trace visualization in Jaeger UI
 - Correlation ID in structured logs
 
-### 4. **[STREAMING_BENCHMARKS.md](STREAMING_BENCHMARKS.md)**
+### 4. **[STREAMING_BENCHMARKS.md](./STREAMING_BENCHMARKS.md)**
 Performance benchmarking infrastructure and targets:
 - **Benchmark Infrastructure**: BenchmarkDotNet configuration, test fixtures
 - **Streaming Performance Benchmarks**:
@@ -76,7 +76,7 @@ Performance benchmarking infrastructure and targets:
 - Concurrent Streams: > 100 supported ✅
 - Latency Degradation: < 20% at 50 concurrent streams ✅ (Current: ~5%)
 
-### 5. **[REST_API_JSON_TRANSCODING.md](REST_API_JSON_TRANSCODING.md)**
+### 5. **[REST_API_JSON_TRANSCODING.md](./REST_API_JSON_TRANSCODING.md)**
 Implementing REST/HTTP endpoints on top of gRPC services via JSON transcoding:
 - **Protobuf Configuration**: Adding google.api.http annotations to .proto files
 - **Server-Side Configuration**: JSON transcoding middleware setup
@@ -93,7 +93,7 @@ Implementing REST/HTTP endpoints on top of gRPC services via JSON transcoding:
 - Swagger UI integration for API exploration
 - Dual access: gRPC and HTTP for same service
 
-### 6. **[IMPLEMENTATION_CHECKLIST.md](IMPLEMENTATION_CHECKLIST.md)**
+### 6. **[IMPLEMENTATION_CHECKLIST.md](./IMPLEMENTATION_CHECKLIST.md)**
 10-phase implementation plan with detailed checklists:
 - **Phase 1**: Foundation (Week 1) - Dependencies, configuration, proto setup
 - **Phase 2**: Middleware & Interceptors (Week 1-2) - Correlation IDs, gRPC interceptors
@@ -154,20 +154,20 @@ Implementing REST/HTTP endpoints on top of gRPC services via JSON transcoding:
 ## Quick Start References
 
 ### For Implementation
-1. Start with **[IMPLEMENTATION_CHECKLIST.md](IMPLEMENTATION_CHECKLIST.md)** - Phase 1-3
-2. Reference **[POLLY_RESILIENCE_GUIDE.md](POLLY_RESILIENCE_GUIDE.md)** - Configure patterns
-3. Reference **[DISTRIBUTED_TRACING_GUIDE.md](DISTRIBUTED_TRACING_GUIDE.md)** - Add observability
-4. Reference **[STREAMING_OPTIMIZATION_GUIDE.md](STREAMING_OPTIMIZATION_GUIDE.md)** - Optimize queries
+1. Start with **[IMPLEMENTATION_CHECKLIST.md](./IMPLEMENTATION_CHECKLIST.md)** - Phase 1-3
+2. Reference **[POLLY_RESILIENCE_GUIDE.md](./POLLY_RESILIENCE_GUIDE.md)** - Configure patterns
+3. Reference **[DISTRIBUTED_TRACING_GUIDE.md](./DISTRIBUTED_TRACING_GUIDE.md)** - Add observability
+4. Reference **[STREAMING_OPTIMIZATION_GUIDE.md](./STREAMING_OPTIMIZATION_GUIDE.md)** - Optimize queries
 
 ### For REST API
-- **[REST_API_JSON_TRANSCODING.md](REST_API_JSON_TRANSCODING.md)** - Complete guide
+- **[REST_API_JSON_TRANSCODING.md](./REST_API_JSON_TRANSCODING.md)** - Complete guide
 
 ### For Performance
-- **[STREAMING_BENCHMARKS.md](STREAMING_BENCHMARKS.md)** - Setup and baselines
+- **[STREAMING_BENCHMARKS.md](./STREAMING_BENCHMARKS.md)** - Setup and baselines
 
 ### For Troubleshooting
-- **[STREAMING_OPTIMIZATION_GUIDE.md](STREAMING_OPTIMIZATION_GUIDE.md#troubleshooting-common-streaming-issues)** - Common issues
-- **[DISTRIBUTED_TRACING_GUIDE.md](DISTRIBUTED_TRACING_GUIDE.md#troubleshooting)** - Tracing issues
+- **[STREAMING_OPTIMIZATION_GUIDE.md](./STREAMING_OPTIMIZATION_GUIDE.md#troubleshooting-common-streaming-issues)** - Common issues
+- **[DISTRIBUTED_TRACING_GUIDE.md](./DISTRIBUTED_TRACING_GUIDE.md#troubleshooting)** - Tracing issues
 
 ---
 

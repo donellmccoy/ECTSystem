@@ -529,7 +529,7 @@ Build succeeded in 1.5s
 ## Next Steps for Development Team
 
 ### Immediate (Next 2 Hours)
-1. Read [GETTING_STARTED_IMPLEMENTATION.md](GETTING_STARTED_IMPLEMENTATION.md)
+1. Read [GETTING_STARTED_IMPLEMENTATION.md](./GETTING_STARTED_IMPLEMENTATION.md)
 2. Verify Phase 0 (build, dependencies, project state)
 3. Assign team members to phases
 4. Create GitHub issues for each phase
@@ -616,8 +616,8 @@ git log --follow Documentation/STREAMING_OPTIMIZATION_GUIDE.md
 - Link to related tests
 
 ### Team Training
-- [DOCUMENTATION_SUMMARY.md](DOCUMENTATION_SUMMARY.md) for overview
-- [GETTING_STARTED_IMPLEMENTATION.md](GETTING_STARTED_IMPLEMENTATION.md) for walkthrough
+- [DOCUMENTATION_SUMMARY.md](./DOCUMENTATION_SUMMARY.md) for overview
+- [GETTING_STARTED_IMPLEMENTATION.md](./GETTING_STARTED_IMPLEMENTATION.md) for walkthrough
 - Live demo with Aspire dashboard & Jaeger UI
 
 ---

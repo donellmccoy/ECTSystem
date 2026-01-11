@@ -12,11 +12,11 @@
 
 This guide provides a **practical, step-by-step roadmap** for verifying and completing the recommendations documented in:
 
-1. [STREAMING_OPTIMIZATION_GUIDE.md](STREAMING_OPTIMIZATION_GUIDE.md) - High-performance gRPC streaming
-2. [POLLY_RESILIENCE_GUIDE.md](POLLY_RESILIENCE_GUIDE.md) - Fault tolerance and recovery patterns
-3. [DISTRIBUTED_TRACING_GUIDE.md](DISTRIBUTED_TRACING_GUIDE.md) - End-to-end observability
-4. [REST_API_JSON_TRANSCODING.md](REST_API_JSON_TRANSCODING.md) - Dual REST+gRPC mode
-5. [STREAMING_BENCHMARKS.md](STREAMING_BENCHMARKS.md) - Performance validation
+1. [STREAMING_OPTIMIZATION_GUIDE.md](./STREAMING_OPTIMIZATION_GUIDE.md) - High-performance gRPC streaming
+2. [POLLY_RESILIENCE_GUIDE.md](./POLLY_RESILIENCE_GUIDE.md) - Fault tolerance and recovery patterns
+3. [DISTRIBUTED_TRACING_GUIDE.md](./DISTRIBUTED_TRACING_GUIDE.md) - End-to-end observability
+4. [REST_API_JSON_TRANSCODING.md](./REST_API_JSON_TRANSCODING.md) - Dual REST+gRPC mode
+5. [STREAMING_BENCHMARKS.md](./STREAMING_BENCHMARKS.md) - Performance validation
 
 ---
 
@@ -117,7 +117,7 @@ dotnet run
 
 **Location**: [AF.ECT.Server/Services/ResilienceService.cs](../AF.ECT.Server/Services/ResilienceService.cs)
 
-**Reference**: [POLLY_RESILIENCE_GUIDE.md - ResiliencePipeline Builder Section](POLLY_RESILIENCE_GUIDE.md#resilience-pipeline-pattern)
+**Reference**: [POLLY_RESILIENCE_GUIDE.md - ResiliencePipeline Builder Section](./POLLY_RESILIENCE_GUIDE.md#resilience-pipeline-pattern)
 
 **Implementation Steps**:
 
@@ -186,8 +186,8 @@ dotnet run
 **Goal**: Enable end-to-end request tracing with correlation IDs
 
 **References**:
-- [DISTRIBUTED_TRACING_GUIDE.md - Correlation IDs Section](DISTRIBUTED_TRACING_GUIDE.md#correlation-id-implementation)
-- [DISTRIBUTED_TRACING_GUIDE.md - CorrelationIdMiddleware Section](DISTRIBUTED_TRACING_GUIDE.md#correlationidmiddleware-aspnet-core-middleware)
+- [DISTRIBUTED_TRACING_GUIDE.md - Correlation IDs Section](./DISTRIBUTED_TRACING_GUIDE.md#correlation-id-implementation)
+- [DISTRIBUTED_TRACING_GUIDE.md - CorrelationIdMiddleware Section](./DISTRIBUTED_TRACING_GUIDE.md#correlationidmiddleware-aspnet-core-middleware)
 
 **Files to Create/Modify**:
 
@@ -269,7 +269,7 @@ dotnet run
 
 **Goal**: Propagate correlation IDs through gRPC calls
 
-**Reference**: [DISTRIBUTED_TRACING_GUIDE.md - gRPC Metadata Propagation](DISTRIBUTED_TRACING_GUIDE.md#grpc-interceptor-for-metadata-propagation)
+**Reference**: [DISTRIBUTED_TRACING_GUIDE.md - gRPC Metadata Propagation](./DISTRIBUTED_TRACING_GUIDE.md#grpc-interceptor-for-metadata-propagation)
 
 **Files to Create/Modify**:
 
@@ -349,7 +349,7 @@ dotnet test AF.ECT.Tests
 
 **Goal**: Implement high-performance streaming with pagination and indexes
 
-**Reference**: [STREAMING_OPTIMIZATION_GUIDE.md](STREAMING_OPTIMIZATION_GUIDE.md)
+**Reference**: [STREAMING_OPTIMIZATION_GUIDE.md](./STREAMING_OPTIMIZATION_GUIDE.md)
 
 **Implementation Steps**:
 
@@ -443,7 +443,7 @@ dotnet test AF.ECT.Tests
 
 **Goal**: Enable full REST API access alongside gRPC
 
-**Reference**: [REST_API_JSON_TRANSCODING.md](REST_API_JSON_TRANSCODING.md)
+**Reference**: [REST_API_JSON_TRANSCODING.md](./REST_API_JSON_TRANSCODING.md)
 
 **Implementation Steps**:
 
@@ -508,7 +508,7 @@ dotnet test AF.ECT.Tests
 
 **Goal**: Implement performance validation infrastructure
 
-**Reference**: [STREAMING_BENCHMARKS.md](STREAMING_BENCHMARKS.md)
+**Reference**: [STREAMING_BENCHMARKS.md](./STREAMING_BENCHMARKS.md)
 
 **Files to Create**:
 
@@ -562,7 +562,7 @@ dotnet test AF.ECT.Tests
 
 **Goal**: Verify end-to-end tracing with Jaeger UI
 
-**Reference**: [DISTRIBUTED_TRACING_GUIDE.md - Jaeger Integration](DISTRIBUTED_TRACING_GUIDE.md#jaeger-ui-trace-visualization)
+**Reference**: [DISTRIBUTED_TRACING_GUIDE.md - Jaeger Integration](./DISTRIBUTED_TRACING_GUIDE.md#jaeger-ui-trace-visualization)
 
 **Steps**:
 
@@ -798,13 +798,13 @@ grpcurl -plaintext localhost:5000 AF.ECT.Workflow.WorkflowService.GetWorkflows
 
 ## Related Documentation
 
-- **Architecture**: [DOCUMENTATION_SUMMARY.md](DOCUMENTATION_SUMMARY.md)
-- **Streaming**: [STREAMING_OPTIMIZATION_GUIDE.md](STREAMING_OPTIMIZATION_GUIDE.md)
-- **Resilience**: [POLLY_RESILIENCE_GUIDE.md](POLLY_RESILIENCE_GUIDE.md)
-- **Tracing**: [DISTRIBUTED_TRACING_GUIDE.md](DISTRIBUTED_TRACING_GUIDE.md)
-- **Benchmarking**: [STREAMING_BENCHMARKS.md](STREAMING_BENCHMARKS.md)
-- **REST API**: [REST_API_JSON_TRANSCODING.md](REST_API_JSON_TRANSCODING.md)
-- **Implementation Checklist**: [IMPLEMENTATION_CHECKLIST.md](IMPLEMENTATION_CHECKLIST.md)
+- **Architecture**: [DOCUMENTATION_SUMMARY.md](./DOCUMENTATION_SUMMARY.md)
+- **Streaming**: [STREAMING_OPTIMIZATION_GUIDE.md](./STREAMING_OPTIMIZATION_GUIDE.md)
+- **Resilience**: [POLLY_RESILIENCE_GUIDE.md](./POLLY_RESILIENCE_GUIDE.md)
+- **Tracing**: [DISTRIBUTED_TRACING_GUIDE.md](./DISTRIBUTED_TRACING_GUIDE.md)
+- **Benchmarking**: [STREAMING_BENCHMARKS.md](./STREAMING_BENCHMARKS.md)
+- **REST API**: [REST_API_JSON_TRANSCODING.md](./REST_API_JSON_TRANSCODING.md)
+- **Implementation Checklist**: [IMPLEMENTATION_CHECKLIST.md](./IMPLEMENTATION_CHECKLIST.md)
 
 ---
 
