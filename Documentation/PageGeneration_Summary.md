@@ -162,7 +162,7 @@ public partial class MyLODs
 
 ## Folder Structure
 
-```
+```text
 AF.ECT.WebClient/Pages/
 ├── Common/                     (25 pages)
 ├── LOD/                        (23 pages)
@@ -238,7 +238,7 @@ AF.ECT.WebClient/Pages/
 
 ✅ **SUCCESS** - Solution builds without errors after resolving System namespace conflict.
 
-```
+```text
 Build succeeded in 6.8s
 AF.ECT.WebClient succeeded → AF.ECT.WebClient\bin\Debug\net9.0\wwwroot
 ```

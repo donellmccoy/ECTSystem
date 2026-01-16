@@ -714,7 +714,7 @@ app.Run();
 
 ### 2. Swagger UI will show
 
-```
+```text
 GET  /v1/workflows/{id}             - Get single workflow
 GET  /v1/workflows                  - List workflows with filters
 POST /v1/workflows                  - Create new workflow

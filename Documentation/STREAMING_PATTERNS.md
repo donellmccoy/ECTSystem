@@ -366,7 +366,7 @@ public async Task SlowConsumerProblem()
 
 ### Buffering Strategies
 
-**Strategy 1: Process Immediately (Preferred)**
+#### Strategy 1: Process Immediately (Preferred)
 
 ```csharp
 // No buffering - process as items arrive
@@ -379,7 +379,7 @@ await foreach (var item in stream)
 }
 ```
 
-**Strategy 2: Bounded Channel**
+#### Strategy 2: Bounded Channel
 
 ```csharp
 // Bounded buffer for controlled processing
@@ -406,7 +406,7 @@ await foreach (var item in channel.Reader.ReadAllAsync())
 }
 ```
 
-**Strategy 3: Batch Processing**
+#### Strategy 3: Batch Processing
 
 ```csharp
 // Process items in batches

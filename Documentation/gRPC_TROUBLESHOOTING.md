@@ -6,7 +6,7 @@ This guide covers common gRPC connectivity issues between the Blazor WebAssembly
 
 ### Symptoms
 
-```
+```text
 Grpc.Core.RpcException: Status(StatusCode="Internal", Detail="Error starting gRPC call. HttpRequestException: TypeError: Failed to fetch")
  ---> System.Net.Http.HttpRequestException: TypeError: Failed to fetch
 ```
@@ -17,7 +17,7 @@ The client retries 3 times with exponential backoff but all attempts fail.
 
 This error typically occurs due to one of the following:
 
-#### 1. CORS Configuration Mismatch ? Most Common
+#### 1. CORS Configuration Mismatch - Most Common
 
 **Problem:** The server's CORS policy doesn't include the WebClient's origin.
 
@@ -262,7 +262,7 @@ curl -X POST https://localhost:7000/workflow.WorkflowService/SayHello \
 
 Should return CORS headers:
 
-```
+```text
 Access-Control-Allow-Origin: https://localhost:7217
 Access-Control-Allow-Methods: POST, GET, OPTIONS
 ```

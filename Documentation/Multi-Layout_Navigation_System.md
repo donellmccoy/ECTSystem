@@ -246,7 +246,7 @@ This automatically applies LODLayout to all pages in the LOD folder and subfolde
 
 ## File Structure
 
-```
+```text
 AF.ECT.WebClient/
 ├── Layout/
 │   ├── MainLayout.razor              (Top menu + footer)
@@ -270,7 +270,7 @@ AF.ECT.WebClient/
 
 ### LOD Section (Sidebar)
 
-```
+```text
 📁 LOD
 ├── 📄 My LODs
 ├── 📄 My LOD Consults
@@ -293,7 +293,7 @@ AF.ECT.WebClient/
 
 ### Reports Section (Sidebar)
 
-```
+```text
 📊 Reports
 ├── 📈 Ad Hoc Reporting
 ├── 📄 LOD Reports (17)
@@ -310,7 +310,7 @@ AF.ECT.WebClient/
 
 ### Administration Section (Sidebar)
 
-```
+```text
 ⚙️ Administration
 ├── ➕ Create
 │   ├── Add Member

@@ -79,7 +79,7 @@ Analyzed 533 Razor pages across 30+ module folders in `AF.ECT.WebClient/Pages`. 
 
 **Current State:**
 
-```
+```text
 /lod/lod-search        ← Redundant "lod" prefix
 /lod/ap-search         ← OK (distinguishes Appeal)
 /lod/sarc-search       ← OK (distinguishes SARC)
@@ -89,7 +89,7 @@ Analyzed 533 Razor pages across 30+ module folders in `AF.ECT.WebClient/Pages`. 
 
 **Other Modules (Correct Pattern):**
 
-```
+```text
 /agr/search
 /bcmr/search
 /wwd/search
@@ -108,13 +108,13 @@ Analyzed 533 Razor pages across 30+ module folders in `AF.ECT.WebClient/Pages`. 
 
 **Current:**
 
-```
+```text
 /rs/my-rss   ← Double 's' (plural of RS?)
 ```
 
 **Other Modules:**
 
-```
+```text
 /agr/my-agrs
 /bcmr/my-bcmrs
 /lod/my-lods

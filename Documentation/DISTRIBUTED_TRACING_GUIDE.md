@@ -4,8 +4,6 @@
 
 This guide demonstrates how to implement comprehensive distributed tracing using OpenTelemetry and correlation IDs across the ECTSystem, enabling end-to-end request tracking from Blazor client through gRPC to the database.
 
----
-
 ## Correlation ID Implementation
 
 ### 1. Generate and Propagate Correlation IDs
@@ -710,7 +708,7 @@ Example queries:
 
 ### Example Distributed Trace
 
-```
+```text
 Request in Blazor Client
 ├─ CorrelationId: corr-20240101120000-abc123def456
 ├─ Span: GetWorkflowAsync (WorkflowClient)

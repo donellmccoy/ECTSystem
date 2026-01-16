@@ -1,0 +1,15 @@
+{
+  "extends": "markdownlint/style/default",
+  "default": true,
+  "MD013": {
+    "line_length": 120,
+    "heading_line_length": 120,
+    "header_line_length": 120,
+    "code_blocks": false,
+    "code_line_length": 160,
+    "table_line_length": false
+  },
+  "MD024": false,
+  "MD025": false,
+  "MD033": false
+}

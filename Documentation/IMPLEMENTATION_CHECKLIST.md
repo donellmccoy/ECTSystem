@@ -75,7 +75,7 @@ This document provides a systematic checklist for verifying all recommended enha
 
 ## Phase 3: Resilience Patterns (Week 2)
 
-### Polly Configuration
+### Polly Configuration (Phase 3)
 
 - [ ] **Circuit Breaker Pattern**
   - [ ] Implement in AF.ECT.ServiceDefaults/Extensions.cs
@@ -125,7 +125,7 @@ This document provides a systematic checklist for verifying all recommended enha
 
 ## Phase 4: Observability (Week 3)
 
-### OpenTelemetry Setup
+### OpenTelemetry Setup (Phase 4)
 
 - [ ] **Tracing Configuration**
   - [ ] Add OpenTelemetry in Program.cs
@@ -178,7 +178,7 @@ This document provides a systematic checklist for verifying all recommended enha
   - [ ] Return Degraded when half-open
   - [ ] Return Unhealthy when open
 
-### Compilation & Testing
+### Compilation & Testing (Phase 4)
 
 - [ ] `dotnet build` succeeds
 - [ ] Health check endpoints respond
@@ -234,7 +234,7 @@ This document provides a systematic checklist for verifying all recommended enha
 
 ## Phase 6: Testing & Benchmarking (Week 4)
 
-### Unit Tests
+### Unit Tests (Phase 6)
 
 - [ ] **Resilience Tests**
   - [ ] Circuit breaker opens/closes correctly
@@ -450,7 +450,7 @@ This document provides a systematic checklist for verifying all recommended enha
 - [ ] No compiler warnings
 - [ ] All projects compile
 
-### Testing
+### Testing (Phase 8)
 
 - [ ] `dotnet test AF.ECT.Tests` - ✅ All pass
   - [ ] Unit tests
