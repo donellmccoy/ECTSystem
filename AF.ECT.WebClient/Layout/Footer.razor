@@ -1,0 +1,13 @@
+@using Radzen
+@using Radzen.Blazor
+
+<RadzenFooter Style="border-top: 1px solid var(--rz-base-300, #dee2e6); height: 64px;">
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Style="padding: 0.75rem 2rem; height: 100%;">
+        <RadzenText TextStyle="TextStyle.Caption" Style="color: var(--rz-text-tertiary-color, #6c757d);">© @DateTime.Now.Year Electronic Case Tracking System</RadzenText>
+        <RadzenStack Orientation="Orientation.Horizontal" Gap="1.5rem" AlignItems="AlignItems.Center">
+            <RadzenLink Path="/help/my-account" Text="Help" Style="font-size: 0.875rem;" />
+            <RadzenLink Path="/common/about" Text="About" Style="font-size: 0.875rem;" />
+            <RadzenText TextStyle="TextStyle.Caption" Style="color: var(--rz-text-tertiary-color, #6c757d);">Version 2.0.0</RadzenText>
+        </RadzenStack>
+    </RadzenStack>
+</RadzenFooter>

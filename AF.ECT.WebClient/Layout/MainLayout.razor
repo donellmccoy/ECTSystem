@@ -1,3 +1,4 @@
+@using AF.ECT.WebClient.Pages.Shared
 @inherits LayoutComponentBase
 @inject NavigationManager NavigationManager
 
@@ -8,7 +9,7 @@
     <RadzenSidebar @bind-Expanded="@_sidebarExpanded" Style="width: 260px; padding: 1rem 0.5rem;">
         <RadzenPanelMenu Style="padding: 0;">
             <RadzenPanelMenuItem Text="Line Of Duty" Icon="folder" Path="/lod/my-lods" Selected="@IsSelected("/lod")" Style="margin-bottom: 0.25rem; border-radius: 8px;" />
-            <RadzenPanelMenuItem Text="MMSO" Icon="star" Path="/mmso/my-requests" Selected="@IsSelected("/mmso")" Style="margin-bottom: 0.25rem; border-radius: 8px;" />
+            <RadzenPanelMenuItem Text="Medical Material Supply Office" Icon="star" Path="/mmso/my-requests" Selected="@IsSelected("/mmso")" Style="margin-bottom: 0.25rem; border-radius: 8px;" />
             <RadzenPanelMenuItem Text="Other Cases" Icon="folder_special" Path="/wwd/my-wwds" Selected="@IsSelected("/wwd")" Style="margin-bottom: 0.25rem; border-radius: 8px;" />
             <RadzenPanelMenuItem Text="Reports" Icon="assessment" Path="/reports/ad-hoc-reporting" Selected="@IsSelected("/reports")" Style="margin-bottom: 0.25rem; border-radius: 8px;" />
             <RadzenPanelMenuItem Text="Administration" Icon="admin_panel_settings" Path="/administration/create/add-member" Selected="@IsSelected("/administration")" Style="margin-bottom: 0.25rem; border-radius: 8px;" />
@@ -22,16 +23,7 @@
         </div>
     </RadzenBody>
     
-    <RadzenFooter Style="border-top: 1px solid var(--rz-base-300, #dee2e6);">
-        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween" Style="padding: 1rem 2rem;">
-            <RadzenText TextStyle="TextStyle.Caption" Style="color: var(--rz-text-tertiary-color, #6c757d);">© @DateTime.Now.Year Electronic Case Tracking System</RadzenText>
-            <RadzenStack Orientation="Orientation.Horizontal" Gap="1.5rem" AlignItems="AlignItems.Center">
-                <RadzenLink Path="/help/my-account" Text="Help" Style="font-size: 0.875rem;" />
-                <RadzenLink Path="/common/about" Text="About" Style="font-size: 0.875rem;" />
-                <RadzenText TextStyle="TextStyle.Caption" Style="color: var(--rz-text-tertiary-color, #6c757d);">Version 2.0.0</RadzenText>
-            </RadzenStack>
-        </RadzenStack>
-    </RadzenFooter>
+    <Footer />
 </RadzenLayout>
 
 @code {
