@@ -291,7 +291,7 @@ dotnet test AF.ECT.Tests --no-build
 dotnet test AF.ECT.Tests --filter "FullyQualifiedName~RetryOperation_RetriesFailedOperations_SucceedsAfterThirdAttempt" --no-build
 
 # Verify no warnings introduced
-dotnet build ECTSystem.sln /p:TreatWarningsAsErrors=true
+dotnet build ElectronicCaseTracking.sln /p:TreatWarningsAsErrors=true
 ```
 
 Confirm:
@@ -468,7 +468,7 @@ Before marking work complete:
 - [ ] Each test failed for expected reason (feature missing, not build errors)
 - [ ] Wrote minimal code to pass each test
 - [ ] `dotnet test AF.ECT.Tests --no-build` shows all pass
-- [ ] `dotnet build ECTSystem.sln` succeeds with 0 errors/warnings
+- [ ] `dotnet build ElectronicCaseTracking.sln` succeeds with 0 errors/warnings
 - [ ] Tests use real code, real DbContext with InMemory (Moq only if unavoidable)
 - [ ] Edge cases and exceptions covered (invalid input, null refs, RpcExceptions)
 - [ ] Test names follow xUnit pattern: `MethodUnderTest_Scenario_ExpectedResult`

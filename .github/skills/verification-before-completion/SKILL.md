@@ -53,7 +53,7 @@ Skip any step = lying, not verifying
 
 | Claim | Requires C# Verification | Not Sufficient |
 |-------|-------------------------|----------------|
-| Build succeeds | `dotnet build ECTSystem.sln` exit 0, 0 warnings | Restore succeeded, IntelliSense green |
+| Build succeeds | `dotnet build ElectronicCaseTracking.sln` exit 0, 0 warnings | Restore succeeded, IntelliSense green |
 | Tests pass | `dotnet test AF.ECT.Tests --no-build` shows: X passed, 0 failed | Individual test passed once |
 | gRPC service works | Test includes RpcException with correct StatusCode | Code compiles, proto file exists |
 | EF Core query works | InMemoryDatabase test passes + SQL Server test passes | Compiles, LINQ looks right |
@@ -108,7 +108,7 @@ $ dotnet test AF.ECT.Tests --filter "MethodName" --no-build
 **Build:**
 ```
 ✅ [Run build] [See: exit 0] "Build passes"
-$ dotnet build ECTSystem.sln --no-restore
+$ dotnet build ElectronicCaseTracking.sln --no-restore
 Building solution configuration 'Release|Any CPU'.
   All projects are up to date for restoration.
   All projects are up to date for generation.
@@ -149,7 +149,7 @@ dotnet test AF.ECT.Tests/Integration --filter "GetWorkflow_Integration" --no-bui
 
 **Build warning verification:**
 ```bash
-✅ dotnet build ECTSystem.sln /p:TreatWarningsAsErrors=true
+✅ dotnet build ElectronicCaseTracking.sln /p:TreatWarningsAsErrors=true
 Build succeeded. 0 errors, 0 warnings
 
 ❌ "Build succeeded" (with CS warnings present)
