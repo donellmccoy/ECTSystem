@@ -8,7 +8,8 @@ using Polly.Timeout;
 namespace AF.ECT.Server.Services;
 
 /// <summary>
-/// Service for implementing resilience patterns using Polly policies
+/// Service for implementing resilience patterns using Polly policies.
+/// Should be registered as a singleton in dependency injection.
 /// </summary>
 public class ResilienceService : IResilienceService
 {
@@ -16,9 +17,16 @@ public class ResilienceService : IResilienceService
     private readonly AsyncCircuitBreakerPolicy<HttpResponseMessage> _circuitBreakerPolicy;
     private readonly AsyncTimeoutPolicy<HttpResponseMessage> _timeoutPolicy;
     private readonly AsyncPolicy<HttpResponseMessage> _combinedPolicy;
+    private readonly ILogger<ResilienceService> _logger;
 
-    public ResilienceService()
+    /// <summary>
+    /// Initializes a new instance of the ResilienceService.
+    /// </summary>
+    /// <param name="logger">The logger for resilience operations.</param>
+    public ResilienceService(ILogger<ResilienceService> logger)
     {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
         // Retry policy: Retry up to 3 times with exponential backoff
         _retryPolicy = Policy<HttpResponseMessage>
             .Handle<HttpRequestException>()
@@ -28,8 +36,9 @@ public class ResilienceService : IResilienceService
                 TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
                 (outcome, timespan, retryAttempt, context) =>
                 {
-                    // Log retry attempt
-                    Console.WriteLine($"Retry {retryAttempt} after {timespan.TotalSeconds}s due to: {outcome.Exception?.Message ?? outcome.Result?.StatusCode.ToString()}");
+                    _logger.LogWarning("Retry {RetryAttempt} after {Delay}s due to: {Reason}",
+                        retryAttempt, timespan.TotalSeconds,
+                        outcome.Exception?.Message ?? outcome.Result?.StatusCode.ToString());
                 });
 
         // Circuit breaker policy: Break after 5 failures within 30 seconds
@@ -40,15 +49,17 @@ public class ResilienceService : IResilienceService
             .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30),
                 onBreak: (outcome, timespan) =>
                 {
-                    Console.WriteLine($"Circuit breaker opened for {timespan.TotalSeconds}s due to: {outcome.Exception?.Message ?? outcome.Result?.StatusCode.ToString()}");
+                    _logger.LogError("Circuit breaker opened for {Duration}s due to: {Reason}",
+                        timespan.TotalSeconds,
+                        outcome.Exception?.Message ?? outcome.Result?.StatusCode.ToString());
                 },
                 onReset: () =>
                 {
-                    Console.WriteLine("Circuit breaker reset");
+                    _logger.LogInformation("Circuit breaker reset");
                 },
                 onHalfOpen: () =>
                 {
-                    Console.WriteLine("Circuit breaker half-open, testing next call");
+                    _logger.LogInformation("Circuit breaker half-open, testing next call");
                 });
 
         // Timeout policy: Timeout after 3 seconds

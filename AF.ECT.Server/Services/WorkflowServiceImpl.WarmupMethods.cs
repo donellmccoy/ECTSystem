@@ -52,7 +52,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in DeleteLogById");
+            _logger.LogWarning(ex, "Operation cancelled in DeleteLogById");
             throw CreateCancelledException();
         }
         catch (Exception ex)
@@ -103,7 +103,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in FindProcessLastExecutionDate");
+            _logger.LogWarning(ex, "Operation cancelled in FindProcessLastExecutionDate");
             throw CreateCancelledException();
         }
         catch (Exception ex)
@@ -156,7 +156,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in FindProcessLastExecutionDateStream");
+            _logger.LogWarning(ex, "Operation cancelled in FindProcessLastExecutionDateStream");
             throw CreateCancelledException();
         }
         catch (Exception ex)
@@ -211,7 +211,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in GetAllLogs");
+            _logger.LogWarning(ex, "Operation cancelled in GetAllLogs");
             throw CreateCancelledException();
         }
         catch (Exception ex)
@@ -265,7 +265,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in GetAllLogsStream");
+            _logger.LogWarning(ex, "Operation cancelled in GetAllLogsStream");
             throw CreateCancelledException();
         }
         catch (Exception ex)
@@ -325,13 +325,13 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in InsertLog");
+            _logger.LogWarning(ex, "Operation cancelled in InsertLog");
             throw CreateCancelledException();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error in InsertLog: {Message}", ex.Message);
-            throw CreateInternalErrorException();
+            throw CreateInternalErrorException("An error occurred while inserting log");
         }
     }
 
@@ -368,7 +368,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in IsProcessActive");
+            _logger.LogWarning(ex, "Operation cancelled in IsProcessActive");
             throw CreateCancelledException();
         }
         catch (Exception ex)
@@ -420,7 +420,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in IsProcessActiveStream");
+            _logger.LogWarning(ex, "Operation cancelled in IsProcessActiveStream");
             throw CreateCancelledException();
         }
         catch (Exception ex)
@@ -490,7 +490,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
         }
         catch (OperationCanceledException ex)
         {
-            _logger.LogInformation(ex, "Operation cancelled in GetAllLogsPagination");
+            _logger.LogWarning(ex, "Operation cancelled in GetAllLogsPagination");
             throw CreateCancelledException();
         }
         catch (Exception ex)

@@ -68,7 +68,21 @@ public class UserRateLimiter : IUserRateLimiter
             return await Task.FromResult(true); // Allow unauthenticated requests
         }
 
-        return await Task.FromResult(IsAllowed(userId));
+        var key = $"user_rate_limit:{userId}";
+        var currentCount = _cache.GetOrCreate(key, entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1);
+            return 0;
+        });
+
+        if (currentCount >= maxRequestsPerMinute)
+        {
+            _logger.LogWarning("User {UserId} exceeded rate limit ({Count}/{Max} requests)", userId, currentCount, maxRequestsPerMinute);
+            return await Task.FromResult(false);
+        }
+
+        _cache.Set(key, currentCount + 1, TimeSpan.FromMinutes(1));
+        return await Task.FromResult(true);
     }
 
     /// <summary>

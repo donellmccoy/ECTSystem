@@ -66,6 +66,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new WorkstatusByIdItem
                     {
                         WorkstatusId = item.workstatusId ?? 0,
@@ -144,6 +145,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new WorkstatusByRefIdItem
                     {
                         WorkstatusId = item.workstatusId ?? 0,
@@ -223,6 +225,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new WorkstatusByRefIdAndTypeItem
                     {
                         WorkstatusId = item.workstatusId ?? 0,
@@ -302,7 +305,8 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             if (results != null)
             {
                 foreach (var item in results)
-                {
+                {context.CancellationToken.ThrowIfCancellationRequested();
+                    
                     await responseStream.WriteAsync(new WorkstatusTypeItem
                     {
                         WorkstatusTypeId = item.workstatusType ?? 0,

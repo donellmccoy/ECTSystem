@@ -19,7 +19,7 @@ public abstract class ResilienceTestBase : IDisposable
     {
         _output = output;
         _loggerMock = new Mock<ILogger<ResilienceService>>();
-        _resilienceService = new ResilienceService();
+        _resilienceService = new ResilienceService(_loggerMock.Object);
     }
 
     /// <summary>

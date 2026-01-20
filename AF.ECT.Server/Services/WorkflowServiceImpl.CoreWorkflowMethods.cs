@@ -1326,6 +1326,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new SignatureItem { SignatureId = 0, RefId = 0, UserId = 0, SignatureDate = "2023-01-01" });
                 }
             }
@@ -1365,6 +1366,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new WorkflowCopyItem { WorkflowId = 0, WorkflowName = "Workflow", CopySuccess = true });
                 }
             }
@@ -1403,7 +1405,8 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             if (results != null)
             {
                 foreach (var item in results)
-                {
+                {context.CancellationToken.ThrowIfCancellationRequested();
+                    
                     await responseStream.WriteAsync(new ActionByStepItem { ActionId = item.wsa_id, StepId = item.wso_id, ActionType = item.actionType.ToString(), ActionDescription = item.text ?? string.Empty });
                 }
             }
@@ -1443,6 +1446,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new ActiveCaseItem { CaseId = 0, RefId = 0, GroupId = 0, Status = "Status" });
                 }
             }
@@ -1482,6 +1486,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new FindingByReasonOfItem { FindingId = item.Id, Reason = string.Empty, Description = item.Description ?? string.Empty });
                 }
             }
@@ -1520,7 +1525,8 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             if (results != null)
             {
                 foreach (var item in results)
-                {
+                {context.CancellationToken.ThrowIfCancellationRequested();
+                    
                     await responseStream.WriteAsync(new LockItem { LockId = item.lockId, UserId = item.userId, LockType = item.moduleName ?? string.Empty, LockTime = item.lockTime.ToString("yyyy-MM-dd") });
                 }
             }
@@ -1560,6 +1566,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new CancelReasonItem { ReasonId = item.Id, ReasonText = item.Description ?? string.Empty, IsFormal = request.IsFormal });
                 }
             }
@@ -1599,6 +1606,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new CreatableByGroupItem { WorkflowId = item.workFlowId, WorkflowName = item.title ?? string.Empty, GroupId = request.GroupId });
                 }
             }
@@ -1637,7 +1645,8 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             if (results != null)
             {
                 foreach (var item in results)
-                {
+                {context.CancellationToken.ThrowIfCancellationRequested();
+                    
                     await responseStream.WriteAsync(new FindingByReasonOfByIdItem { FindingId = item.Id, Reason = string.Empty, Description = item.Description ?? string.Empty, Id = item.Id });
                 }
             }
@@ -1677,6 +1686,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new FindingItem { FindingId = item.Id ?? 0, WorkflowId = request.WorkflowId, GroupId = request.GroupId, FindingText = item.Description ?? string.Empty });
                 }
             }
@@ -1716,6 +1726,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new ModuleFromWorkflowItem { ModuleId = 0, ModuleName = "Module", WorkflowId = 0 });
                 }
             }
@@ -1754,7 +1765,8 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             if (results != null)
             {
                 foreach (var item in results)
-                {
+                {context.CancellationToken.ThrowIfCancellationRequested();
+                    
                     await responseStream.WriteAsync(new PageAccessByGroupItem { PageId = item.PageId, PageName = item.PageTitle ?? string.Empty, HasAccess = item.Access != 0, GroupId = item.GroupId ?? 0 });
                 }
             }
@@ -1794,6 +1806,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new PageAccessByWorkflowViewItem { PageId = item.PageId, PageName = item.PageTitle ?? string.Empty, HasAccess = item.Access != 0, Component = request.Compo });
                 }
             }
@@ -1833,6 +1846,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new PageByWorkflowItem { PageId = item.pageId, PageName = item.title ?? string.Empty, WorkflowId = request.WorkflowId, PageUrl = "/page" });
                 }
             }
@@ -1871,7 +1885,8 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             if (results != null)
             {
                 foreach (var item in results)
-                {
+                {context.CancellationToken.ThrowIfCancellationRequested();
+                    
                     await responseStream.WriteAsync(new PermissionItem { PermissionId = item.groupId, PermissionName = item.name ?? string.Empty, WorkflowId = request.WorkflowId, IsGranted = item.canView ?? false });
                 }
             }
@@ -1911,6 +1926,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new PermissionByCompoItem { PermissionId = item.groupId, PermissionName = item.name ?? string.Empty, Component = request.Compo, IsGranted = item.canView ?? false });
                 }
             }
@@ -1950,6 +1966,7 @@ public partial class WorkflowServiceImpl : WorkflowService.WorkflowServiceBase
             {
                 foreach (var item in results)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
                     await responseStream.WriteAsync(new ReturnReasonItem { ReasonId = item.Id, ReasonText = item.Description ?? string.Empty, WorkflowId = request.WorkflowId });
                 }
             }
