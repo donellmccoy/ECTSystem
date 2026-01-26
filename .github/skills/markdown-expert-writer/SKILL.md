@@ -48,7 +48,7 @@ This section documents all rules with violations to avoid. Rules are grouped by 
 | Rule | Problem | Solution | Example |
 |------|---------|----------|---------|
 | **MD031** | Code block not surrounded by blank lines | Add blank line before/after fenced code | ❌ `Text\n\`\`\`\nCode` ✅ `Text\n\n\`\`\`\nCode\n\`\`\`` |
-| **MD040** | Code block missing language | Always specify language (or `text`) | ❌ `\`\`\`\nCode\n\`\`\`` ✅ `\`\`\`python\nCode\n\`\`\`` |
+| **MD040** | Code block missing language | Always specify language (or `text`) | ❌ `\`\`\`\nCode\n\`\`\`` ✅ `\`\`\`csharp\nCode\n\`\`\`` |
 | **MD046** | Code block style inconsistent | Use fenced blocks (not indented) | ❌ `    Code` (indented) ✅ `\`\`\`\nCode\n\`\`\`` (fenced) |
 
 ### Emphasis & Links (MD011, MD036-MD039)
@@ -131,9 +131,11 @@ Here are the key points:
 
 Here's a code example:
 
-```python
-def hello_world():
-    print("Hello, world!")
+```csharp
+public static void HelloWorld()
+{
+    Console.WriteLine("Hello, world!");
+}
 ```
 
 ## Lists
@@ -306,9 +308,11 @@ Content here.
 ```markdown
 Here's an example:
 
-```python
-def hello():
-    return "world"
+```csharp
+public static string Hello()
+{
+    return "world";
+}
 ```
 
 More text after.
@@ -486,7 +490,7 @@ lint rules.
 |---------|--------|-----|
 | **Mix list markers** (✗ `*` then `-`) | Linting error (MD004) | Use only one marker type |
 | **Missing blank line before list** | Linting error (MD032), parser confusion | Add blank line before first `*` |
-| **No language in code block** | Linting error (MD040), poor readability | Add language: `` ```python `` |
+| **No language in code block** | Linting error (MD040), poor readability | Add language: `` ```csharp `` |
 | **Trailing spaces** | Linting error (MD009) | Delete spaces at line end |
 | **Hard tabs for indent** | Linting error (MD010) | Replace tabs with spaces |
 | **Skipped header levels** | Linting error (MD001) | Increment by exactly 1 level |
@@ -556,18 +560,17 @@ MyProject is a framework for...
 
 To install MyProject:
 
-```bash
-npm install myproject
+```powershell
+dotnet add package MyProject
 ```
 
 ## Usage
 
 Here's a basic example:
 
-```javascript
-const mp = require('myproject');
-
-mp.start();
+```csharp
+var mp = new MyProject();
+mp.Start();
 ```
 
 ## Features
