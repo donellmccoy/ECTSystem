@@ -2,11 +2,11 @@
 description: Perform deep-dive root cause analysis and investigation for bugs
 name: Root Cause Analysis
 argument-hint: Describe the bug you need to investigate
-tools: ['search', 'usages', 'fetch', 'read_file', 'get_errors', 'grep_search', 'mcp_microsoft_azu/*']
+tools: ['codebase', 'usages', 'fetch', 'readFile', 'problems', 'textSearch', 'mcp_microsoft_azu/*']
 model: Claude Sonnet 4
 handoffs:
   - label: Design Bug Fix
-    agent: design
+    agent: bug-fix-design
     prompt: Design the solution to fix the bug based on the root cause analysis above.
     send: false
 ---

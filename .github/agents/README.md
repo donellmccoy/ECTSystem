@@ -5,7 +5,7 @@ This directory contains custom agents for each phase of the bug fix lifecycle. T
 ## Available Agents
 
 ### 1. 🐛 Bug Fix Planning
-**File**: [planning.agent.md](planning.agent.md)
+**File**: [bug-fix-planning.agent.md](bug-fix-planning.agent.md)
 
 **Purpose**: Analyze and plan bug fixes with impact assessment and remediation strategy.
 
@@ -23,7 +23,7 @@ This directory contains custom agents for each phase of the bug fix lifecycle. T
 ---
 
 ### 2. 🔍 Root Cause Analysis
-**File**: [requirements-analysis.agent.md](requirements-analysis.agent.md)
+**File**: [root-cause-analysis.agent.md](root-cause-analysis.agent.md)
 
 **Purpose**: Perform deep-dive root cause analysis and investigation for bugs.
 
@@ -42,7 +42,7 @@ This directory contains custom agents for each phase of the bug fix lifecycle. T
 ---
 
 ### 3. 🎯 Bug Fix Design
-**File**: [design.agent.md](design.agent.md)
+**File**: [bug-fix-design.agent.md](bug-fix-design.agent.md)
 
 **Purpose**: Design solutions and remediation strategies for bug fixes.
 
@@ -61,7 +61,7 @@ This directory contains custom agents for each phase of the bug fix lifecycle. T
 ---
 
 ### 4. ⚡ Bug Fix Implementation
-**File**: [implementation.agent.md](implementation.agent.md)
+**File**: [bug-fix-implementation.agent.md](bug-fix-implementation.agent.md)
 
 **Purpose**: Implement bug fixes with precision and minimal risk.
 
@@ -80,7 +80,7 @@ This directory contains custom agents for each phase of the bug fix lifecycle. T
 ---
 
 ### 5. ✅ Regression Testing
-**File**: [testing.agent.md](testing.agent.md)
+**File**: [regression-testing.agent.md](regression-testing.agent.md)
 
 **Purpose**: Create regression tests to verify bug fixes and prevent recurrence.
 
@@ -99,7 +99,7 @@ This directory contains custom agents for each phase of the bug fix lifecycle. T
 ---
 
 ### 6. 🚀 Hotfix Deployment
-**File**: [deployment.agent.md](deployment.agent.md)
+**File**: [hotfix-deployment.agent.md](hotfix-deployment.agent.md)
 
 **Purpose**: Deploy bug fixes and hotfixes to production with minimal risk.
 
@@ -118,7 +118,7 @@ This directory contains custom agents for each phase of the bug fix lifecycle. T
 ---
 
 ### 7. 📊 Post-Fix Monitoring
-**File**: [maintenance.agent.md](maintenance.agent.md)
+**File**: [post-fix-monitoring.agent.md](post-fix-monitoring.agent.md)
 
 **Purpose**: Monitor deployed bug fixes and verify effectiveness.
 

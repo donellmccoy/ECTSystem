@@ -2,11 +2,11 @@
 description: Analyze and plan bug fixes with impact assessment and remediation strategy
 name: Bug Fix Planning
 argument-hint: Describe the bug you need to plan a fix for
-tools: ['search', 'usages', 'fetch', 'read_file', 'get_errors', 'mcp_microsoft_azu/*']
+tools: ['codebase', 'usages', 'fetch', 'readFile', 'problems', 'mcp_microsoft_azu/*']
 model: Claude Sonnet 4
 handoffs:
   - label: Start Root Cause Analysis
-    agent: requirements-analysis
+    agent: root-cause-analysis
     prompt: Analyze the root cause and detailed requirements for fixing the bug outlined above.
     send: false
 ---

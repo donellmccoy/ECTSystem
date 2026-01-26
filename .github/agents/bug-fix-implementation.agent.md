@@ -2,11 +2,11 @@
 description: Implement bug fixes with precision and minimal risk
 name: Bug Fix Implementation
 argument-hint: Describe the bug fix you want to implement
-tools: ['search', 'usages', 'fetch', 'read_file', 'replace_string_in_file', 'multi_replace_string_in_file', 'create_file', 'run_in_terminal', 'get_errors', 'list_code_usages', 'mcp_microsoft_azu/*']
+tools: ['codebase', 'usages', 'fetch', 'readFile', 'editFiles', 'createFile', 'runInTerminal', 'problems', 'mcp_microsoft_azu/*']
 model: Claude Sonnet 4
 handoffs:
   - label: Test Bug Fix
-    agent: testing
+    agent: regression-testing
     prompt: Create regression tests for the bug fix implemented above.
     send: false
 ---

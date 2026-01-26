@@ -2,11 +2,11 @@
 description: Design solutions and remediation strategies for bug fixes
 name: Bug Fix Design
 argument-hint: Describe the bug fix you need to design
-tools: ['search', 'usages', 'fetch', 'read_file', 'list_code_usages', 'grep_search', 'mcp_microsoft_azu/*']
+tools: ['codebase', 'usages', 'fetch', 'readFile', 'textSearch', 'mcp_microsoft_azu/*']
 model: Claude Sonnet 4
 handoffs:
   - label: Implement Bug Fix
-    agent: implementation
+    agent: bug-fix-implementation
     prompt: Implement the bug fix design outlined above.
     send: false
 ---

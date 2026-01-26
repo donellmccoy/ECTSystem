@@ -2,11 +2,11 @@
 description: Deploy bug fixes and hotfixes to production with minimal risk
 name: Hotfix Deployment
 argument-hint: Describe the hotfix you need to deploy
-tools: ['search', 'read_file', 'fetch', 'run_in_terminal', 'get_errors', 'mcp_microsoft_azu/*']
+tools: ['codebase', 'usages', 'fetch', 'readFile', 'runInTerminal', 'problems', 'mcp_microsoft_azu/*']
 model: Claude Sonnet 4
 handoffs:
   - label: Monitor Post-Fix
-    agent: maintenance
+    agent: post-fix-monitoring
     prompt: Monitor the deployed bug fix based on the deployment above.
     send: false
 ---

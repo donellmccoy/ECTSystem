@@ -2,7 +2,7 @@
 name: Markdown Validator
 description: Create and validate markdown files with strict markdownlint compliance for ECTSystem documentation
 argument-hint: "Describe the markdown file to create or validate (README, guide, API docs, etc.)"
-tools: ['search', 'fetch']
+tools: ['codebase', 'usages', 'fetch', 'readFile', 'createFile', 'editFiles', 'problems']
 model: Claude Sonnet 4
 target: vscode
 handoffs:

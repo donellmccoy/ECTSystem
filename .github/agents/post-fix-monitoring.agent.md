@@ -2,11 +2,11 @@
 description: Monitor deployed bug fixes and verify effectiveness
 name: Post-Fix Monitoring
 argument-hint: Describe the bug fix you need to monitor
-tools: ['search', 'read_file', 'fetch', 'run_in_terminal', 'get_errors', 'mcp_microsoft_azu/*']
+tools: ['codebase', 'usages', 'fetch', 'readFile', 'runInTerminal', 'problems', 'mcp_microsoft_azu/*']
 model: Claude Sonnet 4
 handoffs:
   - label: Plan Next Bug Fix
-    agent: planning
+    agent: bug-fix-planning
     prompt: Plan the next bug fix based on monitoring insights above.
     send: false
 ---
