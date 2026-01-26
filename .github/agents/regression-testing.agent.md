@@ -227,4 +227,4 @@ When completing testing, provide:
 
 ## Next Steps
 
-After completing testing and achieving acceptable quality metrics, use the **"Proceed to Deployment"** handoff to deploy the application to production.
+After completing testing and achieving acceptable quality metrics, use the **"Deploy Hotfix"** handoff to deploy the application to production.

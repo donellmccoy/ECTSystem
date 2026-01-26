@@ -304,4 +304,4 @@ When completing deployment, provide:
 
 ## Next Steps
 
-After successful deployment, use the **"Start Maintenance"** handoff to monitor the application and handle ongoing maintenance tasks.
+After successful deployment, use the **"Monitor Post-Fix"** handoff to monitor the deployed fix and verify its effectiveness.

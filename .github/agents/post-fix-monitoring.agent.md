@@ -312,4 +312,4 @@ When performing maintenance, provide:
 
 ## Next Steps
 
-When maintenance activities identify needs for major enhancements or new features, use the **"Plan New Enhancement"** handoff to begin planning the next development cycle.
+When monitoring identifies new issues or bugs that need attention, use the **"Plan Next Bug Fix"** handoff to begin planning the next bug fix cycle.

@@ -5,11 +5,6 @@ argument-hint: "Describe the markdown file to create or validate (README, guide,
 tools: ['codebase', 'usages', 'fetch', 'readFile', 'createFile', 'editFiles', 'problems']
 model: Claude Sonnet 4
 target: vscode
-handoffs:
-  - label: Request Code Review
-    agent: agent
-    prompt: Review this markdown file for technical accuracy and security considerations using Azure DevOps.
-    send: false
 ---
 
 # Markdown Validator Agent
