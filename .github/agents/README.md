@@ -1,140 +1,138 @@
-# SDLC Custom Agents for VS Code Copilot
+# Bug Fix Workflow Custom Agents for VS Code Copilot
 
-This directory contains custom agents for each phase of the Software Development Life Cycle (SDLC). These agents provide specialized AI assistance tailored to specific development tasks.
+This directory contains custom agents for each phase of the bug fix lifecycle. These agents provide specialized AI assistance tailored to fixing software defects in Azure DevOps environments.
 
 ## Available Agents
 
-### 1. 📋 Planning Agent
+### 1. 🐛 Bug Fix Planning
 **File**: [planning.agent.md](planning.agent.md)
 
-**Purpose**: Define project scope, objectives, timelines, resources, and budget.
+**Purpose**: Analyze and plan bug fixes with impact assessment and remediation strategy.
 
 **When to Use**:
-- Starting a new project or feature
-- Defining project requirements and scope
-- Creating project roadmaps
-- Assessing feasibility and risks
-- Resource and budget planning
+- Triaging new bugs
+- Assessing bug severity and priority
+- Planning hotfix vs regular fix approach
+- Creating bug fix timelines
+- Risk assessment for fixes
 
-**Tools**: Read-only (search, usages, fetch, githubRepo)
+**Tools**: Read-only plus Azure DevOps (search, usages, fetch, read_file, get_errors, mcp_microsoft_azu/*)
 
-**Handoff**: → Requirements Analysis
+**Handoff**: → Root Cause Analysis
 
 ---
 
-### 2. 📝 Requirements Analysis Agent
+### 2. 🔍 Root Cause Analysis
 **File**: [requirements-analysis.agent.md](requirements-analysis.agent.md)
 
-**Purpose**: Gather and analyze detailed functional and non-functional requirements.
+**Purpose**: Perform deep-dive root cause analysis and investigation for bugs.
 
 **When to Use**:
-- Gathering user requirements
-- Creating use cases and user stories
-- Documenting functional and non-functional requirements
-- Validating requirements with stakeholders
-- Creating acceptance criteria
+- Investigating why bugs occur
+- Analyzing logs and stack traces
+- Tracing code execution paths
+- Finding when bugs were introduced
+- Identifying contributing factors
+- Documenting reproduction steps
 
-**Tools**: Read-only plus documentation (search, usages, fetch, read_file)
+**Tools**: Investigation tools (search, usages, fetch, read_file, get_errors, grep_search, mcp_microsoft_azu/*)
 
-**Handoff**: → Design
+**Handoff**: → Bug Fix Design
 
 ---
 
-### 3. 🏗️ Design Agent
+### 3. 🎯 Bug Fix Design
 **File**: [design.agent.md](design.agent.md)
 
-**Purpose**: Create system architecture, detailed design, and technical blueprints.
+**Purpose**: Design solutions and remediation strategies for bug fixes.
 
 **When to Use**:
-- Designing system architecture
-- Creating database schemas
-- Designing APIs and interfaces
-- Creating UI/UX wireframes
-- Security and scalability design
-- Documenting design decisions
+- Designing the fix approach
+- Evaluating fix alternatives
+- Assessing regression risk
+- Planning test strategies
+- Determining hotfix vs proper fix
+- Designing deployment strategy
 
-**Tools**: Read and limited write (search, usages, fetch, read_file, replace_string_in_file, create_file)
+**Tools**: Design tools (search, usages, fetch, read_file, list_code_usages, grep_search, mcp_microsoft_azu/*)
 
-**Handoff**: → Implementation
+**Handoff**: → Bug Fix Implementation
 
 ---
 
-### 4. 💻 Implementation Agent
+### 4. ⚡ Bug Fix Implementation
 **File**: [implementation.agent.md](implementation.agent.md)
 
-**Purpose**: Write production-quality code based on design specifications.
+**Purpose**: Implement bug fixes with precision and minimal risk.
 
 **When to Use**:
-- Writing new features
-- Implementing designs
-- Refactoring code
-- Fixing bugs
-- Integrating components
-- Code optimization
+- Writing the actual fix code
+- Making surgical code changes
+- Adding defensive checks
+- Implementing error handling
+- Creating bug fix branches
+- Linking commits to work items
 
-**Tools**: Full development capabilities (all read/write tools, terminal, error checking)
+**Tools**: Full development capabilities (all read/write tools, terminal, error checking, mcp_microsoft_azu/*)
 
-**Handoff**: → Testing
+**Handoff**: → Regression Testing
 
 ---
 
-### 5. ✅ Testing Agent
+### 5. ✅ Regression Testing
 **File**: [testing.agent.md](testing.agent.md)
 
-**Purpose**: Create and execute comprehensive tests to ensure software quality.
+**Purpose**: Create regression tests to verify bug fixes and prevent recurrence.
 
 **When to Use**:
-- Writing unit tests
-- Creating integration tests
-- Performance testing
-- Security testing
-- Test automation
-- Debugging test failures
-- Code coverage analysis
+- Writing tests for the bug fix
+- Creating regression test suites
+- Verifying fix doesn't break other features
+- Testing edge cases
+- Running test suites in Azure Pipelines
+- Validating fix effectiveness
 
-**Tools**: Testing tools (read/write, runTests, terminal, error checking)
+**Tools**: Testing tools (read/write, runTests, terminal, error checking, mcp_microsoft_azu/*)
 
-**Handoff**: → Deployment
+**Handoff**: → Hotfix Deployment
 
 ---
 
-### 6. 🚀 Deployment Agent
+### 6. 🚀 Hotfix Deployment
 **File**: [deployment.agent.md](deployment.agent.md)
 
-**Purpose**: Deploy applications to production and manage release processes.
+**Purpose**: Deploy bug fixes and hotfixes to production with minimal risk.
 
 **When to Use**:
-- Deploying to production
-- Setting up CI/CD pipelines
-- Managing environments
-- Creating deployment scripts
-- Infrastructure as code
-- Rollback procedures
-- Release management
+- Deploying critical hotfixes
+- Planning phased rollouts
+- Setting up hotfix pipelines
+- Executing emergency deployments
+- Managing rollback procedures
+- Monitoring deployment progress
 
-**Tools**: Deployment tools (search, read_file, fetch, terminal)
+**Tools**: Deployment tools (search, read_file, fetch, terminal, mcp_microsoft_azu/*)
 
-**Handoff**: → Maintenance
+**Handoff**: → Post-Fix Monitoring
 
 ---
 
-### 7. 🔧 Maintenance Agent
+### 7. 📊 Post-Fix Monitoring
 **File**: [maintenance.agent.md](maintenance.agent.md)
 
-**Purpose**: Monitor, maintain, and optimize deployed applications.
+**Purpose**: Monitor deployed bug fixes and verify effectiveness.
 
 **When to Use**:
-- Monitoring application health
-- Investigating production issues
-- Performance optimization
-- Applying security patches
-- Updating dependencies
-- Incident response
-- Continuous improvement
+- Verifying bug is resolved in production
+- Monitoring error rates post-deployment
+- Checking Application Insights for new issues
+- Validating no regressions introduced
+- Gathering effectiveness metrics
+- Planning follow-up fixes if needed
 
-**Tools**: Monitoring and optimization tools (read/write, terminal, error checking)
+**Tools**: Monitoring tools (search, read_file, fetch, terminal, mcp_microsoft_azu/*)
 
-**Handoff**: → Planning (for new enhancements)
+**Handoff**: → Plan Next Bug Fix (back to planning)
 
 ---
 
@@ -144,70 +142,71 @@ This directory contains custom agents for each phase of the Software Development
 
 1. Open the Chat view in VS Code
 2. Click the agents dropdown (@ symbol)
-3. Select the desired SDLC agent
+3. Select the desired bug fix agent
 
 Alternatively, type `@` followed by the agent name in chat:
 ```
-@sdlc-planning
-@requirements-analysis
-@design
-@implementation
-@testing
-@deployment
-@maintenance
+@bug-fix-planning
+@root-cause-analysis
+@bug-fix-design
+@bug-fix-implementation
+@regression-testing
+@hotfix-deployment
+@post-fix-monitoring
 ```
 
 ### Using Handoffs
 
-Each agent has a handoff button that appears after completing a task. This allows you to seamlessly transition to the next phase:
+Each agent has a handoff button that appears after completing a task. This creates a seamless bug fix workflow:
 
-1. Complete your current task (e.g., create a plan)
-2. Click the handoff button (e.g., "Start Requirements Analysis")
+1. Complete your current task (e.g., identify root cause)
+2. Click the handoff button (e.g., "Design Bug Fix")
 3. The agent switches and pre-fills a relevant prompt
 4. Review the prompt and send or modify as needed
 
 ### Example Workflow
 
-**Complete SDLC Cycle**:
-1. `@sdlc-planning` - Create project plan
-2. Click "Start Requirements Analysis"
-3. `@requirements-analysis` - Document requirements
-4. Click "Start Design Phase"
-5. `@design` - Create architecture and design
-6. Click "Start Implementation"
-7. `@implementation` - Write code
-8. Click "Start Testing"
-9. `@testing` - Create and run tests
-10. Click "Proceed to Deployment"
-11. `@deployment` - Deploy to production
-12. Click "Start Maintenance"
-13. `@maintenance` - Monitor and maintain
+**Complete Bug Fix Lifecycle**:
+1. `@bug-fix-planning` - Triage and plan bug fix for work item #12345
+2. Click "Start Root Cause Analysis"
+3. `@root-cause-analysis` - Investigate and find root cause
+4. Click "Design Bug Fix"
+5. `@bug-fix-design` - Design minimal-risk fix approach
+6. Click "Implement Bug Fix"
+7. `@bug-fix-implementation` - Write the fix code
+8. Click "Test Bug Fix"
+9. `@regression-testing` - Create and run regression tests
+10. Click "Deploy Hotfix"
+11. `@hotfix-deployment` - Deploy to production
+12. Click "Monitor Post-Fix"
+13. `@post-fix-monitoring` - Verify fix effectiveness
 
 **Or jump to specific phases as needed**:
 ```
-@implementation Fix the authentication bug in WorkflowService
-@testing Create integration tests for the gRPC workflow service
-@deployment Set up Azure deployment for the ECT System
+@root-cause-analysis Investigate why users can't login after deployment
+@bug-fix-implementation Fix the null reference exception in WorkflowService
+@regression-testing Create tests for work item #12345 fix
+@hotfix-deployment Deploy critical fix for P0 bug
 ```
 
 ## Agent Characteristics
 
 | Agent | Read-Only | Can Edit Code | Can Run Commands | Primary Focus |
 |-------|-----------|---------------|------------------|---------------|
-| Planning | ✅ | ❌ | ❌ | Strategy & Roadmap |
-| Requirements Analysis | ✅ | ❌ | ❌ | Requirements & Specs |
-| Design | ⚠️ | Limited | ❌ | Architecture & Design |
-| Implementation | ❌ | ✅ | ✅ | Coding & Development |
-| Testing | ❌ | ✅ | ✅ | Quality Assurance |
-| Deployment | ⚠️ | Limited | ✅ | Release Management |
-| Maintenance | ❌ | ✅ | ✅ | Operations & Support |
+| Bug Fix Planning | ✅ | ❌ | ❌ | Triage & Strategy |
+| Root Cause Analysis | ✅ | ❌ | ❌ | Investigation & Analysis |
+| Bug Fix Design | ⚠️ | Limited | ❌ | Solution Design & Risk Assessment |
+| Bug Fix Implementation | ❌ | ✅ | ✅ | Coding Fixes |
+| Regression Testing | ❌ | ✅ | ✅ | Test Creation & Execution |
+| Hotfix Deployment | ⚠️ | Limited | ✅ | Emergency Releases |
+| Post-Fix Monitoring | ⚠️ | Limited | ✅ | Verification & Metrics |
 
 ## Best Practices
 
 ### 1. Use the Right Agent for the Task
 - Don't use Implementation agent for planning
 - Don't use Planning agent for code changes
-- Match the agent to the SDLC phase
+- Match the agent to the bug fix lifecycle phase
 
 ### 2. Follow the Handoff Workflow
 - Complete one phase before moving to the next
@@ -215,21 +214,91 @@ Each agent has a handoff button that appears after completing a task. This allow
 - Review and validate outputs at each stage
 
 ### 3. Provide Clear Context
-- Give agents specific details about what you need
-- Reference requirements when implementing
-- Link design specs when coding
-- Mention test coverage goals when testing
+- Reference Azure DevOps work item numbers
+- Include error messages and stack traces
+- Mention affected users and business impact
+- Link to Application Insights data when available
 
-### 4. Leverage Agent Expertise
-- Each agent has specialized knowledge
-- Trust agent recommendations for their domain
-- Ask agents to explain their rationale
+### 4. Leverage Azure DevOps Integration
+- All agents can access Azure DevOps tools
+- Link work items, commits, and PRs
+- Use Azure Pipelines for deployments
+- Track progress in Azure Boards
 
 ### 5. Document as You Go
-- Use Planning agent for documentation
-- Requirements agent for specifications
-- Design agent for architecture docs
-- Implementation agent for code comments
+- Use Bug Fix Planning agent for triage documentation
+- Root Cause Analysis agent for investigation reports
+- Bug Fix Design agent for solution documentation
+- Update Azure DevOps work items with findings
+
+## Bug Fix Workflow
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Bug Fixed Lifecycle                       │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+               ┌──────────────────────────┐
+               │  1. Bug Fix Planning     │
+               │  - Triage & prioritize   │
+               │  - Assess impact         │
+               │  - Create fix timeline   │
+               └──────────────────────────┘
+                              │
+                              ▼
+               ┌──────────────────────────┐
+               │  2. Root Cause Analysis  │
+               │  - Investigate logs      │
+               │  - Trace code paths      │
+               │  - Find when introduced  │
+               └──────────────────────────┘
+                              │
+                              ▼
+               ┌──────────────────────────┐
+               │  3. Bug Fix Design       │
+               │  - Design solution       │
+               │  - Assess risks          │
+               │  - Choose approach       │
+               └──────────────────────────┘
+                              │
+                              ▼
+               ┌──────────────────────────┐
+               │  4. Bug Fix Impl         │
+               │  - Write fix code        │
+               │  - Create PR             │
+               │  - Link to work item     │
+               └──────────────────────────┘
+                              │
+                              ▼
+               ┌──────────────────────────┐
+               │  5. Regression Testing   │
+               │  - Test fix works        │
+               │  - No new regressions    │
+               │  - Run in pipeline       │
+               └──────────────────────────┘
+                              │
+                              ▼
+               ┌──────────────────────────┐
+               │  6. Hotfix Deployment    │
+               │  - Deploy to prod        │
+               │  - Monitor deployment    │
+               │  - Verify health         │
+               └──────────────────────────┘
+                              │
+                              ▼
+               ┌──────────────────────────┐
+               │  7. Post-Fix Monitoring  │
+               │  - Verify effectiveness  │
+               │  - Check metrics         │
+               │  - Close work item       │
+               └──────────────────────────┘
+                              │
+                              ▼
+                    ┌──────────────────┐
+                    │  Bug Resolved ✓  │
+                    └──────────────────┘
+```
 
 ## Customization
 
@@ -242,14 +311,43 @@ You can customize these agents by editing the `.agent.md` files:
 
 ## Integration with ECTSystem
 
-These agents are specifically configured for the ECTSystem project:
+These agents are specifically configured for bug fixing in the ECTSystem project:
 
-- Follow Microsoft Best Practices
-- Use .NET 9.0 conventions
-- Support gRPC, Blazor, and .NET Aspire
-- Include SQL Server and EF Core patterns
+- Follow Microsoft Best Practices for bug fixes
+- Use .NET 9.0 conventions and patterns
+- Support gRPC, Blazor, and .NET Aspire architectures
+- Include SQL Server and EF Core best practices
 - Emphasize security and audit logging
-- Build verification for code changes
+- Build verification for all code changes
+- Azure DevOps integration for work item tracking
+
+## Azure DevOps Integration
+
+All bug fix agents have access to Azure DevOps MCP tools:
+
+### Work Items
+- Retrieve bug details and history
+- Update work item status and comments
+- Link related work items
+- Create child tasks for implementation
+
+### Repositories
+- Review recent commits and PRs
+- Find when bugs were introduced
+- Create bug fix branches
+- Link commits to work items
+
+### Pipelines
+- Review build failures
+- Check test results
+- Deploy hotfixes
+- Monitor deployment status
+
+### Monitoring
+- Query Application Insights
+- Check Azure Monitor logs
+- Review error rates and telemetry
+- Verify fix effectiveness
 
 ## Troubleshooting
 
@@ -259,23 +357,62 @@ These agents are specifically configured for the ECTSystem project:
 - Reload VS Code window
 
 **Handoff not working?**
-- Verify target agent name matches file name
+- Verify target agent name matches file name (case-sensitive)
 - Check YAML syntax in handoffs section
 - Ensure target agent file exists
+
+**Azure DevOps tools not working?**
+- Verify Azure DevOps MCP extension is installed
+- Check authentication to Azure DevOps
+- Ensure project/organization access is configured
 
 **Wrong tools available?**
 - Review `tools` array in agent frontmatter
 - Ensure tool names are spelled correctly
 - Check that required extensions are installed
 
+## Common Bug Fix Scenarios
+
+### Critical Production Bug (P0)
+```
+@bug-fix-planning Critical: Login failures affecting all users
+→ Triage, assess impact, create hotfix plan
+→ @root-cause-analysis Find root cause in logs
+→ @bug-fix-design Design minimal-risk fix
+→ @bug-fix-implementation Implement fix
+→ @regression-testing Verify fix works
+→ @hotfix-deployment Deploy immediately
+→ @post-fix-monitoring Verify effectiveness
+```
+
+### Regression After Deployment
+```
+@root-cause-analysis Feature broke after v2.1 deployment
+→ Find recent commits that changed affected code
+→ @bug-fix-design Design fix with regression tests
+→ @bug-fix-implementation Implement and test
+→ @hotfix-deployment Deploy with rollback plan
+```
+
+### Intermittent Bug Investigation
+```
+@root-cause-analysis Intermittent timeout errors in API
+→ Analyze patterns, load conditions, timing
+→ @bug-fix-design Design fix for race condition
+→ @regression-testing Create tests to reproduce
+→ @bug-fix-implementation Fix with proper locking
+```
+
 ## Additional Resources
 
 - [VS Code Custom Agents Documentation](https://code.visualstudio.com/docs/copilot/customization/custom-agents)
 - [ECTSystem Coding Instructions](.github/copilot-instructions.md)
 - [VS Code Copilot Skills](.github/skills/)
+- [Azure DevOps MCP Documentation](https://github.com/microsoft/azure-devops-mcp)
 
 ---
 
 **Created**: January 25, 2026
-**Purpose**: Structured SDLC workflow with specialized AI agents
+**Purpose**: Structured bug fix workflow with specialized AI agents
+**Target**: Azure DevOps bug tracking and resolution
 **Maintained by**: ECTSystem Development Team
